@@ -1,5 +1,5 @@
-#include "Headers\String2Number.h" // ConvertToDouble
-#include "cmath" //pow
+#include "../../../headers/String2Number.h"
+#include "cmath"
 #include <fstream>
 
 constexpr int DEBUG = 0;
