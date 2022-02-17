@@ -1,3 +1,4 @@
+#include <bitset>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -19,6 +20,9 @@ enum class ProgramMode
 	CRYPT = 0,
 	DECRYPT,
 };
+
+void CopyCrypted(std::istream& fIn, std::ostream& fOut, const int& key);
+void CopyDecrypted(std::istream& fIn, std::ostream& fOut, const int& key);
 
 int main(int argc, char* argv[])
 {
@@ -77,7 +81,7 @@ int main(int argc, char* argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	fIn.open(argv[2]);
+	fIn.open(argv[2], std::ios::binary | std::ios::in);
 	std::string tempStr;
 	if (!fIn.is_open() || !getline(fIn, tempStr))
 	{
@@ -86,7 +90,7 @@ int main(int argc, char* argv[])
 	}
 	fIn.seekg(0, fIn.beg);
 
-	fOut.open(argv[3]);
+	fOut.open(argv[3], std::ios::binary | std::ios::in);
 	if (!fOut.is_open())
 	{
 		printf("Something bad with output file\n");
@@ -97,33 +101,129 @@ int main(int argc, char* argv[])
 	printf("<%s>: %s;\n", INPUT_FILE_PARAM, argv[2]);
 	printf("<%s>: %s;\n", OUTPUT_FILE_PARAM, argv[3]);
 	printf("Mode: %s;\n", mode == ProgramMode::CRYPT ? MODE_CRYPT : MODE_DECRYPT);
-	printf("Key: %d;\n", key);
+	printf("Key: %d;\n\n", key);
+
+	if (mode == ProgramMode::CRYPT)
+	{
+		CopyCrypted(fIn, fOut, key);
+	}
+	else if (mode == ProgramMode::DECRYPT)
+	{
+		CopyDecrypted(fIn, fOut, key);
+	}
+
+	fOut.flush();
+	fIn.close();
+	fOut.close();
 
 	return EXIT_SUCCESS;
 }
+
+constexpr auto BYTE_SIZE = 8;
 
 typedef union
 {
 	char ch;
 	struct
 	{
-		unsigned int bytes : sizeof(char);
-	} byte_part;
-} Char_cast;
+		int bytes : BYTE_SIZE;
+	} bytePart;
+} CharCast;
 
-struct Symbol
+struct CryptSymbolContainer
 {
-	Char_cast symb;
+	CharCast symb;
 	void setChar(const char& ch);
-	void printBytePresentation();
+	char getContainedChar();
+	void xorContainedCharBy(const int& key);
+	void shuffleByInternalPattern();
+	std::string getContainedCharByteString();
 };
 
-void Symbol::setChar(const char& ch)
+void CryptSymbolContainer::setChar(const char& ch)
 {
 	symb.ch = ch;
 }
 
-void Symbol::printBytePresentation()
+void CryptSymbolContainer::xorContainedCharBy(const int& key)
 {
-	printf("%d", symb.byte_part.bytes);
+	symb.ch ^= key;
+}
+
+char CryptSymbolContainer::getContainedChar()
+{
+	return symb.ch;
+}
+
+char getPatternPosByIndex(const size_t& ind)
+{
+	if (ind > BYTE_SIZE)
+	{
+		return 0;
+	}
+	switch (ind)
+	{
+		case 0: return 2;
+		case 1: return 6;
+		case 2: return 7;
+		case 3: return 0;
+		case 4: return 1;
+		case 5: return 3;
+		case 6: return 4;
+		case 7: return 5;
+		default: return 0;
+	}
+}
+
+void CryptSymbolContainer::shuffleByInternalPattern()
+{
+	const unsigned char heldSymb = symb.ch;
+	symb.ch = 0;
+	size_t offset = 0;
+	unsigned char mask = 128;
+	std::bitset<BYTE_SIZE> bits(symb.bytePart.bytes);
+	for (size_t i = 0; i < BYTE_SIZE; (i++, mask = 128))
+	{
+		mask = mask >> i;
+		if (heldSymb & mask)
+		{
+			bits = symb.ch;
+			offset = getPatternPosByIndex(i);
+			if (offset > i)
+			{
+				mask >>= (offset - i);
+			}
+			else
+			{
+				mask <<= (i - offset);
+			}
+			symb.ch += mask;
+			bits = symb.ch;
+		}
+	}
+}
+
+std::string CryptSymbolContainer::getContainedCharByteString()
+{
+	std::bitset<BYTE_SIZE> bits(symb.bytePart.bytes);
+	return bits.to_string();
+}
+
+void CopyCrypted(std::istream& fIn, std::ostream& fOut, const int& key)
+{
+	CryptSymbolContainer ch{};
+	char buff;
+	while (!fIn.eof())
+	{
+		fIn.read(&buff, sizeof(buff));
+		ch.setChar(buff);
+		ch.xorContainedCharBy(key);
+		ch.shuffleByInternalPattern();
+		buff = ch.getContainedChar();
+		fOut.write(&buff, sizeof(buff));
+	}
+}
+
+void CopyDecrypted(std::istream& fIn, std::ostream& fOut, const int& key)
+{
 }
