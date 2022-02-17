@@ -21,8 +21,7 @@ enum class ProgramMode
 	DECRYPT,
 };
 
-void CopyCrypted(std::istream& fIn, std::ostream& fOut, const int& key);
-void CopyDecrypted(std::istream& fIn, std::ostream& fOut, const int& key);
+void CopyThroughCrypt(std::istream& fIn, std::ostream& fOut, const int& key, const ProgramMode& mode);
 
 int main(int argc, char* argv[])
 {
@@ -103,14 +102,7 @@ int main(int argc, char* argv[])
 	printf("Mode: %s;\n", mode == ProgramMode::CRYPT ? MODE_CRYPT : MODE_DECRYPT);
 	printf("Key: %d;\n\n", key);
 
-	if (mode == ProgramMode::CRYPT)
-	{
-		CopyCrypted(fIn, fOut, key);
-	}
-	else if (mode == ProgramMode::DECRYPT)
-	{
-		CopyDecrypted(fIn, fOut, key);
-	}
+	CopyThroughCrypt(fIn, fOut, key, mode);
 
 	fOut.flush();
 	fIn.close();
@@ -136,7 +128,7 @@ struct CryptSymbolContainer
 	void setChar(const char& ch);
 	char getContainedChar();
 	void xorContainedCharBy(const int& key);
-	void shuffleByInternalPattern();
+	void shuffleByInternalPattern(const ProgramMode& mode);
 	std::string getContainedCharByteString();
 };
 
@@ -155,27 +147,30 @@ char CryptSymbolContainer::getContainedChar()
 	return symb.ch;
 }
 
-char getPatternPosByIndex(const size_t& ind)
+char getPatternPosByIndex(const size_t& ind, const ProgramMode& mode)
 {
 	if (ind > BYTE_SIZE)
 	{
 		return 0;
 	}
+	char res = 0;
 	switch (ind)
 	{
-		case 0: return 2;
-		case 1: return 6;
-		case 2: return 7;
-		case 3: return 0;
-		case 4: return 1;
-		case 5: return 3;
-		case 6: return 4;
-		case 7: return 5;
+		case 0: res = mode == ProgramMode::CRYPT ? 2 : 3; break;
+		case 1: res = mode == ProgramMode::CRYPT ? 6 : 4; break;
+		case 2: res = mode == ProgramMode::CRYPT ? 7 : 0; break;
+		case 3: res = mode == ProgramMode::CRYPT ? 0 : 5; break;
+		case 4: res = mode == ProgramMode::CRYPT ? 1 : 6; break;
+		case 5: res = mode == ProgramMode::CRYPT ? 3 : 7; break;
+		case 6: res = mode == ProgramMode::CRYPT ? 4 : 1; break;
+		case 7: res = mode == ProgramMode::CRYPT ? 5 : 2; break;
 		default: return 0;
 	}
+
+	return res;
 }
 
-void CryptSymbolContainer::shuffleByInternalPattern()
+void CryptSymbolContainer::shuffleByInternalPattern(const ProgramMode& mode)
 {
 	const unsigned char heldSymb = symb.ch;
 	symb.ch = 0;
@@ -188,7 +183,7 @@ void CryptSymbolContainer::shuffleByInternalPattern()
 		if (heldSymb & mask)
 		{
 			bits = symb.ch;
-			offset = getPatternPosByIndex(i);
+			offset = getPatternPosByIndex(i, mode);
 			if (offset > i)
 			{
 				mask >>= (offset - i);
@@ -209,21 +204,25 @@ std::string CryptSymbolContainer::getContainedCharByteString()
 	return bits.to_string();
 }
 
-void CopyCrypted(std::istream& fIn, std::ostream& fOut, const int& key)
+void CopyThroughCrypt(std::istream& fIn, std::ostream& fOut, const int& key, const ProgramMode& mode)
 {
 	CryptSymbolContainer ch{};
-	char buff;
+	char buff{};
 	while (!fIn.eof())
 	{
 		fIn.read(&buff, sizeof(buff));
 		ch.setChar(buff);
-		ch.xorContainedCharBy(key);
-		ch.shuffleByInternalPattern();
+		if (mode == ProgramMode::CRYPT)
+		{
+			ch.xorContainedCharBy(key);
+			ch.shuffleByInternalPattern(mode);
+		}
+		else if (mode == ProgramMode::DECRYPT)
+		{
+			ch.shuffleByInternalPattern(mode);
+			ch.xorContainedCharBy(key);
+		}
 		buff = ch.getContainedChar();
 		fOut.write(&buff, sizeof(buff));
 	}
-}
-
-void CopyDecrypted(std::istream& fIn, std::ostream& fOut, const int& key)
-{
 }
