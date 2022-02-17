@@ -5,14 +5,23 @@ rem set DIR="%CD%"
 rem %PROGRAM% > nul
 rem if NOT ERRORLEVEL 1 goto err
 
+%PROGRAM% 16 22 -FFFFFFF
+if ERRORLEVEL 1 goto err
+
+%PROGRAM% 16 22 1FFFFFFF
+if ERRORLEVEL 1 goto err
+
+%PROGRAM% 0 40 ABCD
+
+%PROGRAM% 10 2 ABCD
+
+%PROGRAM% 14 2 ABCD
+
 %PROGRAM% "" "" ""
+
+%PROGRAM% 16 10 FFFFFFFF
 if ERRORLEVEL 1 goto err
 
-%PROGRAM% input2.txt
-if ERRORLEVEL 1 goto err
-
-%PROGRAM% input3.txt
-if ERRORLEVEL 1 goto err
 
 echo OK
 exit 0
