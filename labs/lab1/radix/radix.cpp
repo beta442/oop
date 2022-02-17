@@ -30,15 +30,23 @@ int main(int argc, char* argv[])
 		return EXIT_FAILURE;
 	}
 
-	const short sourceNotation = std::stoi(argv[1]);
-	const short destinationNotation = std::stoi(argv[2]);
-	if (sourceNotation < MIN_BASE || sourceNotation > MAX_BASE || destinationNotation < MIN_BASE || destinationNotation > MAX_BASE)
+	short sourceNotation = 0;
+	short destinationNotation = 0;
+
+	try
+	{
+		sourceNotation = std::stoi(argv[1]);
+		destinationNotation = std::stoi(argv[2]);
+		if (sourceNotation < MIN_BASE || sourceNotation > MAX_BASE || destinationNotation < MIN_BASE || destinationNotation > MAX_BASE)
+			throw EXIT_FAILURE;
+	}
+	catch (...)
 	{
 		printf("Invalid argument values\n");
 		printf("Usage: radix.exe <%s> <%s> <%s>\n",
 			BASE_PARAM_DESCR, NEED_BASE_PARAM_DESCR, VALUE_PARAM_DESCR);
 		printf("<%s> and <%s> can be only between %d and %d", BASE_PARAM_DESCR, NEED_BASE_PARAM_DESCR, MIN_BASE, MAX_BASE);
-		return EXIT_FAILURE;
+		exit(EXIT_FAILURE);
 	}
 	const std::string value = argv[3];
 

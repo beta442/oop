@@ -15,13 +15,14 @@ if ERRORLEVEL 1 goto err
 
 %PROGRAM% 10 2 ABCD
 
-%PROGRAM% 14 2 ABCD
+%PROGRAM% 36 2 ZZZZ
 
 %PROGRAM% "" "" ""
 
 %PROGRAM% 16 10 FFFFFFFF
-if ERRORLEVEL 1 goto err
 
+%PROGRAM% G 10 FFFFFFFF
+if ERRORLEVEL 1 goto err
 
 echo OK
 exit 0
