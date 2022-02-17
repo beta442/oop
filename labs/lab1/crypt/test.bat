@@ -1,9 +1,4 @@
 set PROGRAM="%~1"
-set DIR="%TEMP%"
-rem set DIR="%CD%"
-
-rem %PROGRAM% > nul
-rem if NOT ERRORLEVEL 1 goto err
 
 rem simple test
 %PROGRAM% crypt input1_plain.txt output1_crypt.txt 128
