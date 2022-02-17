@@ -167,8 +167,16 @@ int StringToInt(const std::string& str, int radix, bool& wasError)
 			wasError = true;
 			break;
 		}
+
 		const auto delta = map.getVal(str[performIndex]) * ipow(radix, i - 1 - offset);
+
 		result += delta;
+		if (result < 0)
+		{
+			std::cout << "Overflow occured!" << std::endl;
+			wasError = true;
+			break;
+		}
 	}
 
 	if (wasError)
