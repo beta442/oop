@@ -78,8 +78,8 @@ int main(int argc, char* argv[])
 	searchString = argv[3];
 	replacmentString = argv[4];
 
-	std::cout << "std::string to find:\"" << searchString << "\"" << std::endl;
-	std::cout << "std::string to replace:\"" << replacmentString << "\"" << std::endl;
+	std::cout << "string to find:\"" << searchString << "\"" << std::endl;
+	std::cout << "string to replace:\"" << replacmentString << "\"" << std::endl;
 
 	CopyFileWithReplace(fIn, fO, searchString, replacmentString);
 
