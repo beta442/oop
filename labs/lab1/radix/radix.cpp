@@ -10,8 +10,8 @@ constexpr auto NEED_BASE_PARAM_DESCR = "destination notation";
 constexpr auto VALUE_PARAM_DESCR = "value";
 
 constexpr auto ALPHABET_SIZE = 26;
-constexpr auto ALPHA = 'A';
-constexpr auto MIN_BASE_ALPHA_VALUE = 48;
+constexpr auto DECIMAL_BASE_CHAR_VALUE = 'A';
+constexpr auto MIN_BASE_CHAR_VALUE = 48;
 constexpr auto MIN_BASE = 2;
 constexpr auto DECIMAL_BASE = 10;
 constexpr auto MAX_BASE = DECIMAL_BASE + ALPHABET_SIZE;
@@ -80,7 +80,7 @@ struct Alphabet
 
 void Alphabet::initAlphabet()
 {
-	std::iota(std::begin(albet), std::end(albet), ALPHA);
+	std::iota(std::begin(albet), std::end(albet), DECIMAL_BASE_CHAR_VALUE);
 }
 
 struct NumberSystemNotationMap
@@ -101,7 +101,7 @@ void NumberSystemNotationMap::generateValueMap(const int& upperValue)
 	for (int i = 0; i < upperValue && i < MAX_BASE; i++)
 	{
 		map[i] = i < DECIMAL_BASE
-			? MIN_BASE_ALPHA_VALUE + i
+			? MIN_BASE_CHAR_VALUE + i
 			: alpbet.albet[i - DECIMAL_BASE];
 	}
 }
@@ -181,7 +181,7 @@ int StringToInt(const std::string& str, int radix, bool& wasError)
 		result += delta;
 		if (result < 0)
 		{
-			std::cout << "Overflow occured!" << std::endl;
+			std::cout << "Err!\nGiven value is too big for this app " << std::endl;
 			wasError = true;
 			break;
 		}

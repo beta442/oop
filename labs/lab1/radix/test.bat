@@ -1,27 +1,23 @@
 set PROGRAM="%~1"
-set DIR="%TEMP%"
-rem set DIR="%CD%"
 
-rem %PROGRAM% > nul
-rem if NOT ERRORLEVEL 1 goto err
-
+rem simple tests
 %PROGRAM% 16 22 -FFFFFFF
-if ERRORLEVEL 1 goto err
-
 %PROGRAM% 16 22 1FFFFFFF
-if ERRORLEVEL 1 goto err
 
-%PROGRAM% 0 40 ABCD
-
-%PROGRAM% 10 2 ABCD
-
+rem from biggest notation to smallest
 %PROGRAM% 36 2 ZZZZ
+rem reverse
+%PROGRAM% 2 36 110011010000011111111
 
-%PROGRAM% "" "" ""
-
+rem too large values
 %PROGRAM% 16 10 FFFFFFFF
+%PROGRAM% 16 10 -FFFFFFFF
 
+rem err params
+%PROGRAM% 0 40 ABCD
+%PROGRAM% 10 2 ABCD
 %PROGRAM% G 10 FFFFFFFF
+%PROGRAM% "" "" ""
 if ERRORLEVEL 1 goto err
 
 echo OK
