@@ -113,18 +113,9 @@ int main(int argc, char* argv[])
 
 constexpr auto BYTE_SIZE = 8;
 
-typedef union
-{
-	char ch;
-	struct
-	{
-		int bytes : BYTE_SIZE;
-	} bytePart;
-} CharCast;
-
 struct CryptSymbolContainer
 {
-	CharCast symb;
+	char symb;
 	void setChar(const char& ch);
 	char getContainedChar();
 	void xorContainedCharBy(const int& key);
@@ -134,17 +125,17 @@ struct CryptSymbolContainer
 
 void CryptSymbolContainer::setChar(const char& ch)
 {
-	symb.ch = ch;
+	symb = ch;
 }
 
 void CryptSymbolContainer::xorContainedCharBy(const int& key)
 {
-	symb.ch ^= key;
+	symb ^= key;
 }
 
 char CryptSymbolContainer::getContainedChar()
 {
-	return symb.ch;
+	return symb;
 }
 
 char getPatternPosByIndex(const size_t& ind, const ProgramMode& mode)
@@ -172,17 +163,16 @@ char getPatternPosByIndex(const size_t& ind, const ProgramMode& mode)
 
 void CryptSymbolContainer::shuffleByInternalPattern(const ProgramMode& mode)
 {
-	const unsigned char heldSymb = symb.ch;
-	symb.ch = 0;
+	const unsigned char heldSymb = symb;
+	symb = 0;
 	size_t offset = 0;
 	unsigned char mask = 128;
-	std::bitset<BYTE_SIZE> bits(symb.bytePart.bytes);
+
 	for (size_t i = 0; i < BYTE_SIZE; (i++, mask = 128))
 	{
 		mask = mask >> i;
 		if (heldSymb & mask)
 		{
-			bits = symb.ch;
 			offset = getPatternPosByIndex(i, mode);
 			if (offset > i)
 			{
@@ -192,15 +182,14 @@ void CryptSymbolContainer::shuffleByInternalPattern(const ProgramMode& mode)
 			{
 				mask <<= (i - offset);
 			}
-			symb.ch += mask;
-			bits = symb.ch;
+			symb += mask;
 		}
 	}
 }
 
 std::string CryptSymbolContainer::getContainedCharByteString()
 {
-	std::bitset<BYTE_SIZE> bits(symb.bytePart.bytes);
+	std::bitset<BYTE_SIZE> bits(symb);
 	return bits.to_string();
 }
 
@@ -208,7 +197,10 @@ void CopyThroughCrypt(std::istream& fIn, std::ostream& fOut, const int& key, con
 {
 	CryptSymbolContainer ch{};
 	char buff{};
-	while (!fIn.eof())
+	fIn.seekg(0, fIn.end);
+	unsigned long long flength = fIn.tellg();
+	fIn.seekg(0, fIn.beg);
+	for (auto i = 0; i < flength; i++)
 	{
 		fIn.read(&buff, sizeof(buff));
 		ch.setChar(buff);
