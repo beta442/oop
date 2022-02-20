@@ -75,10 +75,8 @@ rem test <key> err 0 <= <key> <= 255
 %PROGRAM% decrypt input_plain_0.txt output_decrypt_0.txt -1
 %PROGRAM% decrypt input_plain_0.txt output_decrypt_0.txt 256
 %PROGRAM% "" "" "" ""
-if ERRORLEVEL 1 goto err
 timeout /t 5
 del %TEMP_TXT%
-echo "" > %TEMP_TXT%
 
 echo OK
 exit 0
