@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <sstream>
 
 constexpr auto MODE_CRYPT = "crypt";
 constexpr auto MODE_DECRYPT = "decrypt";
@@ -11,73 +12,58 @@ constexpr auto KEY_PARAM = "key";
 constexpr auto KEY_PARAM_MIN_VALUE = 0;
 constexpr auto KEY_PARAM_MAX_VALUE = 255;
 
-constexpr short ERR_CODE_INVALID_PARAM_LENGTH = 2;
-constexpr short ERR_CODE_INVALID_KEY_VALUE = 3;
-constexpr short ERR_CODE_INVALID_PROGRAM_MODE_PARAM = 4;
-
 enum class ProgramMode
 {
 	CRYPT = 0,
 	DECRYPT,
 };
 
-void CopyThroughCrypt(std::istream& fIn, std::ostream& fOut, const int& key, const ProgramMode& mode);
-
-int main(int argc, char* argv[])
+bool MainFuncParamsValidation(const int argc, char* argv[])
 {
-	std::ifstream fIn;
-	std::ofstream fOut;
-
+	bool status = true;
 	if (argc != 5)
 	{
 		printf("Invalid argument count\n");
 		printf("Usage: crypt.exe <%s|%s> <%s> <%s> <%s>\n", MODE_CRYPT, MODE_DECRYPT, INPUT_FILE_PARAM, OUTPUT_FILE_PARAM, KEY_PARAM);
 
-		return EXIT_FAILURE;
+		status = false;
+		return status;
 	}
 
-	short key = 0;
-	auto mode = ProgramMode::CRYPT;
-
-	try
+	for (char** arg = argv; *arg; ++arg)
 	{
-		if (std::strlen(argv[1]) == 0 || std::strlen(argv[2]) == 0 || std::strlen(argv[3]) == 0 || std::strlen(argv[4]) == 0)
+		if (!std::strlen(*arg))
 		{
-			throw ERR_CODE_INVALID_PARAM_LENGTH;
-		}
+			printf("Invalid arguments value\n");
+			printf("Usage: crypt.exe <%s|%s> <%s> <%s> <%s>\n", MODE_CRYPT, MODE_DECRYPT, INPUT_FILE_PARAM, OUTPUT_FILE_PARAM, KEY_PARAM);
+			printf("One of the arguments is empty\n");
 
-		if (std::string(argv[1]) != MODE_CRYPT && std::string(argv[1]) != MODE_DECRYPT)
-		{
-			throw ERR_CODE_INVALID_PROGRAM_MODE_PARAM;
-		}
-		if (std::string(argv[1]) == MODE_CRYPT)
-		{
-			mode = ProgramMode::CRYPT;
-		}
-		if (std::string(argv[1]) == MODE_DECRYPT)
-		{
-			mode = ProgramMode::DECRYPT;
-		}
-
-		key = std::stoi(argv[4]);
-		if (key < 0 || key > 255)
-		{
-			throw ERR_CODE_INVALID_KEY_VALUE;
+			status = false;
+			break;
 		}
 	}
-	catch (short err_code)
+
+	return status;
+}
+
+bool InitArgs(ProgramMode& mode, std::ifstream& fIn, std::ofstream& fOut, short& key, char* argv[])
+{
+	bool status = true;
+
+	if (std::string(argv[1]) != MODE_CRYPT && std::string(argv[1]) != MODE_DECRYPT)
 	{
 		printf("Invalid arguments value\n");
 		printf("Usage: crypt.exe <%s|%s> <%s> <%s> <%s>\n", MODE_CRYPT, MODE_DECRYPT, INPUT_FILE_PARAM, OUTPUT_FILE_PARAM, KEY_PARAM);
-		if (err_code == ERR_CODE_INVALID_PROGRAM_MODE_PARAM)
-		{
-			printf("<%s|%s> is program mode, use \"%s\" or \"%s\" to specify what program should do\n", MODE_CRYPT, MODE_DECRYPT, MODE_CRYPT, MODE_DECRYPT);
-		}
-		if (err_code == ERR_CODE_INVALID_KEY_VALUE)
-		{
-			printf("<%s> should be represented by value between %d and %d\n", KEY_PARAM, KEY_PARAM_MIN_VALUE, KEY_PARAM_MAX_VALUE);
-		}
-		exit(EXIT_FAILURE);
+		printf("<%s|%s> is program mode, use \"%s\" or \"%s\" to specify what program should do\n", MODE_CRYPT, MODE_DECRYPT, MODE_CRYPT, MODE_DECRYPT);
+		return !status;
+	}
+	if (std::string(argv[1]) == MODE_CRYPT)
+	{
+		mode = ProgramMode::CRYPT;
+	}
+	if (std::string(argv[1]) == MODE_DECRYPT)
+	{
+		mode = ProgramMode::DECRYPT;
 	}
 
 	fIn.open(argv[2], std::ios::binary | std::ios::in);
@@ -85,7 +71,7 @@ int main(int argc, char* argv[])
 	if (!fIn.is_open() || !getline(fIn, tempStr))
 	{
 		printf("Something bad with input file\n");
-		return EXIT_FAILURE;
+		return !status;
 	}
 	fIn.seekg(0, fIn.beg);
 
@@ -93,6 +79,40 @@ int main(int argc, char* argv[])
 	if (!fOut.is_open())
 	{
 		printf("Something bad with output file\n");
+		return !status;
+	}
+
+	std::stringstream ss;
+	ss << argv[4];
+	ss >> key;
+	if (ss.fail() || key < 0 || key > 255)
+	{
+		printf("Invalid arguments value\n");
+		printf("Usage: crypt.exe <%s|%s> <%s> <%s> <%s>\n", MODE_CRYPT, MODE_DECRYPT, INPUT_FILE_PARAM, OUTPUT_FILE_PARAM, KEY_PARAM);
+		printf("<%s> should be represented by value between %d and %d\n", KEY_PARAM, KEY_PARAM_MIN_VALUE, KEY_PARAM_MAX_VALUE);
+		return !status;
+	}
+	ss.clear();
+
+	return status;
+}
+
+void CopyThroughCrypt(std::istream& fIn, std::ostream& fOut, const int& key, const ProgramMode& mode);
+
+int main(int argc, char* argv[])
+{
+	if (!MainFuncParamsValidation(argc, argv))
+	{
+		return EXIT_FAILURE;
+	}
+
+	short key = 0;
+	auto mode = ProgramMode::CRYPT;
+	std::ifstream fIn;
+	std::ofstream fOut;
+
+	if (!InitArgs(mode, fIn, fOut, key, argv))
+	{
 		return EXIT_FAILURE;
 	}
 
@@ -115,7 +135,7 @@ constexpr auto BYTE_SIZE = 8;
 
 struct CryptSymbolContainer
 {
-	char symb;
+	char _symb;
 	void setChar(const char& ch);
 	char getContainedChar();
 	void xorContainedCharBy(const int& key);
@@ -125,17 +145,17 @@ struct CryptSymbolContainer
 
 void CryptSymbolContainer::setChar(const char& ch)
 {
-	symb = ch;
+	_symb = ch;
 }
 
 void CryptSymbolContainer::xorContainedCharBy(const int& key)
 {
-	symb ^= key;
+	_symb ^= key;
 }
 
 char CryptSymbolContainer::getContainedChar()
 {
-	return symb;
+	return _symb;
 }
 
 char getPatternPosByIndex(const size_t& ind, const ProgramMode& mode)
@@ -163,8 +183,8 @@ char getPatternPosByIndex(const size_t& ind, const ProgramMode& mode)
 
 void CryptSymbolContainer::shuffleByInternalPattern(const ProgramMode& mode)
 {
-	const unsigned char heldSymb = symb;
-	symb = 0;
+	const unsigned char heldSymb = _symb;
+	_symb = 0;
 	size_t offset = 0;
 	unsigned char mask = 128;
 
@@ -182,14 +202,14 @@ void CryptSymbolContainer::shuffleByInternalPattern(const ProgramMode& mode)
 			{
 				mask <<= (i - offset);
 			}
-			symb += mask;
+			_symb += mask;
 		}
 	}
 }
 
 std::string CryptSymbolContainer::getContainedCharByteString()
 {
-	std::bitset<BYTE_SIZE> bits(symb);
+	std::bitset<BYTE_SIZE> bits(_symb);
 	return bits.to_string();
 }
 
