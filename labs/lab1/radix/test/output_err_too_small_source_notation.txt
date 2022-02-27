@@ -1,0 +1,4 @@
+Failed to convert given value to decimal presentation
+You can use only these symbols to describe your num:
+
+|0|1|2|3|4|5|6|7|8|9|

@@ -1,0 +1,3 @@
+Value given: 110011010000011111111
+Source's notation: 2. Destination notation: 36
+Transfered number: ZZZZ

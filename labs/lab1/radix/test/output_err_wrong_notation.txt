@@ -1,0 +1,3 @@
+Invalid argument values
+Usage: radix.exe <source notation> <destination notation> <value>
+<source notation> and <destination notation> can be only between 2 and 36

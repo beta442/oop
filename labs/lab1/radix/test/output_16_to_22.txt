@@ -1,0 +1,3 @@
+Value given: ABDCEF
+Source's notation: 16. Destination notation: 22
+Transfered number: 241H27
