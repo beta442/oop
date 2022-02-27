@@ -1,0 +1,3 @@
+Invalid arguments value
+Usage: fill.exe <input file> <output file>
+One of the arguments is empty

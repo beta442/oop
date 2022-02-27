@@ -12,46 +12,73 @@ constexpr auto START_MARKER = 'O';
 constexpr auto FILL_MARKER = '.';
 constexpr auto EMPTY_MARKER = ' ';
 
-void CopyFileWithFillingMarkedArea(std::ifstream& fIn, std::ofstream& fOut, const char& marker);
-
-int main(int argc, char* argv[])
+bool MainFuncParamsValidation(const int argc, char* argv[])
 {
+	bool status = true;
 	if (argc != 3)
 	{
 		printf("Invalid argument count\n");
 		printf("Usage: fill.exe <%s> <%s>\n", INPUT_FILE_PARAM, OUTPUT_FILE_PARAM);
+
+		status = false;
+		return status;
 	}
 
-	try
+	for (char** arg = argv; *arg; ++arg)
 	{
-		if (std::strlen(argv[1]) == 0 || std::strlen(argv[2]) == 0)
+		if (!std::strlen(*arg))
 		{
-			throw ERR_CODE_INVALID_PARAM_LENGTH;
+			printf("Invalid arguments value\n");
+			printf("Usage: fill.exe <%s> <%s>\n", INPUT_FILE_PARAM, OUTPUT_FILE_PARAM);
+			printf("One of the arguments is empty\n");
+
+			status = false;
+			break;
 		}
 	}
-	catch (...)
-	{
-		printf("Invalid arguments value\n");
-		printf("Usage: fill.exe <%s> <%s>\n", INPUT_FILE_PARAM, OUTPUT_FILE_PARAM);
-		exit(EXIT_FAILURE);
-	}
 
-	std::ifstream fIn;
-	std::ofstream fOut;
+	return status;
+}
+
+bool InitArgs(std::ifstream& fIn, std::ofstream& fOut, char* argv[])
+{
+	bool status = true;
 
 	fIn.open(argv[1]);
 	std::string tempStr;
 	if (!fIn.is_open() || !getline(fIn, tempStr))
 	{
 		printf("Something bad with input file\n");
-		return EXIT_FAILURE;
+		return !status;
 	}
 	fIn.seekg(0, fIn.beg);
 
 	fOut.open(argv[2]);
-	if (!fOut.is_open())
+	fOut.clear();
+	if (!fOut.is_open() || fOut.badbit)
 	{
 		printf("Something bad with output file\n");
+		return !status;
+	}
+
+	return status;
+}
+
+constexpr auto FIELD_SIZE = 100;
+void CopyFileWithFillingMarkedArea(std::ifstream& fIn, std::ofstream& fOut, const char& marker);
+
+int main(int argc, char* argv[])
+{
+	if (!MainFuncParamsValidation(argc, argv))
+	{
+		return EXIT_FAILURE;
+	}
+
+	std::ifstream fIn;
+	std::ofstream fOut;
+
+	if (!InitArgs(fIn, fOut, argv))
+	{
 		return EXIT_FAILURE;
 	}
 
@@ -59,16 +86,6 @@ int main(int argc, char* argv[])
 
 	return EXIT_SUCCESS;
 }
-
-enum class MoveDirection
-{
-	UP = 0,
-	RIGHT,
-	DOWN,
-	LEFT,
-};
-
-constexpr auto MAX_SIZE = 50;
 
 struct FieldCellPoint
 {
@@ -79,7 +96,7 @@ struct FieldCellPoint
 
 struct Field
 {
-	std::vector<std::string> field;
+	std::vector<std::string> _field;
 	size_t size();
 	void appendRow(std::string row);
 	std::string at(const size_t& rowIndex);
@@ -94,9 +111,7 @@ Field GetSizedSquareFieldFromFile(std::ifstream& fIn, const size_t& size);
 
 void CopyFileWithFillingMarkedArea(std::ifstream& fIn, std::ofstream& fOut, const char& marker)
 {
-	Field field = GetSizedSquareFieldFromFile(fIn, MAX_SIZE);
-	printf("\nFound this map\n");
-	field.printField(std::cout);
+	Field field = GetSizedSquareFieldFromFile(fIn, FIELD_SIZE);
 
 	std::vector<FieldCellPoint> startPoints{};
 	char scanningChar{};
@@ -124,59 +139,59 @@ void CopyFileWithFillingMarkedArea(std::ifstream& fIn, std::ofstream& fOut, cons
 
 void Field::appendRow(std::string row)
 {
-	if (field.size() < MAX_SIZE)
+	if (_field.size() < FIELD_SIZE)
 	{
-		field.push_back(row);
+		_field.push_back(row);
 	}
 }
 
 size_t Field::size()
 {
-	return field.size();
+	return _field.size();
 }
 
 std::string Field::at(const size_t& rowIndex)
 {
-	return field.at(rowIndex);
+	return _field.at(rowIndex);
 }
 
 constexpr auto NOT_VALID_CELL_VALUE = -1;
 
 char Field::getFieldCell(const FieldCellPoint& point)
 {
-	if (point.rowIndex < MAX_SIZE && point.columnIndex < MAX_SIZE && field.at(point.rowIndex).size())
+	if (point.rowIndex < FIELD_SIZE && point.columnIndex < FIELD_SIZE && _field.at(point.rowIndex).size())
 	{
-		return field.at(point.rowIndex)[point.columnIndex];
+		return _field.at(point.rowIndex)[point.columnIndex];
 	}
 	return NOT_VALID_CELL_VALUE;
 }
 
 char Field::getFieldCell(const size_t& rowIndex, const size_t& columnIndex)
 {
-	if (rowIndex < MAX_SIZE && columnIndex < MAX_SIZE && field.at(rowIndex).size())
+	if (rowIndex < FIELD_SIZE && columnIndex < FIELD_SIZE && _field.at(rowIndex).size())
 	{
-		return field.at(rowIndex)[columnIndex];
+		return _field.at(rowIndex)[columnIndex];
 	}
 	return NOT_VALID_CELL_VALUE;
 }
 
 void Field::setFieldCell(const FieldCellPoint& point, const char& val)
 {
-	field.at(point.rowIndex)[point.columnIndex] = val;
+	_field.at(point.rowIndex)[point.columnIndex] = val;
 }
 
 void Field::printField(std::ostream& fOut)
 {
-	for (size_t i = 0; i < field.size() + 2; i++)
+	for (size_t i = 0; i < _field.size() + 2; i++)
 	{
 		fOut << "-";
 	}
 	fOut << std::endl;
-	for (size_t i = 0; i < field.size(); i++)
+	for (size_t i = 0; i < _field.size(); i++)
 	{
-		fOut << "|" << field[i] << "|" << std::endl;
+		fOut << "|" << _field[i] << "|" << std::endl;
 	}
-	for (size_t i = 0; i < field.size() + 2; i++)
+	for (size_t i = 0; i < _field.size() + 2; i++)
 	{
 		fOut << "-";
 	}
@@ -193,22 +208,22 @@ Field GetSizedSquareFieldFromFile(std::ifstream& fIn, const size_t& size)
 {
 	std::string buffer;
 	Field field;
-	for (size_t i = 0; i < MAX_SIZE; i++)
+	for (size_t i = 0; i < FIELD_SIZE; i++)
 	{
 		if (std::getline(fIn, buffer))
 		{
-			if (buffer.size() < MAX_SIZE)
+			if (buffer.size() < FIELD_SIZE)
 			{
-				size_t delta = MAX_SIZE - buffer.size();
+				size_t delta = FIELD_SIZE - buffer.size();
 				std::string blankDelta;
 				blankDelta.assign(delta, EMPTY_MARKER);
 				buffer.append(blankDelta);
 			}
-			buffer = buffer.substr(0, MAX_SIZE);
+			buffer = buffer.substr(0, FIELD_SIZE);
 		}
 		else
 		{
-			buffer.assign(MAX_SIZE, EMPTY_MARKER);
+			buffer.assign(FIELD_SIZE, EMPTY_MARKER);
 		}
 		field.appendRow(buffer);
 	}
