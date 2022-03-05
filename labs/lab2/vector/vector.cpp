@@ -1,50 +1,96 @@
 #include <algorithm>
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <iterator>
+#include <sstream>
 #include <vector>
 
-std::vector<double> GetFromStreamDoubleVector(std::istream& fIn);
-void MutateDoubleVectorByTask(std::vector<double>& vec);
-void PrintVector(const std::vector<double>& vec);
+bool CopyStreamOfDoubleIntoVector(std::istream& fIn, std::vector<double>& vec);
+void ProcessDoubleVectorByTask(std::vector<double>& vec);
+void PrintDoubleVector(const std::vector<double>& vec);
 
 int main()
 {
-	std::vector<double> vec = GetFromStreamDoubleVector(std::cin);
-	std::cout << "Input arr:" << std::endl;
-	PrintVector(vec);
-	MutateDoubleVectorByTask(vec);
-	std::cout << "Input arr now:" << std::endl;
-	PrintVector(vec);
-}
-
-constexpr char DELIMETER = ' ';
-
-std::vector<double> GetFromStreamDoubleVector(std::istream& fIn)
-{
-	std::vector<double> result{};
-	std::istream_iterator<double> numbers{ fIn }, eof;
-
-	std::copy(numbers, eof, std::back_inserter(result));
-
-	if (!fIn.eof())
+	std::vector<double> vec{};
+	if (!CopyStreamOfDoubleIntoVector(std::cin, vec))
 	{
-		// TODO access to invalid value?
-		std::cout << "Invalid value was given:" << std::endl;
-		exit(EXIT_FAILURE);
+		std::cout << "An error occured while processing input" << std::endl;
+		return 1;
 	}
 
-	return result;
+	if (std::size(vec) == 0)
+	{
+		std::cout << "Nothing to process" << std::endl;
+		return 1;
+	}
+
+	std::cout << "Vector was:" << std::endl;
+	PrintDoubleVector(vec);
+
+	ProcessDoubleVectorByTask(vec);
+
+	std::cout << std::endl
+			  << "Vector now:" << std::endl;
+	PrintDoubleVector(vec);
+
+	return 0;
 }
 
-void MutateDoubleVectorByTask(std::vector<double>& vec)
+bool CopyStringToDouble(const std::string& str, double& val)
 {
-	if (vec.size() == 0)
+	bool isOk = true;
+
+	std::stringstream ss{};
+	ss << str;
+	ss >> val;
+	if (ss.fail())
+	{
+		return !isOk;
+	}
+
+	return isOk;
+}
+
+bool CopyStreamOfDoubleIntoVector(std::istream& fIn, std::vector<double>& vec)
+{
+	bool isOk = true;
+	std::vector<double> res{};
+
+	std::cout << "Please enter values (to stop enter Q or q):" << std::endl;
+	std::istream_iterator<std::string> it{ fIn }, end;
+
+	double valInProcess;
+	for (; it != end; it++)
+	{
+		if (*it == "Q" || *it == "q")
+		{
+			break;
+		}
+
+		if (!CopyStringToDouble((*it), valInProcess))
+		{
+			isOk = false;
+			break;
+		}
+
+		res.push_back(valInProcess);
+	}
+
+	vec = std::move(res);
+	vec.shrink_to_fit();
+
+	return isOk;
+}
+
+void ProcessDoubleVectorByTask(std::vector<double>& vec)
+{
+	if (std::size(vec) == 0)
 	{
 		return;
 	}
-	std::vector<double>::const_iterator minElementIt = std::min_element(vec.begin(), vec.end());
+	std::vector<double>::const_iterator minElementIt = std::min_element(std::begin(vec), std::end(vec));
 
+	std::cout.precision(4);
 	std::cout << "minValue:" << *minElementIt << std::endl;
 
 	for (auto& val : vec)
@@ -53,15 +99,23 @@ void MutateDoubleVectorByTask(std::vector<double>& vec)
 	}
 }
 
-void PrintVector(const std::vector<double>& vec)
+constexpr auto OUTPUT_WIDTH = 10;
+constexpr auto OUTPUT_PRECISION = 4;
+
+void PrintDoubleVector(const std::vector<double>& vec)
 {
-	std::vector<double> sortedVec = vec;
-	std::sort(sortedVec.begin(), sortedVec.end());
-	std::vector<double>::const_iterator it = sortedVec.begin();
-	std::cout << "|";
-	for (auto i = it; i != sortedVec.end(); i++)
+	if (std::size(vec) == 0)
 	{
-		printf("%+.3f|", *i);
+		return;
+	}
+	for (auto i = std::begin(vec); i != std::end(vec); i++)
+	{
+		std::cout << "|";
+		std::cout.width(OUTPUT_WIDTH);
+		std::cout.precision(OUTPUT_PRECISION);
+		std::cout.right;
+		std::cout << *i;
+		std::cout << "|" << std::endl;
 	}
 	std::cout << std::endl;
 }

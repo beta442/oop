@@ -55,7 +55,7 @@ bool InitArgs(std::ifstream& fIn, std::ofstream& fOut, char* argv[])
 
 	fOut.open(argv[2]);
 	fOut.clear();
-	if (!fOut.is_open() || fOut.badbit)
+	if (!fOut.is_open())
 	{
 		printf("Something bad with output file\n");
 		return !status;
