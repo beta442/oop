@@ -6,8 +6,8 @@
 #include <vector>
 
 bool CopyStreamOfDoubleIntoVector(std::istream& fIn, std::vector<double>& vec);
-void ProcessDoubleVectorByTask(std::vector<double>& vec);
-void PrintDoubleVector(const std::vector<double>& vec);
+void ProcessVectorOfDoubleByTask(std::vector<double>& vec);
+void PrintVectorOfDouble(const std::vector<double>& vec);
 
 int main()
 {
@@ -25,13 +25,13 @@ int main()
 	}
 
 	std::cout << "Vector was:" << std::endl;
-	PrintDoubleVector(vec);
+	PrintVectorOfDouble(vec);
 
-	ProcessDoubleVectorByTask(vec);
+	ProcessVectorOfDoubleByTask(vec);
+	std::sort(std::begin(vec), std::end(vec));
 
-	std::cout << std::endl
-			  << "Vector now:" << std::endl;
-	PrintDoubleVector(vec);
+	std::cout << std::endl << "Vector now:" << std::endl;
+	PrintVectorOfDouble(vec);
 
 	return 0;
 }
@@ -56,20 +56,13 @@ bool CopyStreamOfDoubleIntoVector(std::istream& fIn, std::vector<double>& vec)
 	bool isOk = true;
 	std::vector<double> res{};
 
-	std::cout << "Please enter values (to stop enter Q or q):" << std::endl;
-	std::istream_iterator<std::string> it{ fIn }, end;
-
 	double valInProcess;
+	std::istream_iterator<std::string> it{ fIn }, end;
 	for (; it != end; it++)
 	{
-		if (*it == "Q" || *it == "q")
+		isOk = CopyStringToDouble((*it), valInProcess);
+		if (*it == "Q" || *it == "q" || !isOk)
 		{
-			break;
-		}
-
-		if (!CopyStringToDouble((*it), valInProcess))
-		{
-			isOk = false;
 			break;
 		}
 
@@ -82,7 +75,7 @@ bool CopyStreamOfDoubleIntoVector(std::istream& fIn, std::vector<double>& vec)
 	return isOk;
 }
 
-void ProcessDoubleVectorByTask(std::vector<double>& vec)
+void ProcessVectorOfDoubleByTask(std::vector<double>& vec)
 {
 	if (std::size(vec) == 0)
 	{
@@ -102,19 +95,19 @@ void ProcessDoubleVectorByTask(std::vector<double>& vec)
 constexpr auto OUTPUT_WIDTH = 10;
 constexpr auto OUTPUT_PRECISION = 4;
 
-void PrintDoubleVector(const std::vector<double>& vec)
+void PrintVectorOfDouble(const std::vector<double>& vec)
 {
 	if (std::size(vec) == 0)
 	{
 		return;
 	}
-	for (auto i = std::begin(vec); i != std::end(vec); i++)
+	for (const auto& val : vec)
 	{
 		std::cout << "|";
 		std::cout.width(OUTPUT_WIDTH);
 		std::cout.precision(OUTPUT_PRECISION);
 		std::cout.right;
-		std::cout << *i;
+		std::cout << val + 0.0;
 		std::cout << "|" << std::endl;
 	}
 	std::cout << std::endl;

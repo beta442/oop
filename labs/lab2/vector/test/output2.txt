@@ -1,5 +1,5 @@
-Please enter values (to stop enter Q or q):
 Vector was:
+|         0|
 |     0.123|
 |      1.44|
 |     2.323|
@@ -9,9 +9,10 @@ Vector was:
 minValue:-2.131
 
 Vector now:
-|   -0.2621|
-|    -3.069|
-|    -4.951|
 |-4.544e+21|
+|    -4.951|
+|    -3.069|
+|   -0.2621|
+|         0|
 |     4.542|
 

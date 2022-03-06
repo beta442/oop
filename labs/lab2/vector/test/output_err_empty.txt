@@ -1,2 +1,1 @@
-Please enter values (to stop enter Q or q):
 Nothing to process
