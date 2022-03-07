@@ -75,6 +75,9 @@ bool CopyStreamOfDoubleIntoVector(std::istream& fIn, std::vector<double>& vec)
 	return isOk;
 }
 
+constexpr auto OUTPUT_WIDTH = 10;
+constexpr auto OUTPUT_PRECISION = 4;
+
 void ProcessVectorOfDoubleByTask(std::vector<double>& vec)
 {
 	if (std::size(vec) == 0)
@@ -83,7 +86,7 @@ void ProcessVectorOfDoubleByTask(std::vector<double>& vec)
 	}
 	std::vector<double>::const_iterator minElementIt = std::min_element(std::begin(vec), std::end(vec));
 
-	std::cout.precision(4);
+	std::cout.precision(OUTPUT_PRECISION);
 	std::cout << "minValue:" << *minElementIt << std::endl;
 
 	for (auto& val : vec)
@@ -91,9 +94,6 @@ void ProcessVectorOfDoubleByTask(std::vector<double>& vec)
 		val *= *minElementIt;
 	}
 }
-
-constexpr auto OUTPUT_WIDTH = 10;
-constexpr auto OUTPUT_PRECISION = 4;
 
 void PrintVectorOfDouble(const std::vector<double>& vec)
 {
