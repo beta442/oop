@@ -12,7 +12,9 @@ constexpr auto START_MARKER = 'O';
 constexpr auto FILL_MARKER = '.';
 constexpr auto EMPTY_MARKER = ' ';
 
-bool MainFuncParamsValidation(const int argc, char* argv[])
+using Field = std::vector<std::string>;
+
+bool ArgsValidation(const int argc, char* argv[])
 {
 	bool status = true;
 	if (argc != 3)
@@ -46,15 +48,13 @@ bool InitArgs(std::ifstream& fIn, std::ofstream& fOut, char* argv[])
 
 	fIn.open(argv[1]);
 	std::string tempStr;
-	if (!fIn.is_open() || !getline(fIn, tempStr))
+	if (!fIn.is_open()) //TODO check reading access
 	{
 		printf("Something bad with input file\n");
 		return !status;
 	}
-	fIn.seekg(0, fIn.beg);
 
 	fOut.open(argv[2]);
-	fOut.clear();
 	if (!fOut.is_open())
 	{
 		printf("Something bad with output file\n");
@@ -65,11 +65,11 @@ bool InitArgs(std::ifstream& fIn, std::ofstream& fOut, char* argv[])
 }
 
 constexpr auto FIELD_SIZE = 100;
-void CopyFileWithFillingMarkedArea(std::ifstream& fIn, std::ofstream& fOut, const char& marker);
+void CopyFileWithFillingMarkedArea(std::istream& fIn, std::ostream& fOut, char marker);
 
 int main(int argc, char* argv[])
 {
-	if (!MainFuncParamsValidation(argc, argv))
+	if (!ArgsValidation(argc, argv))
 	{
 		return EXIT_FAILURE;
 	}
@@ -91,39 +91,31 @@ struct FieldCellPoint
 {
 	size_t rowIndex;
 	size_t columnIndex;
-	void setPoint(const size_t& rowNum, const size_t& columnNum);
 };
 
-struct Field
-{
-	std::vector<std::string> _field;
-	size_t size();
-	void appendRow(std::string row);
-	std::string at(const size_t& rowIndex);
-	char getFieldCell(const FieldCellPoint& point);
-	char getFieldCell(const size_t& rowIndex, const size_t& columnIndex);
-	void setFieldCell(const FieldCellPoint& point, const char& val);
-	void printField(std::ostream& fOut);
-	void fillFieldCellNeighbors(const FieldCellPoint& point);
-};
+Field GetSizedSquareFieldFromFile(std::istream& fIn, size_t size);
 
-Field GetSizedSquareFieldFromFile(std::ifstream& fIn, const size_t& size);
+constexpr auto NOT_VALID_CELL_VALUE = -1;
 
-void CopyFileWithFillingMarkedArea(std::ifstream& fIn, std::ofstream& fOut, const char& marker)
+char GetFieldCell(const Field& field, size_t rowIndex, size_t columnIndex);
+void FillFieldCellNeighbors(Field& field, const FieldCellPoint& point);
+void PrintField(const Field& field, std::ostream& fOut);
+
+void CopyFileWithFillingMarkedArea(std::istream& fIn, std::ostream& fOut, char marker) //remove const
 {
 	Field field = GetSizedSquareFieldFromFile(fIn, FIELD_SIZE);
 
 	std::vector<FieldCellPoint> startPoints{};
-	char scanningChar{};
+	char scanningChar;
 	FieldCellPoint point{};
 	for (size_t j = 0; j < field.size(); j++)
 	{
 		for (size_t k = 0; k < field.at(j).size(); k++)
 		{
-			scanningChar = field.getFieldCell(j, k);
+			scanningChar = GetFieldCell(field, j, k);
 			if (scanningChar == START_MARKER)
 			{
-				point.setPoint(j, k);
+				point = { j, k };
 				startPoints.push_back(point);
 			}
 		}
@@ -131,128 +123,93 @@ void CopyFileWithFillingMarkedArea(std::ifstream& fIn, std::ofstream& fOut, cons
 
 	for (size_t i = 0; i < startPoints.size(); i++)
 	{
-		field.fillFieldCellNeighbors(startPoints[i]);
+		FillFieldCellNeighbors(field, startPoints[i]);
 	}
 
-	field.printField(fOut);
+	PrintField(field, fOut);
 }
 
-void Field::appendRow(std::string row)
+char GetFieldCell(const Field& field, size_t rowIndex, size_t columnIndex)
 {
-	if (_field.size() < FIELD_SIZE)
+	if (rowIndex < FIELD_SIZE && columnIndex < FIELD_SIZE && field.at(rowIndex).size())
 	{
-		_field.push_back(row);
-	}
-}
-
-size_t Field::size()
-{
-	return _field.size();
-}
-
-std::string Field::at(const size_t& rowIndex)
-{
-	return _field.at(rowIndex);
-}
-
-constexpr auto NOT_VALID_CELL_VALUE = -1;
-
-char Field::getFieldCell(const FieldCellPoint& point)
-{
-	if (point.rowIndex < FIELD_SIZE && point.columnIndex < FIELD_SIZE && _field.at(point.rowIndex).size())
-	{
-		return _field.at(point.rowIndex)[point.columnIndex];
+		return field.at(rowIndex)[columnIndex];
 	}
 	return NOT_VALID_CELL_VALUE;
 }
 
-char Field::getFieldCell(const size_t& rowIndex, const size_t& columnIndex)
+void SetFieldCell(Field& field, const FieldCellPoint& point, char val)
 {
-	if (rowIndex < FIELD_SIZE && columnIndex < FIELD_SIZE && _field.at(rowIndex).size())
-	{
-		return _field.at(rowIndex)[columnIndex];
-	}
-	return NOT_VALID_CELL_VALUE;
+	field.at(point.rowIndex)[point.columnIndex] = val;
 }
 
-void Field::setFieldCell(const FieldCellPoint& point, const char& val)
+void PrintField(const Field& field, std::ostream& fOut)
 {
-	_field.at(point.rowIndex)[point.columnIndex] = val;
-}
-
-void Field::printField(std::ostream& fOut)
-{
-	for (size_t i = 0; i < _field.size() + 2; i++)
+	for (size_t i = 0; i < field.size() + 2; i++)
 	{
 		fOut << "-";
 	}
 	fOut << std::endl;
-	for (size_t i = 0; i < _field.size(); i++)
+	for (size_t i = 0; i < field.size(); i++)
 	{
-		fOut << "|" << _field[i] << "|" << std::endl;
+		fOut << "|" << field[i] << "|" << std::endl;
 	}
-	for (size_t i = 0; i < _field.size() + 2; i++)
+	for (size_t i = 0; i < field.size() + 2; i++)
 	{
 		fOut << "-";
 	}
 	fOut << std::endl;
 }
 
-void FieldCellPoint::setPoint(const size_t& rowNum, const size_t& columnNum)
-{
-	rowIndex = rowNum;
-	columnIndex = columnNum;
-}
-
-Field GetSizedSquareFieldFromFile(std::ifstream& fIn, const size_t& size)
+Field GetSizedSquareFieldFromFile(std::istream& fIn, size_t size)
 {
 	std::string buffer;
 	Field field;
-	for (size_t i = 0; i < FIELD_SIZE; i++)
+	for (size_t i = 0; i < size; i++)
 	{
 		if (std::getline(fIn, buffer))
 		{
-			if (buffer.size() < FIELD_SIZE)
+			if (buffer.size() < size)
 			{
-				size_t delta = FIELD_SIZE - buffer.size();
+				size_t delta = size - buffer.size();
 				std::string blankDelta;
 				blankDelta.assign(delta, EMPTY_MARKER);
 				buffer.append(blankDelta);
 			}
-			buffer = buffer.substr(0, FIELD_SIZE);
+			buffer = buffer.substr(0, size);
 		}
 		else
 		{
-			buffer.assign(FIELD_SIZE, EMPTY_MARKER);
+			buffer.assign(size, EMPTY_MARKER);
 		}
-		field.appendRow(buffer);
+		field.push_back(buffer);
 	}
 
 	return field;
 }
 
-void Field::fillFieldCellNeighbors(const FieldCellPoint& point)
+void FillFieldCellNeighbors(Field& field, const FieldCellPoint& point)
 {
-	char cellValue = getFieldCell(point);
+	char cellValue = GetFieldCell(field, point.rowIndex, point.columnIndex);
 	if (cellValue == MARKER || cellValue == FILL_MARKER || cellValue == NOT_VALID_CELL_VALUE)
 	{
 		return;
 	}
 	if (cellValue == EMPTY_MARKER)
 	{
-		setFieldCell(point, FILL_MARKER);
+		SetFieldCell(field, point, FILL_MARKER);
 	}
 
 	FieldCellPoint nextPoint = {};
-	nextPoint.setPoint(point.rowIndex - 1, point.columnIndex);
-	fillFieldCellNeighbors(nextPoint);
+	nextPoint = { point.rowIndex - 1, point.columnIndex };
+	FillFieldCellNeighbors(field, nextPoint);
 
-	nextPoint.setPoint(point.rowIndex + 1, point.columnIndex);
-	fillFieldCellNeighbors(nextPoint);
+	nextPoint = { point.rowIndex + 1, point.columnIndex };
+	FillFieldCellNeighbors(field, nextPoint);
 
-	nextPoint.setPoint(point.rowIndex, point.columnIndex - 1);
-	fillFieldCellNeighbors(nextPoint);
+	nextPoint = { point.rowIndex, point.columnIndex - 1 };
+	FillFieldCellNeighbors(field, nextPoint);
 
-	nextPoint.setPoint(point.rowIndex, point.columnIndex + 1);
-	fillFieldCellNeighbors(nextPoint);
+	nextPoint = { point.rowIndex, point.columnIndex + 1 };
+	FillFieldCellNeighbors(field, nextPoint);
 }
