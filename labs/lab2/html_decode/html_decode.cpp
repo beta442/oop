@@ -2,8 +2,9 @@
 #include <functional>
 #include <iostream>
 #include <iterator>
-#include <string>
+#include <optional>
 #include <sstream>
+#include <string>
 
 void TranslateDecodedHtmlStreamToAnotherStream(std::istream& fIn, std::ostream& fOut);
 
@@ -18,15 +19,26 @@ std::string HtmlDecode(std::string const& html);
 
 void TranslateDecodedHtmlStreamToAnotherStream(std::istream& fIn, std::ostream& fOut)
 {
-	std::istream_iterator<std::string> it{ fIn }, end;
-
-	for (; it != end; it++)
+	std::string buff;
+	std::stringstream ss{};
+	while (std::getline(fIn, buff))
 	{
-		fOut << HtmlDecode((*it)) << " ";
+		if (std::size(buff) != 0)
+		{
+			ss << buff;
+			std::istream_iterator<std::string> it{ ss }, end;
+			for (; it != end; it++)
+			{
+				fOut << HtmlDecode(*it) << " ";
+			}
+			ss.clear();
+		}
+
+		fOut << std::endl;
 	}
 }
 
-char GetTranslatedHtmlSymbolCodeToChar(const std::string_view& code);
+std::optional<char> GetTranslatedHtmlSymbolCodeToChar(const std::string_view& code);
 
 std::string HtmlDecode(const std::string& html)
 {
@@ -53,10 +65,9 @@ std::string HtmlDecode(const std::string& html)
 	std::istream_iterator<std::string> it{ ss }, end;
 	for (; it != end; it++)
 	{
-		const char ch = GetTranslatedHtmlSymbolCodeToChar(*it);
-		if (ch != 0)
+		if (std::optional<char> ch = GetTranslatedHtmlSymbolCodeToChar(*it); ch)
 		{
-			res += ch;
+			res += ch.value();
 		}
 		else
 		{
@@ -67,7 +78,7 @@ std::string HtmlDecode(const std::string& html)
 	return res;
 }
 
-char GetTranslatedHtmlSymbolCodeToChar(const std::string_view& code)
+std::optional<char> GetTranslatedHtmlSymbolCodeToChar(const std::string_view& code)
 {
 	if (code == "&quot;")
 	{
@@ -90,5 +101,5 @@ char GetTranslatedHtmlSymbolCodeToChar(const std::string_view& code)
 		return '&';
 	}
 
-	return 0;
+	return std::nullopt;
 }
