@@ -18,7 +18,7 @@ enum class ProgramMode
 	DECRYPT,
 };
 
-bool MainFuncParamsValidation(const int argc, char* argv[])
+bool ParseArgs(const int argc, char* argv[])
 {
 	bool status = true;
 	if (argc != 5)
@@ -101,7 +101,7 @@ void CopyThroughCrypt(std::istream& fIn, std::ostream& fOut, const int& key, con
 
 int main(int argc, char* argv[])
 {
-	if (!MainFuncParamsValidation(argc, argv))
+	if (!ParseArgs(argc, argv))
 	{
 		return EXIT_FAILURE;
 	}
@@ -133,29 +133,10 @@ int main(int argc, char* argv[])
 
 constexpr auto BYTE_SIZE = 8;
 
-struct CryptSymbolContainer
-{
-	char _symb;
-	void setChar(const char& ch);
-	char getContainedChar();
-	void xorContainedCharBy(const int& key);
-	void shuffleByInternalPattern(const ProgramMode& mode);
-	std::string getContainedCharByteString();
-};
 
-void CryptSymbolContainer::setChar(const char& ch)
+void xorCharByKey(char& ch, const int& key)
 {
-	_symb = ch;
-}
-
-void CryptSymbolContainer::xorContainedCharBy(const int& key)
-{
-	_symb ^= key;
-}
-
-char CryptSymbolContainer::getContainedChar()
-{
-	return _symb;
+	ch ^= key;
 }
 
 char getPatternPosByIndex(const size_t& ind, const ProgramMode& mode)
@@ -181,10 +162,10 @@ char getPatternPosByIndex(const size_t& ind, const ProgramMode& mode)
 	return res;
 }
 
-void CryptSymbolContainer::shuffleByInternalPattern(const ProgramMode& mode)
+void ShuffleCharByInternalPattern(char& ch, const ProgramMode& mode)
 {
-	const unsigned char heldSymb = _symb;
-	_symb = 0;
+	const unsigned char heldSymb = ch;
+	ch = 0;
 	size_t offset = 0;
 	unsigned char mask = 128;
 
@@ -202,39 +183,27 @@ void CryptSymbolContainer::shuffleByInternalPattern(const ProgramMode& mode)
 			{
 				mask <<= (i - offset);
 			}
-			_symb += mask;
+			ch += mask;
 		}
 	}
 }
 
-std::string CryptSymbolContainer::getContainedCharByteString()
-{
-	std::bitset<BYTE_SIZE> bits(_symb);
-	return bits.to_string();
-}
-
 void CopyThroughCrypt(std::istream& fIn, std::ostream& fOut, const int& key, const ProgramMode& mode)
 {
-	CryptSymbolContainer ch{};
 	char buff{};
-	fIn.seekg(0, fIn.end);
-	unsigned long long flength = fIn.tellg();
-	fIn.seekg(0, fIn.beg);
-	for (auto i = 0; i < flength; i++)
+	while (!fIn.eof())
 	{
 		fIn.read(&buff, sizeof(buff));
-		ch.setChar(buff);
 		if (mode == ProgramMode::CRYPT)
 		{
-			ch.xorContainedCharBy(key);
-			ch.shuffleByInternalPattern(mode);
+			xorCharByKey(buff, key);
+			ShuffleCharByInternalPattern(buff, mode);
 		}
 		else if (mode == ProgramMode::DECRYPT)
 		{
-			ch.shuffleByInternalPattern(mode);
-			ch.xorContainedCharBy(key);
+			ShuffleCharByInternalPattern(buff, mode);
+			xorCharByKey(buff, key);
 		}
-		buff = ch.getContainedChar();
 		fOut.write(&buff, sizeof(buff));
 	}
 }
