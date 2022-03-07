@@ -1,15 +1,16 @@
-#include <algorithm>
-#include <cctype>
 #include <fstream>
 #include <iostream>
 #include <iterator>
 #include <map>
+#include <optional>
 #include <sstream>
 #include <string>
 
-bool ParseArgs(int argc, char* argv[], std::fstream& stream)
+using DictionaryNode = std::pair<std::string, std::string>;
+using Dictionary = std::map<std::string, std::string>;
+
+std::optional<std::string> ParseArg(int argc, char* argv[])
 {
-	const bool isOk = true;
 	if (argc != 2 || std::strlen(argv[1]) == 0)
 	{
 		std::cout << "Usage:" << std::endl
@@ -17,55 +18,50 @@ bool ParseArgs(int argc, char* argv[], std::fstream& stream)
 		std::cout << "No dictionary was provided" << std::endl
 				  << "Program will create temporary dictionary in working directory, "
 				  << "that you can save later " << std::endl;
-		return !isOk;
+		return std::nullopt;
 	}
 
-	stream.open(argv[1], std::ios::in);
-	if (stream.fail() || !stream.is_open())
-	{
-		std::cout << "An error occured while opening dictionary file" << std::endl;
-		return !isOk;
-	}
-
-	return isOk;
+	return std::optional<std::string>{ argv[1] };
 }
 
-enum class DictionarySaveStatus
+enum class DictionaryUpdatedStatus
 {
 	NeedToSave,
 	NotNeedToSave
 };
 
-std::map<std::string, std::string> MakeDictionaryFromStream(std::fstream& stream);
-DictionarySaveStatus TranclateCinByDictionary(std::map<std::string, std::string>& dict);
+Dictionary MakeDictionaryFromFileByFileName(std::string fileName);
+DictionaryUpdatedStatus TranslateStreamByDictionary(std::istream& stream, Dictionary& dict);
+void SaveDictionaryToFileByFileName(const Dictionary& dict, const std::string& fileName);
 
 int main(int argc, char* argv[])
 {
-	std::fstream dictionaryStream;
-	if (!ParseArgs(argc, argv, dictionaryStream))
-	{
-		dictionaryStream.open("new_dict.txt");
-	}
+	std::optional<std::string> oFileName = ParseArg(argc, argv);
 
-	std::map<std::string, std::string> dict = MakeDictionaryFromStream(dictionaryStream);
+	std::string fileName = oFileName ? oFileName.value() : "created_dict.txt";
+	Dictionary dict = MakeDictionaryFromFileByFileName(fileName);
 
-	if (TranclateCinByDictionary(dict) == DictionarySaveStatus::NeedToSave)
+	if (TranslateStreamByDictionary(std::cin, dict) == DictionaryUpdatedStatus::NeedToSave)
 	{
-		for (const auto& [key, translation] : dict)
-		{
-			dictionaryStream << key << " " << translation << std::endl;
-		}
+		SaveDictionaryToFileByFileName(dict, fileName);
 	}
 
 	return 0;
 }
 
-size_t WordCount(const std::string& str);
-std::pair<std::string, std::string> MakePairOfKeyWordAndItsTranslationVariantsFromString(const std::string& str);
+size_t WordCount(std::string str);
+DictionaryNode MakePairOfKeyWordAndItsTranslationVariantsFromString(std::string str);
 
-std::map<std::string, std::string> MakeDictionaryFromStream(std::fstream& stream)
+Dictionary MakeDictionaryFromFileByFileName(std::string fileName)
 {
-	std::map<std::string, std::string> res;
+	Dictionary res;
+
+	std::ifstream stream;
+	stream.open(fileName);
+	if (!stream.is_open())
+	{
+		return res;
+	}
 
 	std::string buff;
 	for (size_t i = 0; std::getline(stream, buff); i++)
@@ -90,67 +86,59 @@ std::map<std::string, std::string> MakeDictionaryFromStream(std::fstream& stream
 	return res;
 }
 
-size_t WordCount(const std::string& str)
+size_t WordCount(std::string str)
 {
 	std::stringstream ss{};
 	ss << str;
 	return std::distance(std::istream_iterator<std::string>{ ss }, {});
 }
 
-std::pair<std::string, std::string> MakePairOfKeyWordAndItsTranslationVariantsFromString(const std::string& str)
+DictionaryNode MakePairOfKeyWordAndItsTranslationVariantsFromString(std::string str)
 {
-	std::pair<std::string, std::string> res;
+	DictionaryNode res;
 	if (std::size(str) == 0)
 	{
 		return res;
 	}
 	std::string translations, key;
-	std::stringstream ss{};
-	ss << str;
+	std::stringstream ss{ str };
 	std::istream_iterator<std::string> it{ ss }, end;
 
 	key = *it;
-	while (true)
+	while (it != end)
 	{
 		it++;
-		if (it == end)
-		{
-			break;
-		}
 		translations += *it + " ";
 	}
-	res = std::pair<std::string, std::string>{ key, translations };
+	translations.erase(std::end(translations) - 1);
+	key.shrink_to_fit();
+	translations.shrink_to_fit();
+	res = DictionaryNode{ key, translations };
 
 	return res;
 }
 
-std::string GetWordTranslation(std::map<std::string, std::string>& dict, std::string& word);
+std::string GetWordTranslation(Dictionary& dict, const std::string& word);
+DictionaryUpdatedStatus DecideToUpdateDictionaryByUserInput();
+std::string GetTrimString(const std::string& str);
 
-DictionarySaveStatus TranclateCinByDictionary(std::map<std::string, std::string>& dict)
+DictionaryUpdatedStatus TranslateStreamByDictionary(std::istream& stream, Dictionary& dict)
 {
 	std::string buff, translation;
 
 	std::cout << "Please, enter phrase translate to:" << std::endl;
-	std::getline(std::cin, buff);
+	std::getline(stream, buff);
 	do
 	{
 		if (std::size(buff) == 0)
 		{
 			continue;
 		}
+
 		std::cout << "You entered: " << buff << std::endl;
 		if (buff == "...")
 		{
-			do
-			{
-				std::cout << "Enter Y/y or N/n if need to save performed dictionary" << std::endl;
-				std::getline(std::cin, buff);
-			} while (buff != "N" && buff != "n" && buff != "Y" && buff != "y");
-			if (buff == "N" || buff == "n")
-			{
-				return DictionarySaveStatus::NotNeedToSave;
-			}
-			return DictionarySaveStatus::NeedToSave;
+			return DecideToUpdateDictionaryByUserInput();
 		}
 
 		translation = GetWordTranslation(dict, buff);
@@ -164,22 +152,22 @@ DictionarySaveStatus TranclateCinByDictionary(std::map<std::string, std::string>
 			std::getline(std::cin, translation);
 			if (std::size(translation))
 			{
-				dict[buff] = translation;
+				dict[buff] = GetTrimString(translation);
 			}
 		}
 
 		std::cout << std::endl
 				  << "Please, enter phrase translate to:" << std::endl;
 		std::cout << "You can enter ... to stop translating" << std::endl;
-	} while (std::getline(std::cin, buff));
+	} while (std::getline(stream, buff));
 
-	return DictionarySaveStatus::NeedToSave;
+	return DictionaryUpdatedStatus::NeedToSave;
 }
 
 bool iequals(const std::string& a, const std::string& b);
-bool InsensetiveStringHasSubString(std::string& str, std::string& needle);
+bool InsensetiveStringHasSubString(const std::string& str, const std::string& needle);
 
-std::string GetWordTranslation(std::map<std::string, std::string>& dict, std::string& word)
+std::string GetWordTranslation(Dictionary& dict, const std::string& word)
 {
 	std::string res;
 
@@ -194,11 +182,43 @@ std::string GetWordTranslation(std::map<std::string, std::string>& dict, std::st
 			res += keyWord + " ";
 		}
 	}
+	res.shrink_to_fit();
 
 	return res;
 }
 
-bool InsensetiveStringHasSubString(std::string& str, std::string& needle)
+DictionaryUpdatedStatus DecideToUpdateDictionaryByUserInput()
+{
+	std::string buff;
+	do
+	{
+		std::cout << "Enter Y/y or N/n if need to save performed dictionary" << std::endl;
+		std::getline(std::cin, buff);
+	} while (buff != "N" && buff != "n" && buff != "Y" && buff != "y");
+	if (buff == "N" || buff == "n")
+	{
+		return DictionaryUpdatedStatus::NotNeedToSave;
+	}
+	return DictionaryUpdatedStatus::NeedToSave;
+}
+
+std::string GetTrimString(const std::string& str)
+{
+	std::string res;
+	std::stringstream ss{ str };
+	std::istream_iterator<std::string> it{ ss }, end;
+
+	for (; it != end; it++)
+	{
+		res += *it + " ";
+	}
+	res.erase(std::end(res) - 1);
+	res.shrink_to_fit();
+
+	return res;
+}
+
+bool InsensetiveStringHasSubString(const std::string& str, const std::string& needle)
 {
 	bool res = false;
 
@@ -223,4 +243,20 @@ bool iequals(const std::string& a, const std::string& b)
 		[](char a, char b) {
 			return tolower(a) == tolower(b);
 		});
+}
+
+void SaveDictionaryToFileByFileName(const Dictionary& dict, const std::string& fileName)
+{
+	std::ofstream stream;
+	stream.open(fileName);
+	if (!stream.is_open())
+	{
+		std::cout << "Failed to save dictionary" << std::endl;
+		return;
+	}
+
+	for (const auto& [key, translation] : dict)
+	{
+		stream << key << " " << translation << std::endl;
+	}
 }
