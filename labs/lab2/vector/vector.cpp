@@ -58,12 +58,17 @@ bool CopyStreamOfDoubleIntoVector(std::istream& fIn, std::vector<double>& vec)
 
 	double valInProcess;
 	std::istream_iterator<std::string> it{ fIn }, end;
+	if (it == end)
+	{
+		return isOk;
+	}
+
 	for (; it != end; it++)
 	{
 		isOk = CopyStringToDouble((*it), valInProcess);
 		if (*it == "Q" || *it == "q" || !isOk)
 		{
-			break;
+			return isOk;
 		}
 
 		res.push_back(valInProcess);
