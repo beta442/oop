@@ -91,9 +91,6 @@ void ProcessVectorOfDoubleByTask(std::vector<double>& vec)
 	}
 	double minElementIt = *(std::min_element(std::begin(vec), std::end(vec)));
 
-	std::cout.precision(OUTPUT_PRECISION);
-	std::cout << "minValue:" << minElementIt << std::endl;
-
 	for (auto& val : vec)
 	{
 		val *= minElementIt;
