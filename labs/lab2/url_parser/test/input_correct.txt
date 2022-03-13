@@ -1,0 +1,6 @@
+http://www.mysite.com/doc/sdocument1.html?page=30&lang=en#title
+HttP://mysite.com:3306/doc/sdocument1.html?page=30&lang=en#title
+fTp://www.mysite/doc
+http://asd.some
+ftp://asd.someasd123/
+httpS://www.mysite.com//doc///sdocument1.html?page=30&lang=en#title

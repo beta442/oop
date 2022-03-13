@@ -1,0 +1,16 @@
+http://www.mysite.comdocsdocument1.html?page=30&lang=en#title
+htasdtp://www.mysite.com/docs/document1.html?page=30&lang=en#title
+http//www.mysite.com/docs/document1.html?page=30&lang=en#title
+http:/www.mysite.com/docs/document1.html?page=30&lang=en#title
+http://wwwmysitecom/docs/document1.html?page=30&lang=en#title
+http://www..mysite.com/doc/sdocument1.html?page=30&lang=en#title
+http://www.mysite..com/doc/sdocument1.html?page=30&lang=en#title
+http://www..mysite..com/doc/sdocument1.html?page=30&lang=en#title
+http::http://www.mysite.com/doc/sdocument1.html?page=30&lang=en#title
+
+sadasd.asdsad.asdasd//:sadasd.asdsad.asdasd
+http:///www.mysite.com//doc//sdocument1.html?page=30&lang=en#title
+document1.html?page=30&lang=en#title/docs/www.mysite.com//:http
+document1.html?page=30&lang=en#title//docs//www.mysite.com///:http
+document1.html?page=30&lang=en#title\docs\www.mysite.com\\:http
+document1.html?page=30&lang=en#title\\docs\\www.mysite.com\\\:http
