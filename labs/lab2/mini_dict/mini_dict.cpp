@@ -17,21 +17,21 @@ std::optional<std::string> ParseArg(int argc, char* argv[])
 				  << "PROGRAMNAME.exe <dictionary>" << std::endl;
 		std::cout << "No dictionary was provided" << std::endl
 				  << "Program will create temporary dictionary in working directory, "
-				  << "that you can save later " << std::endl;
+				  << "that you can decide save or not later " << std::endl;
 		return std::nullopt;
 	}
 
 	return std::optional<std::string>{ argv[1] };
 }
 
-enum class DictionaryUpdatedStatus
+enum class DictionaryNeedUpdateStatus
 {
 	NeedToSave,
-	NotNeedToSave
+	NotNeedToSave,
 };
 
 Dictionary MakeDictionaryFromFileByFileName(std::string fileName);
-DictionaryUpdatedStatus TranslateStreamByDictionary(std::istream& stream, Dictionary& dict);
+DictionaryNeedUpdateStatus TranslateIStreamByDictionary(std::istream& istream, Dictionary& dict);
 void SaveDictionaryToFileByFileName(const Dictionary& dict, const std::string& fileName);
 
 int main(int argc, char* argv[])
@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
 	std::string fileName = oFileName ? oFileName.value() : "created_dict.txt";
 	Dictionary dict = MakeDictionaryFromFileByFileName(fileName);
 
-	if (TranslateStreamByDictionary(std::cin, dict) == DictionaryUpdatedStatus::NeedToSave)
+	if (TranslateIStreamByDictionary(std::cin, dict) == DictionaryNeedUpdateStatus::NeedToSave)
 	{
 		SaveDictionaryToFileByFileName(dict, fileName);
 	}
@@ -49,8 +49,8 @@ int main(int argc, char* argv[])
 	return 0;
 }
 
-size_t WordCount(std::string str);
-DictionaryNode MakePairOfKeyWordAndItsTranslationVariantsFromString(std::string str);
+size_t WordCount(const std::string& str);
+DictionaryNode MakePairOfFirstKeyWordAndItsTranslationVariantsFromString(const std::string& str);
 
 Dictionary MakeDictionaryFromFileByFileName(std::string fileName)
 {
@@ -72,7 +72,7 @@ Dictionary MakeDictionaryFromFileByFileName(std::string fileName)
 					  << "Each line in dictionary should have at least two words separated by space - ' '" << std::endl;
 			continue;
 		}
-		auto [keyWord, translation] = MakePairOfKeyWordAndItsTranslationVariantsFromString(buff);
+		auto [keyWord, translation] = MakePairOfFirstKeyWordAndItsTranslationVariantsFromString(buff);
 		if (res.find(keyWord) == std::end(res))
 		{
 			res[keyWord] = translation;
@@ -86,14 +86,14 @@ Dictionary MakeDictionaryFromFileByFileName(std::string fileName)
 	return res;
 }
 
-size_t WordCount(std::string str)
+size_t WordCount(const std::string& str)
 {
 	std::stringstream ss{};
 	ss << str;
 	return std::distance(std::istream_iterator<std::string>{ ss }, {});
 }
 
-DictionaryNode MakePairOfKeyWordAndItsTranslationVariantsFromString(std::string str)
+DictionaryNode MakePairOfFirstKeyWordAndItsTranslationVariantsFromString(const std::string& str)
 {
 	DictionaryNode res;
 	if (std::size(str) == 0)
@@ -118,33 +118,39 @@ DictionaryNode MakePairOfKeyWordAndItsTranslationVariantsFromString(std::string 
 	return res;
 }
 
-std::string GetWordTranslation(Dictionary& dict, const std::string& word);
-DictionaryUpdatedStatus DecideToUpdateDictionaryByUserInput();
+constexpr auto TERMINAL_SYMBOL = '>';
+
+std::optional<DictionaryNeedUpdateStatus> DecideToUpdateDictionaryByUserInput();
+
+bool GetLineFromStream(std::istream& istream, std::string& str);
+std::string GetPhraseTranslation(Dictionary& dict, const std::string& phrase);
 std::string GetTrimString(const std::string& str);
 
-DictionaryUpdatedStatus TranslateStreamByDictionary(std::istream& stream, Dictionary& dict)
+DictionaryNeedUpdateStatus TranslateIStreamByDictionary(std::istream& istream, Dictionary& dict)
 {
 	std::string buff, translation;
 
-	std::cout << "Please, enter phrase translate to:" << std::endl;
-	std::getline(stream, buff);
-	do
+	std::optional<DictionaryNeedUpdateStatus> userDecision;
+	while (GetLineFromStream(istream, buff))
 	{
 		if (std::size(buff) == 0)
 		{
 			continue;
 		}
 
-		std::cout << "You entered: " << buff << std::endl;
 		if (buff == "...")
 		{
-			return DecideToUpdateDictionaryByUserInput();
+			if (userDecision = DecideToUpdateDictionaryByUserInput();
+				userDecision)
+			{
+				break;
+			}
+			continue;
 		}
 
-		translation = GetWordTranslation(dict, buff);
-		if (std::size(translation))
+		if (translation = GetPhraseTranslation(dict, GetTrimString(buff)); std::size(translation) != 0)
 		{
-			std::cout << "Translation: " << translation << std::endl;
+			std::cout << translation << std::endl;
 		}
 		else
 		{
@@ -152,63 +158,85 @@ DictionaryUpdatedStatus TranslateStreamByDictionary(std::istream& stream, Dictio
 			std::getline(std::cin, translation);
 			if (std::size(translation))
 			{
-				dict[buff] = GetTrimString(translation);
+				dict[GetTrimString(buff)] = GetTrimString(translation);
 			}
 		}
+	}
 
-		std::cout << std::endl
-				  << "Please, enter phrase translate to:" << std::endl;
-		std::cout << "You can enter ... to stop translating" << std::endl;
-	} while (std::getline(stream, buff));
+	return userDecision.value();
+}
 
-	return DictionaryUpdatedStatus::NeedToSave;
+bool GetLineFromStream(std::istream& istream, std::string& str)
+{
+	std::cout << std::endl
+			  << "Please, enter phrase translate to or ... to stop translating:" << std::endl
+			  << TERMINAL_SYMBOL;
+	if (std::getline(istream, str))
+	{
+		return true;
+	}
+	return false;
 }
 
 bool iequals(const std::string& a, const std::string& b);
 bool InsensetiveStringHasSubString(const std::string& str, const std::string& needle);
+std::string GetFirstWord(const std::string& phrase);
 
-std::string GetWordTranslation(Dictionary& dict, const std::string& word)
+std::string GetPhraseTranslation(Dictionary& dict, const std::string& phrase)
 {
+	if (std::size(phrase) == 0)
+	{
+		return "";
+	}
 	std::string res;
 
 	for (auto& [keyWord, translation] : dict)
 	{
-		if (iequals(keyWord, word))
+		if (iequals(keyWord, phrase))
 		{
 			res += dict[keyWord] + " ";
 		}
-		if (InsensetiveStringHasSubString(translation, word))
+		if (iequals(translation, phrase))
 		{
 			res += keyWord + " ";
 		}
 	}
-	res.shrink_to_fit();
 
-	return res;
+	return GetTrimString(res);
 }
 
-DictionaryUpdatedStatus DecideToUpdateDictionaryByUserInput()
+std::optional<DictionaryNeedUpdateStatus> DecideToUpdateDictionaryByUserInput()
 {
 	std::string buff;
 	do
 	{
+		std::cout << std::endl;
 		std::cout << "Enter Y/y or N/n if need to save performed dictionary" << std::endl;
+		std::cout << "Or enter '...' again to return back to translating" << std::endl
+				  << TERMINAL_SYMBOL;
 		std::getline(std::cin, buff);
-	} while (buff != "N" && buff != "n" && buff != "Y" && buff != "y");
+	} while (buff != "N" && buff != "n" && buff != "Y" && buff != "y" && buff != "...");
 	if (buff == "N" || buff == "n")
 	{
-		return DictionaryUpdatedStatus::NotNeedToSave;
+		return DictionaryNeedUpdateStatus::NotNeedToSave;
 	}
-	return DictionaryUpdatedStatus::NeedToSave;
+	if (buff == "Y" || buff == "y")
+	{
+		return DictionaryNeedUpdateStatus::NeedToSave;
+	}
+	return std::nullopt;
 }
 
 std::string GetTrimString(const std::string& str)
 {
+	if (std::size(str) == 0)
+	{
+		return "";
+	}
 	std::string res;
 	std::stringstream ss{ str };
-	std::istream_iterator<std::string> it{ ss }, end;
 
-	for (; it != end; it++)
+	for (std::istream_iterator<std::string> it{ ss }, end; it != end; it++)
 	{
 		res += *it + " ";
 	}
@@ -216,6 +244,19 @@ std::string GetTrimString(const std::string& str)
 	res.shrink_to_fit();
 
 	return res;
+}
+
+std::string GetFirstWord(const std::string& phrase)
+{
+	if (std::size(phrase) == 0)
+	{
+		return "";
+	}
+
+	std::stringstream ss{ phrase };
+	std::istream_iterator<std::string> it{ ss };
+
+	return *it;
 }
 
 bool InsensetiveStringHasSubString(const std::string& str, const std::string& needle)
