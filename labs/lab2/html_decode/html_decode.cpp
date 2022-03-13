@@ -1,40 +1,37 @@
-#include <algorithm>
-#include <functional>
 #include <iostream>
 #include <iterator>
 #include <optional>
 #include <sstream>
 #include <string>
 
-void TranslateDecodedHtmlStreamToAnotherStream(std::istream& fIn, std::ostream& fOut);
+void DecodeHtmlCInToCOut();
 
 int main()
 {
-	TranslateDecodedHtmlStreamToAnotherStream(std::cin, std::cout);
+	DecodeHtmlCInToCOut();
 
 	return 0;
 }
 
 std::string HtmlDecode(std::string const& html);
 
-void TranslateDecodedHtmlStreamToAnotherStream(std::istream& fIn, std::ostream& fOut)
+void DecodeHtmlCInToCOut()
 {
 	std::string buff;
 	std::stringstream ss{};
-	while (std::getline(fIn, buff))
+	while (std::getline(std::cin, buff))
 	{
 		if (std::size(buff) != 0)
 		{
 			ss << buff;
-			std::istream_iterator<std::string> it{ ss }, end;
-			for (; it != end; it++)
+			for (std::istream_iterator<std::string> it{ ss }, end; it != end; it++)
 			{
-				fOut << HtmlDecode(*it) << " ";
+				std::cout << HtmlDecode(*it) << " ";
 			}
 			ss.clear();
 		}
 
-		fOut << std::endl;
+		std::cout << std::endl;
 	}
 }
 
