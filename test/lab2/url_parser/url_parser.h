@@ -43,6 +43,7 @@ bool ParseURL(std::string const& url, Protocol& protocol, int& port, std::string
 	protocol = oProtocol.value();
 
 	host = matches[3].str();
+	std::sort();
 
 	auto oPort = ParsePortAccordingProtocol(matches[6].str(), protocol);
 	if (!oPort)
