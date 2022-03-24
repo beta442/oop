@@ -4,7 +4,6 @@
 void AddStringIntoBohrTrie(BohrVrtx& root, const std::string& s)
 {
 	BohrVrtx* bohrTriePtr = &root;
-	size_t wordAmountBeforeInsertion = CountWordsInBohrTrie(root);
 	for (auto it = std::begin(s); it != std::end(s); ++it)
 	{
 		if (!bohrTriePtr->nextVrtx[*it])
