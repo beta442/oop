@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
 #include "../../../catch2/catch.hpp"
 
-#include "prime.h"
+#include "../../../labs/lab2/prime/headers/prime_generator.h"
 
 SCENARIO("Trying generate set of positive primes with different function's upperBound param")
 {

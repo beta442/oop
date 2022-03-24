@@ -141,7 +141,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="prime.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="sources\prime_generator.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="headers\prime_generator.h" />
+    <ClInclude Include="headers\std_lib.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
