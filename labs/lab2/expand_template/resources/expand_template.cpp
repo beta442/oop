@@ -1,5 +1,5 @@
-﻿#include "../headers/bohr_trie.h"
-#include "../headers/expand_template.h"
+﻿#include "../headers/expand_template.h"
+#include "../headers/bohr_trie.h"
 
 template <typename T>
 std::vector<T> GetKeyVectorFromMap(const std::map<T, T> map)
