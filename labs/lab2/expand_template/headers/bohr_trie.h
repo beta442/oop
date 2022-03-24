@@ -5,7 +5,6 @@
 struct BohrVrtx
 {
 	char ancestorEdgeValue;
-	size_t wordNumber;
 	bool isTerminal;
 	std::vector<BohrVrtx*> nextVrtx;
 	BohrVrtx* parentLink;

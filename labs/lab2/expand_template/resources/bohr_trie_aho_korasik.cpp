@@ -16,7 +16,6 @@ void AddStringIntoBohrTrie(BohrVrtx& root, const std::string& s)
 	if (bohrTriePtr != &root)
 	{
 		bohrTriePtr->isTerminal = true;
-		bohrTriePtr->wordNumber = CountWordsInBohrTrie(root) - 1;
 	}
 }
 
@@ -35,23 +34,6 @@ BohrVrtx* BohrTrieAutoGo(BohrVrtx* const root, const BohrVrtx* currState, char n
 		currState = currState->suffixLink;
 	}
 	return root;
-}
-
-size_t CountWordsInBohrTrie(BohrVrtx& root)
-{
-	size_t result = 0;
-	for (auto it = std::begin(root.nextVrtx); it != std::end(root.nextVrtx); it++)
-	{
-		if (*it)
-		{
-			if ((*it)->isTerminal)
-			{
-				result++;
-			}
-			result += CountWordsInBohrTrie(*(*it));
-		}
-	}
-	return result;
 }
 
 BohrVrtx* GetSuffixLink(BohrVrtx* const root, BohrVrtx* const proccessingVrtx)
@@ -84,7 +66,6 @@ constexpr size_t ASCII_CP_SIZE = 256;
 BohrVrtx* MakeBohrTrieVertex(BohrVrtx* const parent = nullptr, const char ancestorEdgeValue = -1)
 {
 	BohrVrtx* v = new BohrVrtx;
-	v->wordNumber = -1;
 	v->isTerminal = false;
 	v->nextVrtx.assign(ASCII_CP_SIZE, nullptr);
 	v->parentLink = parent;
@@ -102,7 +83,7 @@ BohrVrtx InitBohrTrie(const std::vector<std::string>& searchStringVector)
 	}
 	StitchBohrTrieWithSuffixLinks(root);
 
-	return root; //выделил справа тест-проект, там импорчу .h из основного проекта, где разрабатывал
+	return root;
 }
 
 void StitchBohrTrieWithSuffixLinks(BohrVrtx& root)
