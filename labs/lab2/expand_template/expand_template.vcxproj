@@ -143,11 +143,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="expand_template.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="resources\bohr_trie_aho_korasik.cpp" />
+    <ClCompile Include="resources\expand_template.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="expand_template.h" />
+    <ClInclude Include="headers\bohr_trie.h" />
+    <ClInclude Include="headers\bohr_trie_utils.h" />
+    <ClInclude Include="headers\expand_template.h" />
+    <ClInclude Include="headers\std_libs.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

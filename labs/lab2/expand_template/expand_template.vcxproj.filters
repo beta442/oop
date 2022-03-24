@@ -13,17 +13,32 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\bohr_trie_automaton">
+      <UniqueIdentifier>{2afe3776-be90-4b15-bd0d-d5f1ebe1116d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="expand_template.cpp">
+    <ClCompile Include="resources\expand_template.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="resources\bohr_trie_aho_korasik.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="expand_template.h">
+    <ClInclude Include="headers\expand_template.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\bohr_trie.h">
+      <Filter>Header Files\bohr_trie_automaton</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\bohr_trie_utils.h">
+      <Filter>Header Files\bohr_trie_automaton</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\std_libs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
