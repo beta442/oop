@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
 #include "../../../catch2/catch.hpp"
 
-#include "../../../labs/lab2/expand_template/expand_template.h"
+#include "../../../labs/lab2/expand_template/headers/expand_template.h"
 
 SCENARIO("Boundary situations of using the ExpandTemplate function")
 {
@@ -15,6 +15,9 @@ SCENARIO("Boundary situations of using the ExpandTemplate function")
 	params["C"] = "[c]";
 	params["CC"] = "[cc]";
 	const ParamsMap copiedParams(params);
+
+	ParamsMap emptyParamsMap{};
+	const ParamsMap copiedEmptyParamsMap{ emptyParamsMap };
 
 	WHEN("An empty string is processed, the result will be an empty string")
 	{
@@ -38,10 +41,25 @@ SCENARIO("Boundary situations of using the ExpandTemplate function")
 		{
 			std::string result = ExpandTemplate(stringWithNoTemplatesIn, params);
 
-			REQUIRE(std::size(result) == std::size(savedTemplateString));
+			REQUIRE(result == savedTemplateString);
 
-			REQUIRE(std::size(stringWithNoTemplatesIn) == std::size(savedTemplateString));
+			REQUIRE(stringWithNoTemplatesIn == savedTemplateString);
 			REQUIRE(params == copiedParams);
+		}
+	}
+
+	WHEN("Passing empty params map, the result will be the same string")
+	{
+		std::string regularString = "abcdef";
+		const std::string savedRegularString(regularString);
+		THEN("Result is equal to given string and given map isn't changed")
+		{
+			std::string result = ExpandTemplate(regularString, emptyParamsMap);
+
+			REQUIRE(result == savedRegularString);
+
+			REQUIRE(regularString == savedRegularString);
+			REQUIRE(emptyParamsMap == copiedEmptyParamsMap);
 		}
 	}
 }
@@ -68,11 +86,60 @@ SCENARIO("The given string has templates inside, which must be replaced accordin
 		{ "B", "[b]" },
 		{ "BB", "[bb]" },
 		{ "C", "[c]" },
-		{ "CC", "[cc]" },
+		{ "CCC", "[ccc]" },
+		{ "CCAB", "[ccab]" },
+		{ "CA", "[ca]" },
 	};
 	const ParamsMap savedThridParamsExample(paramsExampleThird);
 
-	WHEN("")
+	WHEN("Search substrings doesn't intersect and insertion values doesn't contain search substrings")
 	{
+		std::string tpl = "Hello, %USER_NAME%. Today is {WEEK_DAY}.";
+		const std::string savedTpl{ tpl };
+		const std::string expectedResult = "Hello, Ivan Petrov. Today is Friday.";
+
+		THEN("All substrings replaced correctly. No changes in given string. No changes in given paramsMap")
+		{
+			std::string result = ExpandTemplate(tpl, paramsExampleFirst);
+
+			REQUIRE(result == expectedResult);
+
+			REQUIRE(tpl == savedTpl);
+			REQUIRE(paramsExampleFirst == savedFirstParamsExample);
+		}
+	}
+
+	WHEN("Search substrings are represented in insertion values")
+	{
+		std::string tpl = "Hello, %USER_NAME%. Today is {WEEK_DAY}.";
+		const std::string savedTpl{ tpl };
+		const std::string expectedResult = "Hello, Super %USER_NAME% {WEEK_DAY}. Today is Friday. {WEEK_DAY}.";
+
+		THEN("All substrings replaced only once. No changes in given string. No changes in given paramsMap")
+		{
+			std::string result = ExpandTemplate(tpl, paramsExampleRecursiveSecond);
+
+			REQUIRE(result == expectedResult);
+
+			REQUIRE(tpl == savedTpl);
+			REQUIRE(paramsExampleRecursiveSecond == savedSecondParamsExample);
+		}
+	}
+
+	WHEN("Search substrings are intersecting each other")
+	{
+		std::string tpl = "-AABBCCCCCABC+";
+		const std::string savedTpl{ tpl };
+		const std::string expectedResult = "-[aa][bb][ccc][ccab][c]+";
+
+		THEN("Replaced only the longest substrings. No changes in given string. No changes in given paramsMap")
+		{
+			std::string result = ExpandTemplate(tpl, paramsExampleThird);
+
+			REQUIRE(result == expectedResult);
+
+			REQUIRE(tpl == savedTpl);
+			REQUIRE(paramsExampleThird == savedThridParamsExample);
+		}
 	}
 }

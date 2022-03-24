@@ -93,6 +93,9 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>$(TargetPath)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -109,6 +112,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>$(TargetPath)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -121,6 +127,9 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>$(TargetPath)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -137,16 +146,23 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>$(TargetPath)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\labs\lab2\expand_template\expand_template.cpp" />
-    <ClCompile Include="expand_template_test.cpp" />
-  </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\labs\lab2\expand_template\expand_template.h" />
+    <ClInclude Include="..\..\..\labs\lab2\expand_template\headers\bohr_trie.h" />
+    <ClInclude Include="..\..\..\labs\lab2\expand_template\headers\bohr_trie_utils.h" />
+    <ClInclude Include="..\..\..\labs\lab2\expand_template\headers\expand_template.h" />
+    <ClInclude Include="..\..\..\labs\lab2\expand_template\headers\std_libs.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\labs\lab2\expand_template\resources\bohr_trie_aho_korasik.cpp" />
+    <ClCompile Include="..\..\..\labs\lab2\expand_template\resources\expand_template.cpp" />
+    <ClCompile Include="expand_template_test.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

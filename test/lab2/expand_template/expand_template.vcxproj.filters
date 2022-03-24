@@ -13,21 +13,36 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="expand_template_test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\labs\lab2\expand_template\expand_template.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
+    <Filter Include="Header Files\bohr_trie_atomaton">
+      <UniqueIdentifier>{e9f7d03a-1d45-4f34-905b-e668bb4c0268}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\labs\lab2\expand_template\expand_template.h">
+    <ClInclude Include="..\..\..\labs\lab2\expand_template\headers\std_libs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\labs\lab2\expand_template\headers\expand_template.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\labs\lab2\expand_template\headers\bohr_trie.h">
+      <Filter>Header Files\bohr_trie_atomaton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\labs\lab2\expand_template\headers\bohr_trie_utils.h">
+      <Filter>Header Files\bohr_trie_atomaton</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\labs\lab2\expand_template\resources\expand_template.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\labs\lab2\expand_template\resources\bohr_trie_aho_korasik.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="expand_template_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
