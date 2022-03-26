@@ -142,4 +142,31 @@ SCENARIO("The given string has templates inside, which must be replaced accordin
 			REQUIRE(paramsExampleThird == savedThridParamsExample);
 		}
 	}
+
+	WHEN("Search substrings are intersecting each other and they are shuffled in expanding string. For example here: The prefix set for CCAB, CCC has been broken off on first B, the collected prefix may consist of substrings for searching")
+	{
+		std::string tpl = "-CCBCCCAABBABC+";
+		ParamsMap paramsExampleThird1{
+			{ "CCAB", "[ccab]" },
+			{ "CCC", "[ccc]" },
+			{ "AA", "[aa]" },
+			{ "BB", "[bb]" },
+			{ "CA", "[ca]" },
+			{ "A", "[a]" },
+			{ "B", "[b]" },
+			{ "C", "[c]" },
+		};
+		const std::string savedTpl{ tpl };
+		const std::string expectedResult = "-[c][c][b][ccc][aa][bb][a][b][c]+";
+
+		THEN("Collected fail-prefix expanded correctly")
+		{
+			std::string result = ExpandTemplate(tpl, paramsExampleThird);
+
+			REQUIRE(result == expectedResult);
+
+			REQUIRE(tpl == savedTpl);
+			REQUIRE(paramsExampleThird == savedThridParamsExample);
+		}
+	}
 }

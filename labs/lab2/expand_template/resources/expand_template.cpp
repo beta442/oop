@@ -24,23 +24,60 @@ std::string ExpandTemplate(std::string const& tpl, std::map<std::string, std::st
 	BohrVrtx rootState = InitBohrTrie(keys);
 	BohrVrtx* state = &rootState;
 
-	std::string result, collectedSubString;
-	for (auto it = std::begin(tpl), end = std::end(tpl); it != end; it++, state = BohrTrieAutoGo(&rootState, state, *it))
+	std::string result, collectedPrefix;
+	//TODO: find all search substring in fail collectedPrefix
+	std::vector<const std::string*> collectedTerminalStates;
+	bool isNextStateAtSamePrefix = false;
+	for (auto it = std::begin(tpl), end = std::end(tpl); it != end; it++)
 	{
-		collectedSubString += *it;
+		state = BohrTrieAutoGo(&rootState, state, *it);
+		collectedPrefix += *it;
+
 		if (state == &rootState)
 		{
-			result += collectedSubString;
-			collectedSubString = "";
+			collectedTerminalStates.clear();
+			result += collectedPrefix;
+			collectedPrefix = "";
+			continue;
 		}
-		if (state->isTerminal)
+
+		isNextStateAtSamePrefix = it + 1 != end && HasBohrTrieStateNext(state, *(it + 1));
+		if (state->isTerminal && isNextStateAtSamePrefix)
 		{
-			if (it + 1 != end && HasBohrTrieStateNext(state, *(it + 1)))
+			//collectedTerminalStates.at(std::size(collectedTerminalStates) - 1) = &params.at(collectedPrefix);
+		}
+		else if (!isNextStateAtSamePrefix)
+		{
+			if (params.find(collectedPrefix) != std::end(params))
 			{
-				continue;
+				result += params.at(collectedPrefix);
 			}
-			result += params.at(collectedSubString);
-			collectedSubString = "";
+			else
+			{
+				result += collectedPrefix;
+				/*auto resultEndIt = std::end(result) - 1;
+				for (auto ch : collectedPrefix)
+				{
+					result += " ";
+				}
+
+				size_t collectedPrefixIndex = std::size(collectedPrefix) - 1;
+				for (auto cTSBegIt = std::begin(collectedPrefix), cTSEndIt = std::end(collectedPrefix);
+					 cTSEndIt != cTSBegIt; cTSEndIt--, collectedPrefixIndex--)
+				{
+					if (auto indexOfTerminalStateInCollectedPrefix = std::distance(cTSBegIt, cTSEndIt);
+						collectedTerminalStates.at(indexOfTerminalStateInCollectedPrefix) != nullptr)
+					{
+					}
+					else
+					{
+						result.at(std::distance(resultEndIt, it + collectedPrefixIndex)) += collectedPrefix.at(collectedPrefixIndex);
+					}
+				}*/
+			}
+
+			collectedTerminalStates.clear();
+			collectedPrefix = "";
 			state = &rootState;
 		}
 	}

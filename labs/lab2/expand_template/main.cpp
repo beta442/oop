@@ -1,36 +1,96 @@
 #include "headers/expand_template.h"
 
-int main()
+using ExpandTemplateFuncParam = std::map<std::string, std::string>;
+using ExpandTemplateFuncParamUnit = std::pair<std::string, std::string>;
+
+struct ProgramArgs
 {
-	{
-		std::string const tpl = "Hello, %USER_NAME%. Today is {WEEK_DAY}.";
-		std::map<std::string, std::string> params;
-		params["%USER_NAME%"] = "Ivan Petrov";
-		params["{WEEK_DAY}"] = "Friday";
-		assert(ExpandTemplate(tpl, params) == "Hello, Ivan Petrov. Today is Friday.");
-	}
+	std::string sInName;
+	std::string sOutName;
+	ExpandTemplateFuncParam expandTemplateParams;
+};
 
-	{
-		std::string const tpl = "Hello, %USER_NAME%. Today is {WEEK_DAY}.";
-		std::map<std::string, std::string> params;
-		params["%USER_NAME%"] = "Super %USER_NAME% {WEEK_DAY}";
-		params["{WEEK_DAY}"] = "Friday. {WEEK_DAY}";
-		assert(ExpandTemplate(tpl, params) == "Hello, Super %USER_NAME% {WEEK_DAY}. Today is Friday. {WEEK_DAY}.");
-	}
+std::optional<ProgramArgs> ParseParams(int argc, char* argv[]);
+void ExpandTemplateFile(std::string fIn, std::string fOut, ExpandTemplateFuncParam params);
 
+int main(int argc, char* argv[])
+{
+	std::optional<ProgramArgs> oArgs = ParseParams(argc, argv);
+	if (!oArgs)
 	{
-		std::string const tpl = "-AABBCCCCCABC+";
-		std::map<std::string, std::string> params;
-		params["A"] = "[a]";
-		params["AA"] = "[aa]";
-		params["B"] = "[b]";
-		params["BB"] = "[bb]";
-		params["C"] = "[c]";
-		params["CCC"] = "[ccc]";
-		params["CCAB"] = "[ccab]";
-		params["CA"] = "[ca]";
-		assert(ExpandTemplate(tpl, params) == "-[aa][bb][ccc][ccab][c]+");
+		return 1;
 	}
+	ProgramArgs args = oArgs.value();
+
+	ExpandTemplateFile(args.sInName, args.sOutName, args.expandTemplateParams);
 
 	return 0;
+}
+
+std::optional<ProgramArgs> ParseParams(int argc, char* argv[])
+{
+	if (argc < 3)
+	{
+		return std::nullopt;
+	}
+
+	for (char** arg = argv; *arg; arg++)
+	{
+		if (!std::strlen(*arg))
+		{
+			return std::nullopt;
+		}
+	}
+
+	ProgramArgs args;
+	args.sInName = argv[1];
+	args.sOutName = argv[2];
+
+	ExpandTemplateFuncParamUnit expandTemplateParamsUnit;
+	for (char** arg = argv + 3; *arg; arg++)
+	{
+		if (std::distance(argv, arg) % 2 != 0)
+		{
+			expandTemplateParamsUnit.first = *arg;
+		}
+		else
+		{
+			expandTemplateParamsUnit.second = *arg;
+			args.expandTemplateParams.emplace(expandTemplateParamsUnit);
+		}
+	}
+
+	return args;
+}
+
+void ExpandTemplateFile(std::string fIn, std::string fOut, ExpandTemplateFuncParam params)
+{
+	std::ifstream fInS{ fIn };
+	if (!fInS.is_open())
+	{
+		std::cout << "Failed to open input file" << std::endl;
+		return;
+	}
+
+	std::ofstream fOutS{ fOut };
+	if (!fOutS.is_open())
+	{
+		std::cout << "Failed to open output file" << std::endl;
+		return;
+	}
+
+	std::string buff;
+	while (std::getline(fInS, buff))
+	{
+		fOutS << ExpandTemplate(buff, params) << std::endl;
+		if (fOutS.bad())
+		{
+			std::cout << "Failed to write in output file" << std::endl;
+			break;
+		}
+	}
+	if (!fInS.eof())
+	{
+		std::cout << "Not all input content was expanded" << std::endl;
+	}
 }
