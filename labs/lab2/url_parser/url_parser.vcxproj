@@ -141,7 +141,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="parser.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="resources\url_parser.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="headers\std_lib.h" />
+    <ClInclude Include="headers\url_parser.h" />
+    <ClInclude Include="headers\url_parser_utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

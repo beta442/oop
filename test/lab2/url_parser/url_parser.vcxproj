@@ -155,13 +155,16 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\labs\lab2\url_parser\resources\url_parser.cpp" />
     <ClCompile Include="url_parser_test.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="url_parser.h" />
+    <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="cpp.hint" />
+    <ClInclude Include="..\..\..\labs\lab2\url_parser\headers\std_lib.h" />
+    <ClInclude Include="..\..\..\labs\lab2\url_parser\headers\url_parser.h" />
+    <ClInclude Include="..\..\..\labs\lab2\url_parser\headers\url_parser_utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
