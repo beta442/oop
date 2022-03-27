@@ -92,6 +92,35 @@ SCENARIO("The given string has templates inside, which must be replaced accordin
 	};
 	const ParamsMap savedThridParamsExample(paramsExampleThird);
 
+	ParamsMap paramsExampleFourth{
+		{ "1ab", "[!AB]" },
+		{ "1abc", "[!ABC]" },
+		{ "1ad", "[!AD]" },
+		{ "1adef", "[!ADEF]" },
+		{ "12ab", "[!@AB]" },
+		{ "12abc", "[!@ABC]" },
+		{ "12ad", "[!@AD]" },
+		{ "12adef", "[!@ADEF]" },
+		{ "1234", "[!@#$]" },
+		{ "123456", "[!@#$%^]" },
+		{ "123456g", "[!@#$%^G]" },
+		{ "12345678", "[!@#$%^&*]" },
+		{ "12345678hk", "[!@#$%^&*HK]" },
+		{ "1234567890", "[!@#$%^&*()]" },
+		{ "2ab", "[2AB]" },
+		{ "2abc", "[@ABC]" },
+		{ "2ad", "[@AD]" },
+		{ "2adef", "[@ADEF]" },
+		{ "234", "[@#$]" },
+		{ "2345lm", "[@#$%LM]" },
+		{ "23456", "[@#$%^]" },
+		{ "23456g", "[@#$%^G]" },
+		{ "2345678", "[@#$%^&*]" },
+		{ "2345678hk", "[@#$%^&*HK]" },
+		{ "234567890", "[@#$%^&*()]" },
+	};
+	const ParamsMap savedFourthParamsExample(paramsExampleFourth);
+
 	WHEN("Search substrings doesn't intersect and insertion values doesn't contain search substrings")
 	{
 		std::string tpl = "Hello, %USER_NAME%. Today is {WEEK_DAY}.";
@@ -143,30 +172,58 @@ SCENARIO("The given string has templates inside, which must be replaced accordin
 		}
 	}
 
-	WHEN("Search substrings are intersecting each other and they are shuffled in expanding string. For example here: The prefix set for CCAB, CCC has been broken off on first B, the collected prefix may consist of substrings for searching")
+	WHEN("String template doesn't contain any search string")
 	{
-		std::string tpl = "-CCBCCCAABBABC+";
-		ParamsMap paramsExampleThird1{
-			{ "CCAB", "[ccab]" },
-			{ "CCC", "[ccc]" },
-			{ "AA", "[aa]" },
-			{ "BB", "[bb]" },
-			{ "CA", "[ca]" },
-			{ "A", "[a]" },
-			{ "B", "[b]" },
-			{ "C", "[c]" },
-		};
+		std::string tpl = "-jjjjjjjjjjjjjjjjjjj                       jjjjjjjjjjjjjjjjjj+";
+		
 		const std::string savedTpl{ tpl };
-		const std::string expectedResult = "-[c][c][b][ccc][aa][bb][a][b][c]+";
+		const std::string expectedResult = "-jjjjjjjjjjjjjjjjjjj                       jjjjjjjjjjjjjjjjjj+";
 
-		THEN("Collected fail-prefix expanded correctly")
+		THEN("String template and params didn't changed")
 		{
-			std::string result = ExpandTemplate(tpl, paramsExampleThird);
+			std::string result = ExpandTemplate(tpl, paramsExampleFourth);
 
 			REQUIRE(result == expectedResult);
 
 			REQUIRE(tpl == savedTpl);
-			REQUIRE(paramsExampleThird == savedThridParamsExample);
+			REQUIRE(paramsExampleFourth == savedFourthParamsExample);
 		}
 	}
+
+	WHEN("String template contain search string at begin and at end")
+	{
+		std::string tpl = "1234567890                       234567890";
+
+		const std::string savedTpl{ tpl };
+		const std::string expectedResult = "[!@#$%^&*()]                       [@#$%^&*()]";
+
+		THEN("String expanded correctly, string template and params didn't changed")
+		{
+			std::string result = ExpandTemplate(tpl, paramsExampleFourth);
+
+			REQUIRE(result == expectedResult);
+
+			REQUIRE(tpl == savedTpl);
+			REQUIRE(paramsExampleFourth == savedFourthParamsExample);
+		}
+	}
+
+	WHEN("String template contain search string at begin and at end")
+	{
+		std::string tpl = "1 123 1234 12345lm";
+
+		const std::string savedTpl{ tpl };
+		const std::string expectedResult = "1 123 [!@#$] 1[2345LM]";
+
+		THEN("String expanded correctly, string template and params didn't changed")
+		{
+			std::string result = ExpandTemplate(tpl, paramsExampleFourth);
+
+			REQUIRE(result == expectedResult);
+
+			REQUIRE(tpl == savedTpl);
+			REQUIRE(paramsExampleFourth == savedFourthParamsExample);
+		}
+	}
+
 }
