@@ -55,9 +55,6 @@ std::string ExpandTemplate(std::string const& tpl, std::map<std::string, std::st
 				result += ExpandTemplate(collectedPrefix.substr(0, std::size(collectedPrefix) - 1), newParamsForFailPrefix);
 				newParamsForFailPrefix.empty();
 				it--;
-				collectedPrefix = "";
-				state = &rootState;
-				continue;
 			}
 
 			collectedPrefix = "";
