@@ -77,4 +77,10 @@ bool CCar::SetSpeed(int speed)
 		return false;
 	}
 
+	if ()
+	{
+		m_speed = speed;
+		return true;
+	}
+	return false;
 }
