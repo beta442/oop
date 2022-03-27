@@ -70,7 +70,7 @@ std::string ExpandTemplate(std::string const& tpl, std::map<std::string, std::st
 				std::reverse(std::begin(reversedBufferSecond), std::end(reversedBufferSecond));
 
 				result += reversedBufferSecond;
-				newParamsForFailPrefix.empty();
+				static_cast<void>(newParamsForFailPrefix.empty());
 			}
 
 			collectedPrefix = "";
