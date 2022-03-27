@@ -1,17 +1,6 @@
-#include "headers/expand_template.h"
-
-using ExpandTemplateFuncParam = std::map<std::string, std::string>;
-using ExpandTemplateFuncParamUnit = std::pair<std::string, std::string>;
-
-struct ProgramArgs
-{
-	std::string sInName;
-	std::string sOutName;
-	ExpandTemplateFuncParam expandTemplateParams;
-};
+#include "headers/main_utils.h"
 
 std::optional<ProgramArgs> ParseParams(int argc, char* argv[]);
-void ExpandTemplateFile(std::string fIn, std::string fOut, ExpandTemplateFuncParam params);
 
 int main(int argc, char* argv[])
 {
@@ -22,7 +11,9 @@ int main(int argc, char* argv[])
 	}
 	ProgramArgs args = oArgs.value();
 
-	ExpandTemplateFile(args.sInName, args.sOutName, args.expandTemplateParams);
+	std::ifstream fInS{ args.sInName };
+	std::ofstream fOutS{ args.sOutName };
+	ExpandTemplateFile(fInS, fOutS, args.expandTemplateParams);
 
 	return 0;
 }
@@ -61,36 +52,4 @@ std::optional<ProgramArgs> ParseParams(int argc, char* argv[])
 	}
 
 	return args;
-}
-
-void ExpandTemplateFile(std::string fIn, std::string fOut, ExpandTemplateFuncParam params)
-{
-	std::ifstream fInS{ fIn };
-	if (!fInS.is_open())
-	{
-		std::cout << "Failed to open input file" << std::endl;
-		return;
-	}
-
-	std::ofstream fOutS{ fOut };
-	if (!fOutS.is_open())
-	{
-		std::cout << "Failed to open output file" << std::endl;
-		return;
-	}
-
-	std::string buff;
-	while (std::getline(fInS, buff))
-	{
-		fOutS << ExpandTemplate(buff, params) << std::endl;
-		if (fOutS.bad())
-		{
-			std::cout << "Failed to write in output file" << std::endl;
-			break;
-		}
-	}
-	if (!fInS.eof())
-	{
-		std::cout << "Not all input content was expanded" << std::endl;
-	}
 }

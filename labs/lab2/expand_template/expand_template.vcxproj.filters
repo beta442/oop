@@ -27,6 +27,9 @@
     <ClCompile Include="resources\bohr_trie_aho_korasik.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="resources\main_utils.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\expand_template.h">
@@ -39,6 +42,9 @@
       <Filter>Header Files\bohr_trie_automaton</Filter>
     </ClInclude>
     <ClInclude Include="headers\std_libs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="main_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
