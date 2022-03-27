@@ -2,6 +2,7 @@
 #include "../../../catch2/catch.hpp"
 
 #include "../../../labs/lab2/expand_template/headers/expand_template.h"
+#include "../../../labs/lab2/expand_template/headers/main_utils.h"
 
 SCENARIO("Boundary situations of using the ExpandTemplate function")
 {
@@ -107,6 +108,7 @@ SCENARIO("The given string has templates inside, which must be replaced accordin
 		{ "12345678", "[!@#$%^&*]" },
 		{ "12345678hk", "[!@#$%^&*HK]" },
 		{ "1234567890", "[!@#$%^&*()]" },
+		{ "7890123", "[&*()!@#]" },
 		{ "2ab", "[2AB]" },
 		{ "2abc", "[@ABC]" },
 		{ "2ad", "[@AD]" },
@@ -118,6 +120,9 @@ SCENARIO("The given string has templates inside, which must be replaced accordin
 		{ "2345678", "[@#$%^&*]" },
 		{ "2345678hk", "[@#$%^&*HK]" },
 		{ "234567890", "[@#$%^&*()]" },
+		{ "CCCC", "[cccc]" },
+		{ "C", "[c]" },
+		{ "B", "[b]" },
 	};
 	const ParamsMap savedFourthParamsExample(paramsExampleFourth);
 
@@ -175,7 +180,7 @@ SCENARIO("The given string has templates inside, which must be replaced accordin
 	WHEN("String template doesn't contain any search string")
 	{
 		std::string tpl = "-jjjjjjjjjjjjjjjjjjj                       jjjjjjjjjjjjjjjjjj+";
-		
+
 		const std::string savedTpl{ tpl };
 		const std::string expectedResult = "-jjjjjjjjjjjjjjjjjjj                       jjjjjjjjjjjjjjjjjj+";
 
@@ -210,10 +215,10 @@ SCENARIO("The given string has templates inside, which must be replaced accordin
 
 	WHEN("String template contain search string at begin and at end")
 	{
-		std::string tpl = "1 123 1234 12345lm";
+		std::string tpl = "1 123 1234 CCC122345lm 112345k CCCB 789012345678901234";
 
 		const std::string savedTpl{ tpl };
-		const std::string expectedResult = "1 123 [!@#$] 1[2345LM]";
+		const std::string expectedResult = "1 123 [!@#$] [c][c][c]12[@#$%LM] 1[!@#$]5k [c][c][c][b] [&*()!@#]456[&*()!@#]4";
 
 		THEN("String expanded correctly, string template and params didn't changed")
 		{
@@ -225,5 +230,4 @@ SCENARIO("The given string has templates inside, which must be replaced accordin
 			REQUIRE(paramsExampleFourth == savedFourthParamsExample);
 		}
 	}
-
 }

@@ -19,7 +19,7 @@ void ExpandTemplateFile(std::ifstream& fInS, std::ofstream& fOutS, ExpandTemplat
 	while (std::getline(fInS, buff))
 	{
 		fOutS << ExpandTemplate(buff, params) << std::endl;
-		if (fOutS.bad())
+		if (fOutS.bad() || fOutS.fail())
 		{
 			std::cout << "Failed to write in output file" << std::endl;
 			break;
