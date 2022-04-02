@@ -1,40 +1,4 @@
-#include <algorithm>
-#include <fstream>
-#include <iostream>
-#include <iterator>
-#include <sstream>
-#include <vector>
-
-bool CopyStreamOfDoubleIntoVector(std::istream& fIn, std::vector<double>& vec);
-void ProcessVectorOfDoubleByTask(std::vector<double>& vec);
-void PrintVectorOfDouble(const std::vector<double>& vec);
-
-int main()
-{
-	std::vector<double> vec{};
-	if (!CopyStreamOfDoubleIntoVector(std::cin, vec))
-	{
-		std::cout << "An error occured while processing input" << std::endl;
-		return 1;
-	}
-
-	if (std::size(vec) == 0)
-	{
-		std::cout << "Nothing to process" << std::endl;
-		return 1;
-	}
-
-	std::cout << "Vector was:" << std::endl;
-	PrintVectorOfDouble(vec);
-
-	ProcessVectorOfDoubleByTask(vec);
-	std::sort(std::begin(vec), std::end(vec));
-
-	std::cout << std::endl << "Vector now:" << std::endl;
-	PrintVectorOfDouble(vec);
-
-	return 0;
-}
+#include "../headers/std_lib.h"
 
 bool CopyStringToDouble(const std::string& str, double& val)
 {
