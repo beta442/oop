@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
 #include "../../../catch2/catch.hpp"
 
-#include "vector.h"
+#include "../../../labs/lab2/vector/headers/vector.h"
 
 SCENARIO("Trying to read double from stream, that contains bad values, into vector does nothing to vector")
 {
