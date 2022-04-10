@@ -10,7 +10,7 @@ int main()
 	CCar car{};
 	CCarController controller(std::cin, std::cout, car);
 
-	while (!std::cin.eof() && !std::cin.fail())
+	while (!std::cin.eof() && !std::cin.fail() && controller.IsFinishedWork())
 	{
 		std::cout << "> ";
 		if (!controller.HandleCommand())

@@ -7,7 +7,8 @@ CCarController::CCarController(std::istream& input, std::ostream& output, CCar& 
 	: m_input(input)
 	, m_output(output)
 	, m_car(car)
-	, m_actions({ { HELP_COMMAND, std::bind(&CCarController::Help, this) },
+	, m_actions({ { QUIT_COMMAND, std::bind(&CCarController::StopWorkflow, this) },
+		  { HELP_COMMAND, std::bind(&CCarController::Help, this) },
 		  { INFO_COMMAND, std::bind(&CCarController::Info, this) },
 		  { ENGINE_ON_COMMAND, std::bind(&CCarController::EngineOn, this, _1) },
 		  { ENGINE_OFF_COMMAND, std::bind(&CCarController::EngineOff, this, _1) },
@@ -18,6 +19,21 @@ CCarController::CCarController(std::istream& input, std::ostream& output, CCar& 
 
 CCarController::~CCarController()
 {
+}
+
+bool CCarController::StopWorkflow()
+{
+	if (m_isWorkflowGoesOn)
+	{
+		m_isWorkflowGoesOn = false;
+		return true;
+	}
+	return false;
+}
+
+bool CCarController::IsFinishedWork()
+{
+	return m_isWorkflowGoesOn;
 }
 
 bool CCarController::HandleCommand()
@@ -49,11 +65,11 @@ bool CCarController::Info()
 
 	if (m_car.IsTurnedOn())
 	{
-		info += "Engine is turned on \nCar " + GetDirection() + "\nSpeed is: " + std::to_string(m_car.GetSpeed()) + "\nGear is: " + GetGear();
+		info += "Engine is turned on\nCar " + GetDirection() + "\nSpeed is: " + std::to_string(m_car.GetSpeed()) + "\nGear is: " + GetGear();
 	}
 	else
 	{
-		info += "Engine is turned off";
+		info += "Engine is turned off\nCar " + GetDirection() + "\nSpeed is: " + std::to_string(m_car.GetSpeed()) + "\nGear is: " + GetGear();
 	}
 
 	m_output << info << std::endl;
@@ -127,7 +143,7 @@ std::string CCarController::GetDirection()
 	switch (m_car.GetDirection())
 	{
 	case MoveDirection::BACKWARD:
-		return "going backward";
+		return "is going backward";
 	case MoveDirection::STAY:
 		return "is staying";
 	case MoveDirection::FORWARD:

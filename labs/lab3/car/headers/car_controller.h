@@ -10,6 +10,7 @@ public:
 	~CCarController();
 
 	bool HandleCommand();
+	bool IsFinishedWork();
 
 private:
 	bool Help();
@@ -18,12 +19,14 @@ private:
 	bool EngineOff(std::istream& arguments);
 	bool SetGear(std::istream& arguments);
 	bool SetSpeed(std::istream& arguments);
+	bool StopWorkflow();
 
 	std::string GetDirection();
 	std::string GetGear();
 
 	using ActionsMap = std::map<std::string, std::function<bool(std::istream& arguments)>>;
 
+	bool m_isWorkflowGoesOn;
 	std::istream& m_input;
 	std::ostream& m_output;
 	std::string m_commandLine;
