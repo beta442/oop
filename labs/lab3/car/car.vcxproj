@@ -149,10 +149,12 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="resources\car.cpp" />
+    <ClCompile Include="resources\car_controller.cpp" />
     <ClCompile Include="resources\main_utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\car.h" />
+    <ClInclude Include="headers\car_controller.h" />
     <ClInclude Include="headers\main_utils.h" />
     <ClInclude Include="headers\std_lib.h" />
   </ItemGroup>

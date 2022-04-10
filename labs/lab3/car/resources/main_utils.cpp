@@ -3,14 +3,14 @@
 void PrintHelloMsg()
 {
 	std::cout << PROGRAM_HELLO_MSG;
-	PrintMapCommandDescription(commandDescription);
+	PrintMapCommandDescription(commandDescription, std::cout);
 	std::cout << std::endl;
 }
 
-void PrintMapCommandDescription(std::map<std::string, std::string> map)
+void PrintMapCommandDescription(std::map<std::string, std::string> map, std::ostream& output)
 {
 	for (auto& [command, description] : map)
 	{
-		std::cout << "--" << command << ": " << description << std::endl;
+		output << "--" << command << ": " << description << std::endl;
 	}
 }

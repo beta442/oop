@@ -24,6 +24,9 @@
     <ClCompile Include="resources\main_utils.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="resources\car_controller.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\car.h">
@@ -33,6 +36,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="headers\main_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\car_controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
