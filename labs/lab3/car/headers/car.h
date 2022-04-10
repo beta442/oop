@@ -1,3 +1,5 @@
+#pragma once
+
 #include "std_lib.h"
 
 enum class Gear
@@ -35,6 +37,16 @@ public:
 	bool TurnOnEngine();
 
 private:
+	bool SetRearGear();
+	bool SetNeutralGear();
+	bool SetFirstGear();
+	bool SetSecondGear();
+	bool SetThirdGear();
+	bool SetFourthGear();
+	bool SetFifthGear();
+
+	MoveDirection SwitchMoveDirection(int speed);
+
 	bool m_isEngineOn;
 	MoveDirection m_direction;
 	Gear m_gear;

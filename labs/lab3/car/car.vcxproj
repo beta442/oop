@@ -149,10 +149,12 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="resources\car.cpp" />
+    <ClCompile Include="resources\main_utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\car.h" />
-    <ClInclude Include="std_lib.h" />
+    <ClInclude Include="headers\main_utils.h" />
+    <ClInclude Include="headers\std_lib.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

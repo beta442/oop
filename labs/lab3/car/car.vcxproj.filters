@@ -21,12 +21,18 @@
     <ClCompile Include="resources\car.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="resources\main_utils.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="std_lib.h">
+    <ClInclude Include="headers\car.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\car.h">
+    <ClInclude Include="headers\std_lib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\main_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
