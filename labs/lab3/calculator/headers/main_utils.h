@@ -29,7 +29,7 @@ const std::string FUNCTION_COMMAND_DESCRIPTION
 	= std::string("Declare function, e.g. " + FUNCTION_COMMAND + " <varName> = <varName> | " + FUNCTION_COMMAND + " <varName> = <varName><operation><varName>");
 const std::string HELP_COMMAND_DESCRIPTION = "Shows available commands";
 const std::string LET_COMMAND_DESCRIPTION
-	= std::string("Initialize double variable e.g. " + LET_COMMAND + " <varName> = <varValue> | " + LET_COMMAND + " <varName> = <varName>");
+	= std::string("Initialize double variable, e.g. " + LET_COMMAND + " <varName> = <varValue> | " + LET_COMMAND + " <varName> = <varName>");
 const std::string PRINT_COMMAND_DESCRIPTION
 	= std::string("Print variable, e.g. " + PRINT_COMMAND + " <varName>");
 const std::string PRINT_FUNCTIONS_COMMAND_DESCRIPTION = "Prints all functions with their values";
