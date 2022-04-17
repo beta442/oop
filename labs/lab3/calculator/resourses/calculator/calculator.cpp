@@ -5,6 +5,8 @@ Calculator::Calculator()
 {
 	m_identifierRegExp = std::regex("^([a-zA-Z]([\\w]|[\\d])+|[a-zA-Z])$");
 	m_doubleValueRegExp = std::regex("([\\d]+(\\.|,)[\\d]+)|([\\d]+)");
+	m_precision = 2;
+	m_delimetr = ':';
 }
 
 bool Calculator::DeclareVariable(const std::string& varName)
@@ -22,7 +24,7 @@ bool Calculator::DeclareVariable(const std::string& varName, const std::string& 
 {
 	bool isValueContainRValue = std::regex_match(value, m_doubleValueRegExp);
 	bool isValueContainLValue = std::regex_match(value, m_identifierRegExp);
-	std::cout << std::boolalpha << isValueContainLValue << " " << isValueContainRValue << std::endl;
+
 	if (std::size(varName) == 0 ||
 		std::size(value) == 0 ||
 		!std::regex_match(varName, m_identifierRegExp) ||
@@ -56,9 +58,11 @@ bool Calculator::DeclareVariable(const std::string& varName, const std::string& 
 
 void Calculator::PrintVariables(std::ostream& output) const
 {
+	output << std::setprecision(m_precision);
+	output << std::fixed;
 	for (auto& [varName, value] : m_vars)
 	{
-		output << varName << DELIMETR << std::setprecision(2) << value << std::endl;
+		output << varName << m_delimetr << value << std::endl;
 	}
 }
 
@@ -69,7 +73,9 @@ bool Calculator::PrintVariable(const std::string& varName, std::ostream& output)
 		return false;
 	}
 
-	output << varName << DELIMETR << std::setprecision(2) << m_vars.at(varName) << std::endl;
+	output << std::setprecision(m_precision);
+	output << std::fixed;
+	output << varName << m_delimetr << m_vars.at(varName) << std::endl;
 
 	return true;
 }

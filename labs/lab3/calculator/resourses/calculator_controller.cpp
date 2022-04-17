@@ -95,7 +95,7 @@ bool CalculatorController::InitVariable(std::istream& arguments) const
 
 	if (!m_calculator.DeclareVariable(matches[leftOperandIndex].str(), matches[rightOperandIndex].str()))
 	{
-		m_output << "Something is wrong" << std::endl;
+		m_output << "Something went wrong, make sure, that you use correct arguments" << std::endl;
 	}
 
 	return true;

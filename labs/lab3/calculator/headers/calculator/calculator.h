@@ -14,7 +14,6 @@ public:
 	bool PrintVariable(const std::string& varName, std::ostream& output) const;
 
 private:
-	const char DELIMETR = ':';
 
 	using Identifier = std::string;
 	//todo: variable and function can't have same name
@@ -23,4 +22,6 @@ private:
 	VariableValueMap m_vars;
 	std::regex m_identifierRegExp;
 	std::regex m_doubleValueRegExp;
+	size_t m_precision;
+	char m_delimetr;
 };
