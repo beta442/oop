@@ -17,6 +17,8 @@ CalculatorController::CalculatorController(std::istream& input, std::ostream& ou
 		  { VAR_COMMAND, std::bind(&CalculatorController::DeclareVariable, this, _1) } })
 {
 	m_isWorkflowGoesOn = true;
+	m_identifierAssignmentExpression =
+		std::regex("^(([a-zA-Z]([\\w]|[\\d])+|[a-zA-Z])=((([\\d]+(\\.|,)[\\d]+)|([\\d]+))|([a-zA-Z]([\\w]|[\\d])+|[a-zA-Z])))$");
 }
 
 bool CalculatorController::IsFinishedWork() const
@@ -79,7 +81,22 @@ bool CalculatorController::InitVariable(std::istream& arguments) const
 		return true;
 	}
 
-	
+	std::string buff;
+	arguments >> buff;
+	std::smatch matches;
+	if (!std::regex_match(buff, matches, m_identifierAssignmentExpression))
+	{
+		m_output << "Wrong usage, see help" << std::endl;
+		return true;
+	}
+
+	const size_t leftOperandIndex = 2;
+	const size_t rightOperandIndex = 4;
+
+	if (!m_calculator.DeclareVariable(matches[leftOperandIndex].str(), matches[rightOperandIndex].str()))
+	{
+		m_output << "Something is wrong" << std::endl;
+	}
 
 	return true;
 }

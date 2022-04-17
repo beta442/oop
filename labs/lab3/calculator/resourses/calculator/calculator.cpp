@@ -3,19 +3,54 @@
 
 Calculator::Calculator()
 {
-	m_identifierRegexp = std::regex("^[a-zA-Z]([\\w]|[\\d])+$");
+	m_identifierRegExp = std::regex("^([a-zA-Z]([\\w]|[\\d])+|[a-zA-Z])$");
+	m_doubleValueRegExp = std::regex("([\\d]+(\\.|,)[\\d]+)|([\\d]+)");
 }
 
 bool Calculator::DeclareVariable(const std::string& varName)
 {
-	if (std::size(varName) == 0 ||
-		m_vars.count(varName) != 0 ||
-		!std::regex_match(varName, m_identifierRegexp))
+	if (std::size(varName) == 0 || m_vars.count(varName) != 0 || !std::regex_match(varName, m_identifierRegExp))
 	{
 		return false;
 	}
 
 	m_vars.emplace(varName, std::numeric_limits<Value>::quiet_NaN());
+	return true;
+}
+
+bool Calculator::DeclareVariable(const std::string& varName, const std::string& value)
+{
+	bool isValueContainRValue = std::regex_match(value, m_doubleValueRegExp);
+	bool isValueContainLValue = std::regex_match(value, m_identifierRegExp);
+	std::cout << std::boolalpha << isValueContainLValue << " " << isValueContainRValue << std::endl;
+	if (std::size(varName) == 0 ||
+		std::size(value) == 0 ||
+		!std::regex_match(varName, m_identifierRegExp) ||
+		!(isValueContainLValue || isValueContainRValue))
+	{
+		return false;
+	}
+
+	if (isValueContainRValue)
+	{
+		std::string correctValue = value;
+		std::replace(std::begin(correctValue), std::end(correctValue), ',', '.');
+		std::stringstream ss{ correctValue };
+		double val;
+		ss >> val;
+
+		m_vars[varName] = val;
+	}
+	else
+	{
+		if (m_vars.count(value) == 0)
+		{
+			return false;
+		}
+
+		m_vars.emplace(varName, m_vars.at(value));
+	}
+
 	return true;
 }
 
@@ -27,7 +62,7 @@ void Calculator::PrintVariables(std::ostream& output) const
 	}
 }
 
-bool Calculator::PrintVariable(const std::string varName, std::ostream& output) const
+bool Calculator::PrintVariable(const std::string& varName, std::ostream& output) const
 {
 	if (output.fail() || m_vars.count(varName) == 0)
 	{

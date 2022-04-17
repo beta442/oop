@@ -11,6 +11,7 @@ int main()
 	Calculator calculator{};
 	CalculatorController controller(std::cin, std::cout, calculator);
 
+
 	while (!std::cin.eof() && !std::cin.fail() && controller.IsFinishedWork())
 	{
 		std::cout << "> ";

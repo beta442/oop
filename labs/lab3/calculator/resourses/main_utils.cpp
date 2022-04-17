@@ -7,7 +7,7 @@ void PrintHelloMsg()
 	std::cout << std::endl;
 }
 
-void PrintMapCommandDescription(std::map<std::string, std::string> map, std::ostream& output)
+void PrintMapCommandDescription(std::unordered_map<std::string, std::string> map, std::ostream& output)
 {
 	for (auto& [command, description] : map)
 	{
