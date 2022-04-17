@@ -16,6 +16,7 @@ CalculatorController::CalculatorController(std::istream& input, std::ostream& ou
 		  { PRINT_VARS_COMMAND, std::bind(&CalculatorController::PrintAllVariables, this) },
 		  { VAR_COMMAND, std::bind(&CalculatorController::DeclareVariable, this, _1) } })
 {
+	m_isWorkflowGoesOn = true;
 }
 
 bool CalculatorController::IsFinishedWork() const
