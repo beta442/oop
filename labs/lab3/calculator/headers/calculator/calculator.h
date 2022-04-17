@@ -1,6 +1,6 @@
 #pragma once
 
-#include "std_lib.h"
+#include "../std_lib.h"
 
 class Calculator
 {

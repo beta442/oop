@@ -1,7 +1,7 @@
 #include "headers/std_lib.h"
 
 #include "headers/main_utils.h"
-#include "headers/calculator.h"
+#include "headers/calculator/calculator.h"
 #include "headers/calculator_controller.h"
 
 int main()

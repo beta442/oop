@@ -2,7 +2,7 @@
 
 #include "std_lib.h"
 
-#include "calculator.h"
+#include "calculator/calculator.h"
 
 class CalculatorController
 {

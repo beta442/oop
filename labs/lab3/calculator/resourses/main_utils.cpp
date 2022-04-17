@@ -2,7 +2,7 @@
 
 void PrintHelloMsg()
 {
-	std::cout << HELLO_MSG;
+	std::cout << HELLO_MSG << std::endl;
 	PrintMapCommandDescription(commandDescription, std::cout);
 	std::cout << std::endl;
 }

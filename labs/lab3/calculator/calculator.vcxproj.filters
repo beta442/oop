@@ -13,19 +13,25 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Resource Files\Calculator">
+      <UniqueIdentifier>{742347d6-007f-4338-8614-5abb3d3b5391}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Calculator">
+      <UniqueIdentifier>{c678e437-f13e-4006-86be-6e4e53ca75fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="resourses\Calculator.cpp">
-      <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="resourses\calculator_controller.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="resourses\main_utils.cpp">
       <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="resourses\calculator\calculator.cpp">
+      <Filter>Resource Files\Calculator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -35,11 +41,11 @@
     <ClInclude Include="headers\main_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\calculator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="headers\calculator_controller.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\calculator\calculator.h">
+      <Filter>Header Files\Calculator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
