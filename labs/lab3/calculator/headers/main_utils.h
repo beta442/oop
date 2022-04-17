@@ -2,6 +2,8 @@
 
 #include "std_lib.h"
 
+const std::string HELLO_MSG = "Calculator app";
+
 const std::string EXIT_COMMAND = "exit";
 const std::string FUNCTION_COMMAND = "fn";
 const std::string HELP_COMMAND = "help";
@@ -34,3 +36,17 @@ const std::string PRINT_FUNCTIONS_COMMAND_DESCRIPTION = "Prints all functions wi
 const std::string PRINT_VARS_COMMAND_DESCRIPTION = "Prints all declarated variables";
 const std::string VAR_COMMAND_DESCRIPTION
 	= std::string("Declare double variable, e.g. " + VAR_COMMAND + " <varName>");
+
+const std::map<std::string, std::string> commandDescription{
+	{ EXIT_COMMAND, EXIT_COMMAND_DESCRIPTION },
+	{ FUNCTION_COMMAND, FUNCTION_COMMAND_DESCRIPTION },
+	{ HELP_COMMAND, HELP_COMMAND_DESCRIPTION },
+	{ LET_COMMAND, LET_COMMAND_DESCRIPTION },
+	{ PRINT_COMMAND, PRINT_COMMAND_DESCRIPTION },
+	{ PRINT_FUNCTIONS_COMMAND, PRINT_FUNCTIONS_COMMAND_DESCRIPTION },
+	{ PRINT_VARS_COMMAND, PRINT_VARS_COMMAND_DESCRIPTION },
+	{ VAR_COMMAND, VAR_COMMAND_DESCRIPTION },
+};
+
+void PrintHelloMsg();
+void PrintMapCommandDescription(std::map<std::string, std::string> map, std::ostream& output);

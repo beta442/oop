@@ -24,6 +24,9 @@
     <ClCompile Include="resourses\calculator_controller.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="resourses\main_utils.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\std_lib.h">

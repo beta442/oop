@@ -150,6 +150,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="resourses\Calculator.cpp" />
     <ClCompile Include="resourses\calculator_controller.cpp" />
+    <ClCompile Include="resourses\main_utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\calculator.h" />
