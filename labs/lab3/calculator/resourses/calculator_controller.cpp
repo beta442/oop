@@ -20,40 +20,69 @@ CalculatorController::CalculatorController(std::istream& input, std::ostream& ou
 
 bool CalculatorController::IsFinishedWork() const
 {
+	return m_isWorkflowGoesOn;
 }
 
 bool CalculatorController::HandleCommand() const
 {
+	std::string commandLine;
+	std::getline(m_input, commandLine);
+	std::istringstream stream(commandLine);
+
+	std::string action;
+	stream >> action;
+
+	auto it = m_actions.find(action);
+	if (it != m_actions.end())
+	{
+		return it->second(stream);
+	}
+	return false;
 }
 
 bool CalculatorController::DeclareFunction(std::istream& arguments) const
 {
+	return false;
 }
 
 bool CalculatorController::DeclareVariable(std::istream& arguments) const
 {
+	return false;
 }
 
 bool CalculatorController::Help() const
 {
+	PrintMapCommandDescription(commandDescription, m_output);
+	m_output << std::endl;
+	return true;
 }
 
 bool CalculatorController::InitVariable(std::istream& arguments) const
 {
+	return false;
 }
 
 bool CalculatorController::PrintAllFunctions() const
 {
+	return false;
 }
 
 bool CalculatorController::PrintAllVariables() const
 {
+	return false;
 }
 
 bool CalculatorController::PrintVariable(std::istream& arguments) const
 {
+	return false;
 }
 
-bool CalculatorController::StopWorkflow() const
+bool CalculatorController::StopWorkflow()
 {
+	if (m_isWorkflowGoesOn)
+	{
+		m_isWorkflowGoesOn = false;
+		return true;
+	}
+	return false;
 }

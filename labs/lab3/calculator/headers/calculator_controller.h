@@ -20,7 +20,7 @@ private:
 	bool PrintAllFunctions() const;
 	bool PrintAllVariables() const;
 	bool PrintVariable(std::istream& arguments) const;
-	bool StopWorkflow() const;
+	bool StopWorkflow();
 
 	using ActionsMap = std::map<std::string, std::function<bool(std::istream& arguments)>>;
 
