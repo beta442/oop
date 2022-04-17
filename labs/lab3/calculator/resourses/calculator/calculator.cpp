@@ -3,11 +3,14 @@
 
 Calculator::Calculator()
 {
+	m_identifierRegexp = std::regex("^[a-zA-Z]([\\w]|[\\d])+$");
 }
 
 bool Calculator::DeclareVariable(const std::string& varName)
 {
-	if (std::size(varName) == 0 || m_vars.count(varName) != 0)
+	if (std::size(varName) == 0 ||
+		m_vars.count(varName) != 0 ||
+		!std::regex_match(varName, m_identifierRegexp))
 	{
 		return false;
 	}

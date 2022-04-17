@@ -16,7 +16,9 @@ private:
 	const char DELIMETR = ':';
 
 	using Identifier = std::string;
+	//todo: variable and function can't have same name
 	using VariableValueMap = std::map<Identifier, Value>;
 
 	VariableValueMap m_vars;
+	std::regex m_identifierRegexp;
 };
