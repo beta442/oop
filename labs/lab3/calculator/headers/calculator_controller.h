@@ -29,5 +29,4 @@ private:
 	const ActionsMap m_actions;
 	std::istream& m_input;
 	std::ostream& m_output;
-	std::string m_commandLine;
 };

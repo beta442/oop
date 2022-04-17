@@ -33,6 +33,9 @@
     <ClCompile Include="resourses\calculator\calculator.cpp">
       <Filter>Resource Files\Calculator</Filter>
     </ClCompile>
+    <ClCompile Include="resourses\calculator\Variable.cpp">
+      <Filter>Resource Files\Calculator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\std_lib.h">
@@ -45,6 +48,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="headers\calculator\calculator.h">
+      <Filter>Header Files\Calculator</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\calculator\variable.h">
       <Filter>Header Files\Calculator</Filter>
     </ClInclude>
   </ItemGroup>

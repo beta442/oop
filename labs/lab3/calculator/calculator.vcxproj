@@ -149,11 +149,13 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="resourses\calculator\calculator.cpp" />
+    <ClCompile Include="resourses\calculator\Variable.cpp" />
     <ClCompile Include="resourses\calculator_controller.cpp" />
     <ClCompile Include="resourses\main_utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\calculator\calculator.h" />
+    <ClInclude Include="headers\calculator\variable.h" />
     <ClInclude Include="headers\calculator_controller.h" />
     <ClInclude Include="headers\main_utils.h" />
     <ClInclude Include="headers\std_lib.h" />

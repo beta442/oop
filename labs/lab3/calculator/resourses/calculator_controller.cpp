@@ -47,7 +47,21 @@ bool CalculatorController::DeclareFunction(std::istream& arguments) const
 
 bool CalculatorController::DeclareVariable(std::istream& arguments) const
 {
-	return false;
+	if (arguments.eof())
+	{
+		m_output << "Wrong arguments count. See help" << std::endl;
+		return true;
+	}
+
+	std::string identifier;
+	arguments >> identifier;
+
+	if (!m_calculator.DeclareVariable(identifier))
+	{
+		m_output << "Variable already exists, can't redeclare" << std::endl;
+		return true;
+	}
+	return true;
 }
 
 bool CalculatorController::Help() const
@@ -69,7 +83,9 @@ bool CalculatorController::PrintAllFunctions() const
 
 bool CalculatorController::PrintAllVariables() const
 {
-	return false;
+	m_calculator.PrintVariables(m_output);
+	m_output << std::endl;
+	return true;
 }
 
 bool CalculatorController::PrintVariable(std::istream& arguments) const
