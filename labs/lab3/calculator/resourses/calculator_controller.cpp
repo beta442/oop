@@ -59,7 +59,6 @@ bool CalculatorController::DeclareVariable(std::istream& arguments) const
 	if (!m_calculator.DeclareVariable(identifier))
 	{
 		m_output << "Variable already exists, can't redeclare" << std::endl;
-		return true;
 	}
 	return true;
 }
@@ -90,7 +89,20 @@ bool CalculatorController::PrintAllVariables() const
 
 bool CalculatorController::PrintVariable(std::istream& arguments) const
 {
-	return false;
+	if (arguments.eof())
+	{
+		m_output << "Wrong arguments count. See help" << std::endl;
+		return true;
+	}
+
+	std::string identifier;
+	arguments >> identifier;
+
+	if (!m_calculator.PrintVariable(identifier, m_output))
+	{
+		m_output << "Variable doesn't exists, failed to print its value" << std::endl;
+	}
+	return true;
 }
 
 bool CalculatorController::StopWorkflow()

@@ -20,6 +20,18 @@ void Calculator::PrintVariables(std::ostream& output) const
 {
 	for (auto& [varName, value] : m_vars)
 	{
-		output << varName << "=" << value << std::endl;
+		output << varName << DELIMETR << std::setprecision(2) << value << std::endl;
 	}
+}
+
+bool Calculator::PrintVariable(const std::string varName, std::ostream& output) const
+{
+	if (output.fail() || m_vars.count(varName) == 0)
+	{
+		return false;
+	}
+
+	output << varName << DELIMETR << std::setprecision(2) << m_vars.at(varName) << std::endl;
+
+	return true;
 }
