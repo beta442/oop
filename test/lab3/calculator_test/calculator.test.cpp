@@ -26,6 +26,21 @@ SCENARIO("Adding some not initialized variables")
 	Calculator calculator;
 	std::ostringstream output{};
 
+	SECTION("Wrong named variables adding")
+	{
+		const std::string incorrectVarNameStartsWithNumber = "1";
+		const std::string incorrectVarNameIncludesNotOnlyLettersAndDigits = "Aadb!@#";
+
+		WHEN("Variables named incorrectly")
+		{
+			THEN("Attempt to add variable fails")
+			{
+				REQUIRE(!calculator.DeclareVariable(incorrectVarNameStartsWithNumber));
+				REQUIRE(!calculator.DeclareVariable(incorrectVarNameIncludesNotOnlyLettersAndDigits));
+			}
+		}
+	}
+
 	SECTION("Unsorted adding")
 	{
 		std::string varName = "B";
