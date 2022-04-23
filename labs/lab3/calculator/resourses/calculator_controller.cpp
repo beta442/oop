@@ -1,4 +1,4 @@
-#include "../headers/Ccalculator_controller.h"
+#include "../headers/CCalculator_controller.h"
 
 using namespace std::placeholders;
 
