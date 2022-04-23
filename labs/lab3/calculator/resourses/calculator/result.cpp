@@ -24,7 +24,7 @@ bool Result::HasMessage() const
 
 std::string Result::Message() const
 {
-	if (!HasMessage())
+	if (HasMessage())
 	{
 		return m_oMessage.value();
 	}
