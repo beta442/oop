@@ -1,6 +1,6 @@
 #include "../../headers/calculator/CResult.h"
 
-Result::Result(bool status, std::string message)
+Result::Result(bool status, const std::string& message)
 	: m_status(status)
 	, m_oMessage(message)
 {

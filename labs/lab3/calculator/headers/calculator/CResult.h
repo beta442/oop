@@ -6,7 +6,7 @@ class Result
 {
 public:
 	Result(bool status);
-	Result(bool status, std::string message);
+	Result(bool status, const std::string& message);
 
 	bool HasMessage() const;
 	bool IsOk() const;
