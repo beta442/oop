@@ -17,17 +17,14 @@ Parser::ParsingResult Parser::ParseExpression(const std::string& str)
 	std::smatch matches;
 	if (std::regex_match(str, matches, m_identifierAssignDoubleValueRegExp))
 	{
-		// l - 1, r - 3
 		result.type = ResultType::IdentifierAssignDouble;
 	}
 	else if (std::regex_match(str, matches, m_identifierAssignIdentifierRegExp))
 	{
-		// l - 1, r - 3
 		result.type = ResultType::IdentifierAssignIdentifier;
 	}
 	else if (std::regex_match(str, matches, m_identifierAssignExpressionRegExp))
 	{
-		// l - 1, rl - 3, o - 5, ll - 6
 		result.type = ResultType::IdentifierAssignExpression;
 	}
 	else
