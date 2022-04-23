@@ -143,7 +143,8 @@ void CalculatorController::DeclareVariable(std::istream& arguments) const
 	std::string identifier;
 	arguments >> identifier;
 
-	if (auto result = m_calculator.DeclareVariable(identifier); !result.IsOk())
+	if (auto result = m_calculator.DeclareVariable(identifier);
+		!result.IsOk() && result.HasMessage())
 	{
 		m_output << result.Message() << std::endl;
 	}
@@ -157,14 +158,18 @@ void CalculatorController::Help() const
 
 void CalculatorController::InitVariable(std::istream& arguments) const
 {
-	std::string buff;
-	arguments >> buff;
-	std::smatch matches;
-
-	/*if (!m_calculator.DeclareVariable(matches[leftOperandIndex].str(), matches[rightOperandIndex].str()))
+	std::string trimmedExpression, buffer;
+	while (!arguments.eof())
 	{
-		m_output << "Something went wrong, make sure, that you use correct arguments" << std::endl;
-	}*/
+		arguments >> buffer;
+		trimmedExpression += buffer;
+	}
+
+	if (auto result = m_calculator.InitVariable(trimmedExpression);
+		!result.IsOk() && result.HasMessage())
+	{
+		m_output << result.Message() << std::endl;
+	}
 }
 
 void CalculatorController::PrintAllFunctions() const
@@ -183,6 +188,7 @@ void CalculatorController::PrintVariable(std::istream& arguments) const
 	arguments >> identifier;
 
 	m_calculator.PrintVariable(identifier, m_output);
+	m_output << std::endl;
 }
 
 void CalculatorController::StopWorkflow()

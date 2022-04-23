@@ -42,6 +42,9 @@
     <ClCompile Include="resourses\calculator\result.cpp">
       <Filter>Resource Files\Calculator</Filter>
     </ClCompile>
+    <ClCompile Include="resourses\calculator\parser.cpp">
+      <Filter>Resource Files\Calculator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\std_lib.h">
@@ -63,6 +66,9 @@
       <Filter>Header Files\Calculator</Filter>
     </ClInclude>
     <ClInclude Include="headers\calculator\CResult.h">
+      <Filter>Header Files\Calculator</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\calculator\CParser.h">
       <Filter>Header Files\Calculator</Filter>
     </ClInclude>
   </ItemGroup>
