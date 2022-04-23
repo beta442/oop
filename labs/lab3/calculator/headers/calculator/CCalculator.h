@@ -14,7 +14,7 @@ public:
 	Result DeclareVariable(const std::string& varName);
 	bool DeclareVariable(const std::string& varName, const std::string& value);
 	void PrintVariables(std::ostream& output) const;
-	Result PrintVariable(const std::string& varName, std::ostream& output) const;
+	void PrintVariable(const std::string& varName, std::ostream& output) const;
 
 private:
 

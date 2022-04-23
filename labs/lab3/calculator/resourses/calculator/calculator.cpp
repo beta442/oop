@@ -12,7 +12,7 @@ Calculator::Calculator()
 
 Result Calculator::DeclareVariable(const std::string& varName)
 {
-	if (std::size(varName) == 0 )
+	if (std::size(varName) == 0)
 	{
 		return { false, "Empty variable name given" };
 	}
@@ -34,10 +34,7 @@ bool Calculator::DeclareVariable(const std::string& varName, const std::string& 
 	bool isValueContainRValue = std::regex_match(value, m_doubleValueRegExp);
 	bool isValueContainLValue = std::regex_match(value, m_identifierRegExp);
 
-	if (std::size(varName) == 0 ||
-		std::size(value) == 0 ||
-		!std::regex_match(varName, m_identifierRegExp) ||
-		!(isValueContainLValue || isValueContainRValue))
+	if (std::size(varName) == 0 || std::size(value) == 0 || !std::regex_match(varName, m_identifierRegExp) || !(isValueContainLValue || isValueContainRValue))
 	{
 		return false;
 	}
@@ -50,7 +47,7 @@ bool Calculator::DeclareVariable(const std::string& varName, const std::string& 
 		double val;
 		ss >> val;
 
-		//m_vars[varName] = val;
+		// m_vars[varName] = val;
 	}
 	else
 	{
@@ -73,6 +70,11 @@ void PrepareStreamForPrintDoubleValues(std::ostream& output, size_t precision)
 
 void Calculator::PrintVariables(std::ostream& output) const
 {
+	if (std::size(m_vars) == 0)
+	{
+		output << "No declarated variables" << std::endl;
+		return;
+	}
 	PrepareStreamForPrintDoubleValues(output, m_precision);
 	for (auto& [varName, value] : m_vars)
 	{
@@ -80,19 +82,18 @@ void Calculator::PrintVariables(std::ostream& output) const
 	}
 }
 
-Result Calculator::PrintVariable(const std::string& varName, std::ostream& output) const
+void Calculator::PrintVariable(const std::string& varName, std::ostream& output) const
 {
 	if (output.fail())
 	{
-		return { false, "Failed to output variable" };
+		output << "Failed to output variable" << std::endl;
 	}
-	if (m_vars.count(varName) == 0)
+
+	if (std::size(m_vars) == 0 || m_vars.count(varName) == 0)
 	{
-		return { false, "No such variable" };
+		output << "No such variable" << std::endl;
 	}
 
 	PrepareStreamForPrintDoubleValues(output, m_precision);
 	output << varName << m_delimetr << m_vars.at(varName).GetValue() << std::endl;
-
-	return { true, "" };
 }
