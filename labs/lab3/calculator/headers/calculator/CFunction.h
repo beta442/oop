@@ -17,7 +17,7 @@ public:
 
 	Function(const std::shared_ptr<Operand> operand);
 	Function(const std::shared_ptr<Operand> operandFirst,
-		const Operation operation, const std::shared_ptr<Operand> operandSecond);
+		const Operation& operation, const std::shared_ptr<Operand> operandSecond);
 
 	Value GetValue() const override;
 

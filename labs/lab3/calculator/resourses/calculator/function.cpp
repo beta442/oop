@@ -9,7 +9,7 @@ Function::Function(const std::shared_ptr<Operand> operand)
 }
 
 Function::Function(const std::shared_ptr<Operand> operandFirst,
-	const Operation operation, const std::shared_ptr<Operand> operandSecond)
+	const Operation& operation, const std::shared_ptr<Operand> operandSecond)
 	: m_firstOperand(operandFirst)
 	, m_operation(operation)
 	, m_secondOperand(operandSecond)
