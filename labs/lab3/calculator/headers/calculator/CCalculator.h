@@ -3,6 +3,7 @@
 #include "../std_lib.h"
 
 #include "CFunction.h"
+#include "CParser.h"
 #include "CResult.h"
 #include "CVariable.h"
 
@@ -12,7 +13,7 @@ public:
 	Calculator();
 
 	Result DeclareVariable(const std::string& varName);
-	bool DeclareVariable(const std::string& varName, const std::string& value);
+	Result InitVariable(const std::string& expression);
 	void PrintVariables(std::ostream& output) const;
 	void PrintVariable(const std::string& varName, std::ostream& output) const;
 
@@ -23,10 +24,10 @@ private:
 	using VariableValueMap = std::map<Identifier, Variable>;
 	using FunctionValueMap = std::map<Identifier, Function>;
 
+	inline const static Parser m_parser;
+
 	VariableValueMap m_vars;
 	FunctionValueMap m_funcs;
-	std::regex m_identifierRegExp;
-	std::regex m_doubleValueRegExp;
 	size_t m_precision;
 	char m_delimetr;
 };

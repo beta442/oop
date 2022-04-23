@@ -3,9 +3,7 @@
 #include "../../headers/calculator/Ccalculator.h"
 
 Calculator::Calculator()
-	: m_identifierRegExp(std::regex("^([a-zA-Z]([\\w]|[\\d])+|[a-zA-Z])$"))
-	, m_doubleValueRegExp(std::regex("([\\d]+(\\.|,)[\\d]+)|([\\d]+)"))
-	, m_precision(2)
+	: m_precision(2)
 	, m_delimetr(':')
 {
 }
@@ -20,7 +18,7 @@ Result Calculator::DeclareVariable(const std::string& varName)
 	{
 		return { false, "Given variable name is already taken" };
 	}
-	if (!std::regex_match(varName, m_identifierRegExp))
+	if (!m_parser.IsStringValidIdentifier(varName))
 	{
 		return { false, "Given variable name isn't valid" };
 	}
@@ -29,37 +27,66 @@ Result Calculator::DeclareVariable(const std::string& varName)
 	return { true, "" };
 }
 
-bool Calculator::DeclareVariable(const std::string& varName, const std::string& value)
+std::optional<std::string> RemoveFirst(std::vector<std::string>& sequence,
+	const std::function<bool(const std::string& str)>& pred)
 {
-	bool isValueContainRValue = std::regex_match(value, m_doubleValueRegExp);
-	bool isValueContainLValue = std::regex_match(value, m_identifierRegExp);
-
-	if (std::size(varName) == 0 || std::size(value) == 0 || !std::regex_match(varName, m_identifierRegExp) || !(isValueContainLValue || isValueContainRValue))
+	const auto sequenceIt = std::begin(sequence), sequenceEnd = std::end(sequence);
+	if (const auto it = std::find_if(sequenceIt, sequenceEnd, pred);
+		std::find_if(sequenceIt, sequenceEnd, pred) != sequenceEnd)
 	{
-		return false;
+		std::string result = *it;
+		sequence.erase(it);
+		return result;
+	}
+	return std::nullopt;
+}
+
+Result Calculator::InitVariable(const std::string& expression)
+{
+	auto [resultType, results] = m_parser.ParseExpression(expression);
+
+	if (resultType == Parser::ResultType::Failure || std::size(results) == 0)
+	{
+		return { false, "Failed to parse given expression" };
 	}
 
-	if (isValueContainRValue)
-	{
-		std::string correctValue = value;
-		std::replace(std::begin(correctValue), std::end(correctValue), ',', '.');
-		std::stringstream ss{ correctValue };
-		double val;
-		ss >> val;
+	auto oLeftPartOfExpression = RemoveFirst(results, m_parser.IsValidIdentifier);
 
-		// m_vars[varName] = val;
-	}
-	else
+	if (oLeftPartOfExpression.has_value())
 	{
-		if (m_vars.count(value) == 0)
+		std::cout << "Left" << *oLeftPartOfExpression << std::endl;
+		if (auto oRightPartOfExpression = RemoveFirst(results, m_parser.IsValidDouble);
+			resultType == Parser::ResultType::IdentifierAssignDouble && oRightPartOfExpression.has_value())
 		{
-			return false;
-		}
+			std::string value = *oRightPartOfExpression;
+			std::cout << "Right" << *oRightPartOfExpression << std::endl;
+			std::replace(std::begin(value), std::end(value), ',', '.');
+			std::stringstream ss{ value };
 
-		m_vars.emplace(varName, m_vars.at(value));
+			double val;
+			ss >> val;
+
+			Variable var{ val };
+			m_vars[*oLeftPartOfExpression] = var;
+			return true;
+		}
+		if (auto oRightPartOfExpression = RemoveFirst(results, m_parser.IsValidIdentifier);
+			resultType == Parser::ResultType::IdentifierAssignIdentifier && oRightPartOfExpression.has_value())
+		{
+			std::cout << "Right" << *oRightPartOfExpression << std::endl;
+			std::string value = *oRightPartOfExpression;
+			if (m_vars.count(value) == 0)
+			{
+				return { false, "No such variable to assign to" };
+			}
+
+			Variable newVar{ m_vars.at(value) };
+			m_vars.emplace(*oLeftPartOfExpression, newVar);
+			return true;
+		}
 	}
 
-	return true;
+	return { false, "Failed to assign value to variable" };
 }
 
 void PrepareStreamForPrintDoubleValues(std::ostream& output, size_t precision)
@@ -78,7 +105,7 @@ void Calculator::PrintVariables(std::ostream& output) const
 	PrepareStreamForPrintDoubleValues(output, m_precision);
 	for (auto& [varName, value] : m_vars)
 	{
-		output << varName << m_delimetr << value.GetValue() << std::endl;
+		output << varName << m_delimetr << value.GetValue() + 0 << std::endl;
 	}
 }
 
@@ -87,13 +114,15 @@ void Calculator::PrintVariable(const std::string& varName, std::ostream& output)
 	if (output.fail())
 	{
 		output << "Failed to output variable" << std::endl;
+		return;
 	}
 
 	if (std::size(m_vars) == 0 || m_vars.count(varName) == 0)
 	{
 		output << "No such variable" << std::endl;
+		return;
 	}
 
 	PrepareStreamForPrintDoubleValues(output, m_precision);
-	output << varName << m_delimetr << m_vars.at(varName).GetValue() << std::endl;
+	output << varName << m_delimetr << m_vars.at(varName).GetValue() + 0 << std::endl;
 }
