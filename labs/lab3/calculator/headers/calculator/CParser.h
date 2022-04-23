@@ -23,6 +23,7 @@ public:
 
 	static bool IsStringValidIdentifier(const std::string& str);
 	static bool IsStringValidDouble(const std::string& str);
+	static bool IsStringValidOperation(const std::string & str);
 	static ParsingResult ParseExpression(const std::string& str);
 
 	inline static const auto IsValidIdentifier = [](const std::string& str) {
@@ -30,6 +31,9 @@ public:
 	};
 	inline static const auto IsValidDouble = [](const std::string& str) {
 		return IsStringValidDouble(str);
+	};
+	inline static const auto IsValidOperation = [](const std::string& str) {
+		return IsStringValidOperation(str);
 	};
 
 private:
@@ -39,6 +43,7 @@ private:
 	inline static const std::string m_equalSymbol = "=";
 	inline static const std::string m_operationSymbolsRegExpString = "([+\\-*\\/])";
 
+	inline static const std::regex m_operationSymbolsRegExp = std::regex("^" + m_operationSymbolsRegExpString + "$");
 	inline static const std::regex m_identifierRegExp = std::regex("^" + m_identifierRegExpString + "$");
 	inline static const std::regex m_doubleValueRegExp = std::regex("^" + m_doubleValueRegExpString + "$");
 	inline static const std::regex m_identifierAssignDoubleValueRegExp = std::regex("^" + m_identifierRegExpString + m_equalSymbol + m_doubleValueRegExpString + "$");

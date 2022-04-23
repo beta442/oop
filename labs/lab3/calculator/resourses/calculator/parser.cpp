@@ -10,6 +10,11 @@ bool Parser::IsStringValidDouble(const std::string& str)
 	return std::regex_match(str, m_doubleValueRegExp);
 }
 
+bool Parser::IsStringValidOperation(const std::string& str)
+{
+	return std::regex_match(str, m_operationSymbolsRegExp);
+}
+
 Parser::ParsingResult Parser::ParseExpression(const std::string& str)
 {
 	ParsingResult result{ ResultType::Failure, {} };
