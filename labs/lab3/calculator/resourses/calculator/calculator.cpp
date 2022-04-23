@@ -1,23 +1,32 @@
-#include "../../headers/calculator/calculator.h"
 #include "../../headers/std_lib.h"
 
+#include "../../headers/calculator/Ccalculator.h"
+
 Calculator::Calculator()
+	: m_identifierRegExp(std::regex("^([a-zA-Z]([\\w]|[\\d])+|[a-zA-Z])$"))
+	, m_doubleValueRegExp(std::regex("([\\d]+(\\.|,)[\\d]+)|([\\d]+)"))
+	, m_precision(2)
+	, m_delimetr(':')
 {
-	m_identifierRegExp = std::regex("^([a-zA-Z]([\\w]|[\\d])+|[a-zA-Z])$");
-	m_doubleValueRegExp = std::regex("([\\d]+(\\.|,)[\\d]+)|([\\d]+)");
-	m_precision = 2;
-	m_delimetr = ':';
 }
 
-bool Calculator::DeclareVariable(const std::string& varName)
+Result Calculator::DeclareVariable(const std::string& varName)
 {
-	if (std::size(varName) == 0 || m_vars.count(varName) != 0 || !std::regex_match(varName, m_identifierRegExp))
+	if (std::size(varName) == 0 )
 	{
-		return false;
+		return { false, "Empty variable name given" };
+	}
+	if (m_vars.count(varName) != 0)
+	{
+		return { false, "Given variable name is already taken" };
+	}
+	if (!std::regex_match(varName, m_identifierRegExp))
+	{
+		return { false, "Given variable name isn't valid" };
 	}
 
-	m_vars.emplace(varName, std::numeric_limits<Value>::quiet_NaN());
-	return true;
+	m_vars.emplace(varName, Variable{});
+	return { true, "" };
 }
 
 bool Calculator::DeclareVariable(const std::string& varName, const std::string& value)
@@ -41,7 +50,7 @@ bool Calculator::DeclareVariable(const std::string& varName, const std::string& 
 		double val;
 		ss >> val;
 
-		m_vars[varName] = val;
+		//m_vars[varName] = val;
 	}
 	else
 	{
@@ -56,26 +65,34 @@ bool Calculator::DeclareVariable(const std::string& varName, const std::string& 
 	return true;
 }
 
+void PrepareStreamForPrintDoubleValues(std::ostream& output, size_t precision)
+{
+	output << std::setprecision(precision);
+	output << std::fixed;
+}
+
 void Calculator::PrintVariables(std::ostream& output) const
 {
-	output << std::setprecision(m_precision);
-	output << std::fixed;
+	PrepareStreamForPrintDoubleValues(output, m_precision);
 	for (auto& [varName, value] : m_vars)
 	{
-		output << varName << m_delimetr << value << std::endl;
+		output << varName << m_delimetr << value.GetValue() << std::endl;
 	}
 }
 
-bool Calculator::PrintVariable(const std::string& varName, std::ostream& output) const
+Result Calculator::PrintVariable(const std::string& varName, std::ostream& output) const
 {
-	if (output.fail() || m_vars.count(varName) == 0)
+	if (output.fail())
 	{
-		return false;
+		return { false, "Failed to output variable" };
+	}
+	if (m_vars.count(varName) == 0)
+	{
+		return { false, "No such variable" };
 	}
 
-	output << std::setprecision(m_precision);
-	output << std::fixed;
-	output << varName << m_delimetr << m_vars.at(varName) << std::endl;
+	PrepareStreamForPrintDoubleValues(output, m_precision);
+	output << varName << m_delimetr << m_vars.at(varName).GetValue() << std::endl;
 
-	return true;
+	return { true, "" };
 }

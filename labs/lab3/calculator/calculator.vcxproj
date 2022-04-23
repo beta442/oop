@@ -149,15 +149,19 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="resourses\calculator\calculator.cpp" />
-    <ClCompile Include="resourses\calculator\Variable.cpp" />
+    <ClCompile Include="resourses\calculator\function.cpp" />
+    <ClCompile Include="resourses\calculator\operand.cpp" />
+    <ClCompile Include="resourses\calculator\result.cpp" />
+    <ClCompile Include="resourses\calculator\variable.cpp" />
     <ClCompile Include="resourses\calculator_controller.cpp" />
-    <ClCompile Include="resourses\main_utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\calculator\calculator.h" />
-    <ClInclude Include="headers\calculator\variable.h" />
-    <ClInclude Include="headers\calculator_controller.h" />
-    <ClInclude Include="headers\main_utils.h" />
+    <ClInclude Include="headers\calculator\CCalculator.h" />
+    <ClInclude Include="headers\calculator\CFunction.h" />
+    <ClInclude Include="headers\calculator\COperand.h" />
+    <ClInclude Include="headers\calculator\CResult.h" />
+    <ClInclude Include="headers\calculator\CVariable.h" />
+    <ClInclude Include="headers\CCalculator_controller.h" />
     <ClInclude Include="headers\std_lib.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

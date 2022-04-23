@@ -1,12 +1,90 @@
-#include "../headers/calculator_controller.h"
-#include "../headers/main_utils.h"
+#include "../headers/Ccalculator_controller.h"
 
 using namespace std::placeholders;
 
-CalculatorController::CalculatorController(std::istream& input, std::ostream& output, Calculator& calculator)
+const std::string HELLO_MSG = "Calculator app";
+
+const std::string EXIT_COMMAND = "exit";
+const std::string FUNCTION_COMMAND = "fn";
+const std::string HELP_COMMAND = "help";
+const std::string LET_COMMAND = "let";
+const std::string PRINT_COMMAND = "print";
+const std::string PRINT_FUNCTIONS_COMMAND = "printfn";
+const std::string PRINT_VARS_COMMAND = "printvars";
+const std::string VAR_COMMAND = "var";
+
+const std::string SUM_OPERATION = "+";
+const std::string SUB_OPERATION = "-";
+const std::string MULTIPLY_OPERATION = "*";
+const std::string DIVISION_OPERATION = "/";
+
+const std::string VAR_NAME_PARAMETER = "<varName>";
+const std::string VAR_NAME_PARAMETER_DESCRIPTION = "Should start with letter, may be represented only by letters and digits";
+const std::string VAR_VALUE_PARAMETER = "<varValue>";
+const std::string VAR_VALUE_PARAMETER_DESCRIPTION = "Should be represented like that: 123.123 or 123,123 or 12345";
+const std::string OPERATION_PARAMETER = "<operation>";
+const std::string OPERATION_PARAMETER_DESCRIPTION = SUM_OPERATION + "|" + SUB_OPERATION + "|" + MULTIPLY_OPERATION + "|" + DIVISION_OPERATION;
+
+const std::vector<std::string> commands{
+	EXIT_COMMAND,
+	FUNCTION_COMMAND,
+	HELP_COMMAND,
+	LET_COMMAND,
+	PRINT_COMMAND,
+	PRINT_FUNCTIONS_COMMAND,
+	PRINT_VARS_COMMAND,
+	VAR_COMMAND,
+};
+
+const std::string EXIT_COMMAND_DESCRIPTION = "Exit program";
+const std::string FUNCTION_COMMAND_DESCRIPTION
+	= std::string("Declare function, e.g. " + FUNCTION_COMMAND + " " + VAR_NAME_PARAMETER + "=" + VAR_NAME_PARAMETER + " | " + FUNCTION_COMMAND + " " + VAR_NAME_PARAMETER + "=" + VAR_NAME_PARAMETER + OPERATION_PARAMETER + VAR_NAME_PARAMETER);
+const std::string HELP_COMMAND_DESCRIPTION = "Shows available commands";
+const std::string LET_COMMAND_DESCRIPTION
+	= std::string("Initialize double variable, e.g. " + LET_COMMAND + " " + VAR_NAME_PARAMETER + "=" + VAR_VALUE_PARAMETER + " | " + LET_COMMAND + " " + VAR_NAME_PARAMETER + "=" + VAR_NAME_PARAMETER);
+const std::string PRINT_COMMAND_DESCRIPTION
+	= std::string("Print variable, e.g. " + PRINT_COMMAND + " " + VAR_NAME_PARAMETER);
+const std::string PRINT_FUNCTIONS_COMMAND_DESCRIPTION = "Prints all functions with their values";
+const std::string PRINT_VARS_COMMAND_DESCRIPTION = "Prints all declarated variables";
+const std::string VAR_COMMAND_DESCRIPTION
+	= std::string("Declare double variable, e.g. " + VAR_COMMAND + " " + VAR_NAME_PARAMETER);
+
+const std::unordered_map<std::string, std::string> commandDescription{
+	{ FUNCTION_COMMAND, FUNCTION_COMMAND_DESCRIPTION },
+	{ HELP_COMMAND, HELP_COMMAND_DESCRIPTION },
+	{ LET_COMMAND, LET_COMMAND_DESCRIPTION },
+	{ PRINT_COMMAND, PRINT_COMMAND_DESCRIPTION },
+	{ PRINT_FUNCTIONS_COMMAND, PRINT_FUNCTIONS_COMMAND_DESCRIPTION },
+	{ PRINT_VARS_COMMAND, PRINT_VARS_COMMAND_DESCRIPTION },
+	{ VAR_COMMAND, VAR_COMMAND_DESCRIPTION },
+	{ EXIT_COMMAND, EXIT_COMMAND_DESCRIPTION },
+	{ VAR_NAME_PARAMETER, VAR_NAME_PARAMETER_DESCRIPTION },
+	{ VAR_VALUE_PARAMETER, VAR_VALUE_PARAMETER_DESCRIPTION },
+	{ OPERATION_PARAMETER, OPERATION_PARAMETER_DESCRIPTION },
+};
+
+void PrintMapCommandDescription(const std::unordered_map<std::string, std::string> description, std::ostream& output)
+{
+	for (auto& [command, description] : description)
+	{
+		output << "--" << command << ": " << description << std::endl;
+	}
+}
+
+void PrintHelloMsg(std::ostream& output)
+{
+	output << HELLO_MSG << std::endl;
+	PrintMapCommandDescription(commandDescription, output);
+	output << std::endl;
+}
+
+
+CalculatorController::CalculatorController(std::istream& input,
+	std::ostream& output, Calculator& calculator, bool consoleMode)
 	: m_input(input)
 	, m_output(output)
 	, m_calculator(calculator)
+	, m_isWorkflowGoOn(true)
 	, m_actions({ { EXIT_COMMAND, std::bind(&CalculatorController::StopWorkflow, this) },
 		  { FUNCTION_COMMAND, std::bind(&CalculatorController::DeclareFunction, this, _1) },
 		  { HELP_COMMAND, std::bind(&CalculatorController::Help, this) },
@@ -16,14 +94,27 @@ CalculatorController::CalculatorController(std::istream& input, std::ostream& ou
 		  { PRINT_VARS_COMMAND, std::bind(&CalculatorController::PrintAllVariables, this) },
 		  { VAR_COMMAND, std::bind(&CalculatorController::DeclareVariable, this, _1) } })
 {
-	m_isWorkflowGoesOn = true;
-	m_identifierAssignmentExpression =
-		std::regex("^(([a-zA-Z]([\\w]|[\\d])+|[a-zA-Z])=((([\\d]+(\\.|,)[\\d]+)|([\\d]+))|([a-zA-Z]([\\w]|[\\d])+|[a-zA-Z])))$");
+	if (consoleMode)
+	{
+		PrintHelloMsg(m_output);
+	}
 }
 
-bool CalculatorController::IsFinishedWork() const
+void CalculatorController::StartWorkflow()
 {
-	return m_isWorkflowGoesOn;
+	while (!m_input.eof() && m_input.good() && m_output.good() && m_isWorkflowGoOn)
+	{
+		m_output << "> ";
+		if (!HandleCommand())
+		{
+			std::cout << "Unknown command!" << std::endl;
+		}
+	}
+}
+
+bool CalculatorController::IsWorkFinished() const
+{
+	return m_isWorkflowGoOn;
 }
 
 bool CalculatorController::HandleCommand() const
@@ -35,108 +126,72 @@ bool CalculatorController::HandleCommand() const
 	std::string action;
 	stream >> action;
 
-	auto it = m_actions.find(action);
-	if (it != m_actions.end())
+	if (auto it = m_actions.find(action); it != m_actions.end())
 	{
-		return it->second(stream);
-	}
-	return false;
-}
-
-bool CalculatorController::DeclareFunction(std::istream& arguments) const
-{
-	return false;
-}
-
-bool CalculatorController::DeclareVariable(std::istream& arguments) const
-{
-	if (arguments.eof())
-	{
-		m_output << "Wrong arguments count. See help" << std::endl;
+		it->second(stream);
 		return true;
 	}
+	return false;
+}
 
+void CalculatorController::DeclareFunction(std::istream& arguments) const
+{
+}
+
+void CalculatorController::DeclareVariable(std::istream& arguments) const
+{
 	std::string identifier;
 	arguments >> identifier;
 
-	if (!m_calculator.DeclareVariable(identifier))
+	if (auto result = m_calculator.DeclareVariable(identifier); !result.IsOk())
 	{
-		m_output << "Variable already exists or variable named incorrectly, can't redeclare" << std::endl;
+		m_output << result.Message() << std::endl;
 	}
-	return true;
 }
 
-bool CalculatorController::Help() const
+void CalculatorController::Help() const
 {
 	PrintMapCommandDescription(commandDescription, m_output);
 	m_output << std::endl;
-	return true;
 }
 
-bool CalculatorController::InitVariable(std::istream& arguments) const
+void CalculatorController::InitVariable(std::istream& arguments) const
 {
-	if (arguments.eof())
-	{
-		m_output << "Wrong arguments count. See help" << std::endl;
-		return true;
-	}
-
 	std::string buff;
 	arguments >> buff;
 	std::smatch matches;
-	if (!std::regex_match(buff, matches, m_identifierAssignmentExpression))
-	{
-		m_output << "Wrong usage, see help" << std::endl;
-		return true;
-	}
 
-	const size_t leftOperandIndex = 2;
-	const size_t rightOperandIndex = 4;
-
-	if (!m_calculator.DeclareVariable(matches[leftOperandIndex].str(), matches[rightOperandIndex].str()))
+	/*if (!m_calculator.DeclareVariable(matches[leftOperandIndex].str(), matches[rightOperandIndex].str()))
 	{
 		m_output << "Something went wrong, make sure, that you use correct arguments" << std::endl;
-	}
-
-	return true;
+	}*/
 }
 
-bool CalculatorController::PrintAllFunctions() const
+void CalculatorController::PrintAllFunctions() const
 {
-	return false;
 }
 
-bool CalculatorController::PrintAllVariables() const
+void CalculatorController::PrintAllVariables() const
 {
 	m_calculator.PrintVariables(m_output);
 	m_output << std::endl;
-	return true;
 }
 
-bool CalculatorController::PrintVariable(std::istream& arguments) const
+void CalculatorController::PrintVariable(std::istream& arguments) const
 {
-	if (arguments.eof())
-	{
-		m_output << "Wrong arguments count. See help" << std::endl;
-		return true;
-	}
-
 	std::string identifier;
 	arguments >> identifier;
 
-	if (!m_calculator.PrintVariable(identifier, m_output))
+	if (auto result = m_calculator.PrintVariable(identifier, m_output); !result.IsOk())
 	{
-		m_output << "Variable doesn't exists, failed to print its value" << std::endl;
+		m_output << result.Message() << std::endl;
 	}
-	return true;
 }
 
-bool CalculatorController::StopWorkflow()
+void CalculatorController::StopWorkflow()
 {
-	if (m_isWorkflowGoesOn)
+	if (m_isWorkflowGoOn)
 	{
-		m_isWorkflowGoesOn = false;
-		return true;
+		m_isWorkflowGoOn = false;
 	}
-	return false;
 }
