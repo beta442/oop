@@ -182,10 +182,7 @@ void CalculatorController::PrintVariable(std::istream& arguments) const
 	std::string identifier;
 	arguments >> identifier;
 
-	if (auto result = m_calculator.PrintVariable(identifier, m_output); !result.IsOk())
-	{
-		m_output << result.Message() << std::endl;
-	}
+	m_calculator.PrintVariable(identifier, m_output);
 }
 
 void CalculatorController::StopWorkflow()
