@@ -16,5 +16,4 @@ public:
 private:
 
 	Value m_value;
-	inline const static Value m_nanValue = std::numeric_limits<Value>::quiet_NaN();
 };
