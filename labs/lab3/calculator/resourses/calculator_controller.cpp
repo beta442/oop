@@ -186,6 +186,8 @@ void CalculatorController::InitVariable(std::istream& arguments) const
 
 void CalculatorController::PrintAllFunctions() const
 {
+	m_calculator.PrintFunctions(m_output);
+	m_output << std::endl;
 }
 
 void CalculatorController::PrintAllVariables() const
