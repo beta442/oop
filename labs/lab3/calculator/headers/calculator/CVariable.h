@@ -14,6 +14,7 @@ public:
 	void SetValue(const Value value);
 
 private:
+	virtual void FlushCachedValue();
 
 	Value m_value;
 };
