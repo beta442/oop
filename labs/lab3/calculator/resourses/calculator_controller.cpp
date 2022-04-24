@@ -136,6 +136,18 @@ bool CalculatorController::HandleCommand() const
 
 void CalculatorController::DeclareFunction(std::istream& arguments) const
 {
+	std::string trimmedExpression, buffer;
+	while (!arguments.eof())
+	{
+		arguments >> buffer;
+		trimmedExpression += buffer;
+	}
+
+	if (auto result = m_calculator.DeclareFunction(trimmedExpression);
+		!result.IsOk() && result.HasMessage())
+	{
+		m_output << result.Message() << std::endl;
+	}
 }
 
 void CalculatorController::DeclareVariable(std::istream& arguments) const

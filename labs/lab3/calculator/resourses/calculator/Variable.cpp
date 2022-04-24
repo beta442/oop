@@ -14,3 +14,8 @@ Variable::Value Variable::GetValue() const
 {
 	return m_value;
 }
+
+void Variable::SetValue(const Variable::Value value)
+{
+	m_value = value;
+}
