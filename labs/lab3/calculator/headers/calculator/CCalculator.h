@@ -21,8 +21,8 @@ public:
 
 private:
 	using Identifier = std::string;
-	using VariableValueMap = std::map<Identifier, std::shared_ptr<Variable>>;
-	using FunctionValueMap = std::map<Identifier, std::shared_ptr<Function>>;
+	using VariableValueMap = std::map<Identifier, std::shared_ptr<Variable> const>;
+	using FunctionValueMap = std::map<Identifier, std::shared_ptr<Function> const>;
 
 	bool IsFunctionDeclarated(const std::string& identifier) const;
 	bool IsVariableDeclarated(const std::string& identifier) const;

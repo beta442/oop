@@ -64,40 +64,41 @@ Result Calculator::DeclareFunction(const std::string& expression)
 			std::string rightOperand = oRightPartOfExpression.value();
 			if (IsVariableDeclarated(rightOperand))
 			{
-				// m_funcs.emplace(leftIdentifier, m_vars[rightOperand]);
+				m_funcs.emplace(leftIdentifier, std::make_shared<Function>(m_vars[rightOperand]));
 			}
 			else if (IsFunctionDeclarated(rightOperand))
 			{
-				// m_funcs.emplace(leftIdentifier, Function{ std::make_shared<Function>(m_funcs[rightOperand]) });
+				m_funcs.emplace(leftIdentifier, m_funcs[rightOperand]);
 			}
 			else
 			{
 				return { false, "No such variable or function to assign to" };
 			}
 		}
-		if (auto oRightLeftPartOfExpression = RemoveFirst(results, m_parser.IsValidIdentifier),
-			oRightMiddlePartOfExpression = RemoveFirst(results, m_parser.IsValidOperation),
+		else if (auto oRightMiddlePartOfExpression = RemoveFirst(results, m_parser.IsValidOperation),
 			oRightRightPartOfExpression = RemoveFirst(results, m_parser.IsValidIdentifier);
-			resultType == Parser::ResultType::IdentifierAssignExpression && oRightLeftPartOfExpression.has_value() && oRightRightPartOfExpression.has_value())
+				 resultType == Parser::ResultType::IdentifierAssignExpression && oRightPartOfExpression.has_value() && oRightRightPartOfExpression.has_value())
 		{
 			if (!oRightMiddlePartOfExpression.has_value())
 			{
 				return { false, "Incorrect operation" };
 			}
 
-			std::string rightFirstOperand = oRightLeftPartOfExpression.value();
+			std::string rightFirstOperand = oRightPartOfExpression.value();
 			std::string operation = oRightMiddlePartOfExpression.value();
 			std::string rightSecondOperand = oRightRightPartOfExpression.value();
 
-			if (!IsVariableDeclarated(rightFirstOperand) && !IsFunctionDeclarated(rightFirstOperand))
+			if (!(IsVariableDeclarated(rightFirstOperand) || IsFunctionDeclarated(rightFirstOperand)))
 			{
 				return { false, "Can't find first operand" };
 			}
 
-			if (!IsVariableDeclarated(rightSecondOperand) && !IsFunctionDeclarated(rightSecondOperand))
+			if (!(IsVariableDeclarated(rightSecondOperand) || IsFunctionDeclarated(rightSecondOperand)))
 			{
 				return { false, "Can't find second operand" };
 			}
+
+			//m_funcs.emplace(leftIdentifier, std::make_shared<Function>({ rightFirstOperand, operation, rightSecondOperand }));
 		}
 
 		return { true };
