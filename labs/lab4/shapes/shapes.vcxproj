@@ -23,7 +23,7 @@
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{121a0c77-213c-476a-a402-62ba2a183d03}</ProjectGuid>
     <RootNamespace>shapes</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -88,6 +88,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -102,6 +104,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -116,6 +120,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,6 +136,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,9 +147,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="headers\shapes\CLineSegment.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="resources\shapes\circle.cpp" />
+    <ClCompile Include="resources\shapes\ishape.cpp" />
+    <ClCompile Include="resources\shapes\isolid_shape.cpp" />
+    <ClCompile Include="resources\shapes\line_segment.cpp" />
+    <ClCompile Include="resources\shapes\point.cpp" />
+    <ClCompile Include="resources\shapes\rectangle.cpp" />
+    <ClCompile Include="resources\shapes\triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="headers\shapes\CCircle.h" />
+    <ClInclude Include="headers\shapes\CLineSegment.h" />
+    <ClInclude Include="headers\shapes\CPoint.h" />
+    <ClInclude Include="headers\shapes\CRectangle.h" />
+    <ClInclude Include="headers\shapes\CTriangle.h" />
+    <ClInclude Include="headers\shapes\IShape.h" />
+    <ClInclude Include="headers\shapes\ISolidShape.h" />
     <ClInclude Include="headers\std_lib.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
