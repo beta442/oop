@@ -43,7 +43,7 @@ const std::string HELP_COMMAND_DESCRIPTION = "Shows available commands";
 const std::string LET_COMMAND_DESCRIPTION
 	= std::string("Initialize double variable, e.g. " + LET_COMMAND + " " + VAR_NAME_PARAMETER + "=" + VAR_VALUE_PARAMETER + " | " + LET_COMMAND + " " + VAR_NAME_PARAMETER + "=" + VAR_NAME_PARAMETER);
 const std::string PRINT_COMMAND_DESCRIPTION
-	= std::string("Print variable, e.g. " + PRINT_COMMAND + " " + VAR_NAME_PARAMETER);
+	= std::string("Print variable or function, e.g. " + PRINT_COMMAND + " " + VAR_NAME_PARAMETER);
 const std::string PRINT_FUNCTIONS_COMMAND_DESCRIPTION = "Prints all functions with their values";
 const std::string PRINT_VARS_COMMAND_DESCRIPTION = "Prints all declarated variables";
 const std::string VAR_COMMAND_DESCRIPTION
@@ -89,7 +89,7 @@ CalculatorController::CalculatorController(std::istream& input,
 		  { FUNCTION_COMMAND, std::bind(&CalculatorController::DeclareFunction, this, _1) },
 		  { HELP_COMMAND, std::bind(&CalculatorController::Help, this) },
 		  { LET_COMMAND, std::bind(&CalculatorController::InitVariable, this, _1) },
-		  { PRINT_COMMAND, std::bind(&CalculatorController::PrintVariable, this, _1) },
+		  { PRINT_COMMAND, std::bind(&CalculatorController::PrintIdentifierAndValue, this, _1) },
 		  { PRINT_FUNCTIONS_COMMAND, std::bind(&CalculatorController::PrintAllFunctions, this) },
 		  { PRINT_VARS_COMMAND, std::bind(&CalculatorController::PrintAllVariables, this) },
 		  { VAR_COMMAND, std::bind(&CalculatorController::DeclareVariable, this, _1) } })
@@ -194,12 +194,12 @@ void CalculatorController::PrintAllVariables() const
 	m_output << std::endl;
 }
 
-void CalculatorController::PrintVariable(std::istream& arguments) const
+void CalculatorController::PrintIdentifierAndValue(std::istream& arguments) const
 {
 	std::string identifier;
 	arguments >> identifier;
 
-	m_calculator.PrintVariable(identifier, m_output);
+	m_calculator.PrintIdentifierAndValue(identifier, m_output);
 	m_output << std::endl;
 }
 

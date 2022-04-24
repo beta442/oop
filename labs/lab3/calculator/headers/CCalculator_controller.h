@@ -24,7 +24,7 @@ private:
 	bool IsWorkFinished() const;
 	void PrintAllFunctions() const;
 	void PrintAllVariables() const;
-	void PrintVariable(std::istream& arguments) const;
+	void PrintIdentifierAndValue(std::istream& arguments) const;
 	void StopWorkflow();
 
 	Calculator& m_calculator;
