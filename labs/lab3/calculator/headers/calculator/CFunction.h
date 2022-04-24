@@ -7,16 +7,9 @@
 class Function : public Operand
 {
 public:
-	enum class Operation
-	{
-		Sum,
-		Sub,
-		Mul,
-		Div,
-	};
 
-	Function(std::shared_ptr<Operand> const operand);
-	Function(std::shared_ptr<Operand> const operandFirst,
+	Function(OperandPtr const operand);
+	Function(OperandPtr const operandFirst,
 		const Operation& operation, std::shared_ptr<Operand> const operandSecond);
 
 	Value GetValue() const override;

@@ -1,23 +1,23 @@
 #include "../../headers/calculator/CFunction.h"
 
-Function::Function(std::shared_ptr<Operand> const operand)
+Function::Function(OperandPtr const operand)
 	: m_firstOperand(operand)
 	, m_operation(std::nullopt)
 	, m_secondOperand(std::nullopt)
 	, m_cachedValue(std::nullopt)
 {
-	//operand->AddDependentOperand(std::make_shared<Function>(this));
+	operand->AddDependentOperand(std::shared_ptr<Function>(this));
 }
 
-Function::Function(std::shared_ptr<Operand> const operandFirst,
-	const Operation& operation, std::shared_ptr<Operand> const operandSecond)
+Function::Function(OperandPtr const operandFirst,
+	const Operation& operation, OperandPtr const operandSecond)
 	: m_firstOperand(operandFirst)
 	, m_operation(operation)
 	, m_secondOperand(operandSecond)
 	, m_cachedValue(std::nullopt)
 {
-	//operandFirst->AddDependentOperand(std::make_shared<Operand>(this));
-	//operandSecond->AddDependentOperand(std::make_shared<Operand>(this));
+	operandFirst->AddDependentOperand(std::shared_ptr<Function>(this));
+	operandSecond->AddDependentOperand(std::shared_ptr<Function>(this));
 }
 
 Function::Value Function::GetValue() const
@@ -52,16 +52,16 @@ void Function::CalculateValue() const
 
 	switch (op)
 	{
-	case Function::Operation::Sum:
+	case Operation::Sum:
 		m_cachedValue = leftOperandValue + rightOperandValue;
 		break;
-	case Function::Operation::Sub:
+	case Operation::Sub:
 		m_cachedValue = leftOperandValue - rightOperandValue;
 		break;
-	case Function::Operation::Mul:
+	case Operation::Mul:
 		m_cachedValue = leftOperandValue * rightOperandValue;
 		break;
-	case Function::Operation::Div:
+	case Operation::Div:
 		m_cachedValue = leftOperandValue / rightOperandValue;
 		break;
 	default:
