@@ -8,23 +8,23 @@ Calculator::Calculator()
 {
 }
 
-Result Calculator::DeclareVariable(const std::string& varName)
+Result Calculator::DeclareVariable(const std::string& identifier)
 {
-	if (std::size(varName) == 0)
+	if (std::size(identifier) == 0)
 	{
 		return { false, "Empty variable name given" };
 	}
-	if (m_vars.count(varName) != 0)
+	if (m_vars.count(identifier) != 0 || m_funcs.count(identifier) != 0)
 	{
 		return { false, "Given variable name is already taken" };
 	}
-	if (!m_parser.IsStringValidIdentifier(varName))
+	if (!m_parser.IsStringValidIdentifier(identifier))
 	{
 		return { false, "Given variable name isn't valid" };
 	}
 
-	m_vars.emplace(varName, Variable{});
-	return { true, "" };
+	m_vars.emplace(identifier, std::make_shared<Variable>());
+	return { true };
 }
 
 std::optional<std::string> RemoveFirst(std::vector<std::string>& sequence,
@@ -41,48 +41,113 @@ std::optional<std::string> RemoveFirst(std::vector<std::string>& sequence,
 	return std::nullopt;
 }
 
-Result Calculator::InitVariable(const std::string& expression)
+Result Calculator::DeclareFunction(const std::string& expression)
 {
 	auto [resultType, results] = m_parser.ParseExpression(expression);
-
 	if (resultType == Parser::ResultType::Failure || std::size(results) == 0)
 	{
 		return { false, "Failed to parse given expression" };
 	}
 
 	auto oLeftPartOfExpression = RemoveFirst(results, m_parser.IsValidIdentifier);
-
 	if (oLeftPartOfExpression.has_value())
 	{
-		std::cout << "Left" << *oLeftPartOfExpression << std::endl;
+		std::string leftIdentifier = oLeftPartOfExpression.value();
+		if (m_vars.count(leftIdentifier) != 0)
+		{
+			return { false, "Given function name is already taken" };
+		}
+
+		if (auto oRightPartOfExpression = RemoveFirst(results, m_parser.IsValidIdentifier);
+			resultType == Parser::ResultType::IdentifierAssignIdentifier && oRightPartOfExpression.has_value())
+		{
+			std::string rightOperand = oRightPartOfExpression.value();
+			if (m_vars.count(rightOperand) != 0)
+			{
+				// m_funcs.emplace(leftIdentifier, m_vars[rightOperand]);
+			}
+			else if (m_funcs.count(rightOperand) != 0)
+			{
+				// m_funcs.emplace(leftIdentifier, Function{ std::make_shared<Function>(m_funcs[rightOperand]) });
+			}
+			else
+			{
+				return { false, "No such variable or function to assign to" };
+			}
+		}
+		if (auto oRightLeftPartOfExpression = RemoveFirst(results, m_parser.IsValidIdentifier),
+			oRightMiddlePartOfExpression = RemoveFirst(results, m_parser.IsValidOperation),
+			oRightRightPartOfExpression = RemoveFirst(results, m_parser.IsValidIdentifier);
+			resultType == Parser::ResultType::IdentifierAssignExpression && oRightLeftPartOfExpression.has_value() && oRightRightPartOfExpression.has_value())
+		{
+			if (!oRightMiddlePartOfExpression.has_value())
+			{
+				return { false, "Incorrect operation" };
+			}
+
+			std::string rightFirstOperand = oRightLeftPartOfExpression.value();
+			std::string operation = oRightMiddlePartOfExpression.value();
+			std::string rightSecondOperand = oRightRightPartOfExpression.value();
+
+			if (m_vars.count(rightFirstOperand) == 0 && m_funcs.count(rightFirstOperand) == 0)
+			{
+				return { false, "Can't find first operand" };
+			}
+
+			if (m_vars.count(rightSecondOperand) == 0 && m_funcs.count(rightSecondOperand) == 0)
+			{
+				return { false, "Can't find second operand" };
+			}
+		}
+
+		return { true };
+	}
+
+	return { false, "Failed to declare function" };
+}
+
+Result Calculator::InitVariable(const std::string& expression)
+{
+	auto [resultType, results] = m_parser.ParseExpression(expression);
+	if (resultType == Parser::ResultType::Failure || std::size(results) == 0)
+	{
+		return { false, "Failed to parse given expression" };
+	}
+
+	auto oLeftPartOfExpression = RemoveFirst(results, m_parser.IsValidIdentifier);
+	if (oLeftPartOfExpression.has_value())
+	{
 		if (auto oRightPartOfExpression = RemoveFirst(results, m_parser.IsValidDouble);
 			resultType == Parser::ResultType::IdentifierAssignDouble && oRightPartOfExpression.has_value())
 		{
 			std::string value = *oRightPartOfExpression;
-			std::cout << "Right" << *oRightPartOfExpression << std::endl;
 			std::replace(std::begin(value), std::end(value), ',', '.');
 			std::stringstream ss{ value };
 
 			double val;
 			ss >> val;
 
-			Variable var{ val };
-			m_vars[*oLeftPartOfExpression] = var;
-			return true;
+			if (m_vars.count(*oLeftPartOfExpression) == 0)
+			{
+				m_vars.emplace(*oLeftPartOfExpression, std::make_shared<Variable>(val));
+			}
+			else
+			{
+				m_vars[*oLeftPartOfExpression]->SetValue(val);
+			}
+			return { true };
 		}
 		if (auto oRightPartOfExpression = RemoveFirst(results, m_parser.IsValidIdentifier);
 			resultType == Parser::ResultType::IdentifierAssignIdentifier && oRightPartOfExpression.has_value())
 		{
-			std::cout << "Right" << *oRightPartOfExpression << std::endl;
 			std::string value = *oRightPartOfExpression;
 			if (m_vars.count(value) == 0)
 			{
 				return { false, "No such variable to assign to" };
 			}
 
-			Variable newVar{ m_vars.at(value) };
-			m_vars.emplace(*oLeftPartOfExpression, newVar);
-			return true;
+			m_vars.emplace(*oLeftPartOfExpression, std::make_shared<Variable>(m_vars.at(value)->GetValue()));
+			return { true };
 		}
 	}
 
@@ -105,24 +170,44 @@ void Calculator::PrintVariables(std::ostream& output) const
 	PrepareStreamForPrintDoubleValues(output, m_precision);
 	for (auto& [varName, value] : m_vars)
 	{
-		output << varName << m_delimetr << value.GetValue() + 0 << std::endl;
+		output << varName << m_delimetr << value->GetValue() + 0 << std::endl;
 	}
 }
 
-void Calculator::PrintVariable(const std::string& varName, std::ostream& output) const
+void Calculator::PrintVariable(const std::string& identifier, std::ostream& output) const
 {
-	if (output.fail())
-	{
-		output << "Failed to output variable" << std::endl;
-		return;
-	}
-
-	if (std::size(m_vars) == 0 || m_vars.count(varName) == 0)
+	if (std::size(m_vars) == 0 || m_vars.count(identifier) == 0)
 	{
 		output << "No such variable" << std::endl;
 		return;
 	}
 
 	PrepareStreamForPrintDoubleValues(output, m_precision);
-	output << varName << m_delimetr << m_vars.at(varName).GetValue() + 0 << std::endl;
+	output << identifier << m_delimetr << m_vars.at(identifier)->GetValue() + 0 << std::endl;
+}
+
+void Calculator::PrintFunction(const std::string& identifier, std::ostream& output) const
+{
+	if (std::size(m_funcs) == 0 || m_funcs.count(identifier) == 0)
+	{
+		output << "No such function" << std::endl;
+		return;
+	}
+
+	PrepareStreamForPrintDoubleValues(output, m_precision);
+	output << identifier << m_delimetr << m_funcs.at(identifier)->GetValue() + 0 << std::endl;
+}
+
+void Calculator::PrintFunctions(std::ostream& output) const
+{
+	if (std::size(m_funcs) == 0)
+	{
+		output << "No declarated functions" << std::endl;
+		return;
+	}
+	PrepareStreamForPrintDoubleValues(output, m_precision);
+	for (auto& [varName, value] : m_funcs)
+	{
+		output << varName << m_delimetr << value->GetValue() + 0 << std::endl;
+	}
 }

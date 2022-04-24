@@ -15,7 +15,7 @@ public:
 		Div,
 	};
 
-	Function(const std::shared_ptr<Operand> operand);
+	Function(const std::shared_ptr<Function> operand);
 	Function(const std::shared_ptr<Operand> operandFirst,
 		const Operation& operation, const std::shared_ptr<Operand> operandSecond);
 

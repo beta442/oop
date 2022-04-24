@@ -12,17 +12,18 @@ class Calculator
 public:
 	Calculator();
 
-	Result DeclareVariable(const std::string& varName);
+	Result DeclareVariable(const std::string& identifier);
+	Result DeclareFunction(const std::string& expression);
 	Result InitVariable(const std::string& expression);
+	void PrintVariable(const std::string& identifier, std::ostream& output) const;
 	void PrintVariables(std::ostream& output) const;
-	void PrintVariable(const std::string& varName, std::ostream& output) const;
+	void PrintFunction(const std::string& identifier, std::ostream& output) const;
+	void PrintFunctions(std::ostream& output) const;
 
 private:
-
 	using Identifier = std::string;
-	//todo: variable and function can't have same name
-	using VariableValueMap = std::map<Identifier, Variable>;
-	using FunctionValueMap = std::map<Identifier, Function>;
+	using VariableValueMap = std::map<Identifier, std::shared_ptr<Variable>>;
+	using FunctionValueMap = std::map<Identifier, std::shared_ptr<Function>>;
 
 	inline const static Parser m_parser;
 

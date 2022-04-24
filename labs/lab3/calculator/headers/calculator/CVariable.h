@@ -11,6 +11,7 @@ public:
 	Variable(const Value value);
 
 	Value GetValue() const override;
+	void SetValue(const Value value);
 
 private:
 

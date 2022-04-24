@@ -1,6 +1,6 @@
 #include "../../headers/calculator/CFunction.h"
 
-Function::Function(const std::shared_ptr<Operand> operand)
+Function::Function(const std::shared_ptr<Function> operand)
 	: m_firstOperand(operand)
 	, m_operation(std::nullopt)
 	, m_secondOperand(std::nullopt)
