@@ -15,13 +15,18 @@ public:
 		Div,
 	};
 
-	Function(const std::shared_ptr<Function> operand);
-	Function(const std::shared_ptr<Operand> operandFirst,
-		const Operation& operation, const std::shared_ptr<Operand> operandSecond);
+	Function(std::shared_ptr<Operand> const operand);
+	Function(std::shared_ptr<Operand> const operandFirst,
+		const Operation& operation, std::shared_ptr<Operand> const operandSecond);
 
 	Value GetValue() const override;
 
+	//void AddDependentOperand(std::shared_ptr<Operand> funcPtr) override;
+	//void FlushDependentFunctions() override;
+
 private:
+	void CalculateValue() const;
+	void FlushCachedValue();
 
 	std::shared_ptr<Operand> m_firstOperand;
 	std::optional<Operation> m_operation;
