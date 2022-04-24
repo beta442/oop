@@ -17,5 +17,10 @@ Variable::Value Variable::GetValue() const
 
 void Variable::SetValue(const Variable::Value value)
 {
-	m_value = value;
+	if (m_value != value)
+	{
+		FlushDependentFunctions();
+		m_value = value;
+	}
 }
+

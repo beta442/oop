@@ -2,6 +2,8 @@
 
 #include "../std_lib.h"
 
+class Function;
+
 class Operand
 {
 public:
@@ -9,10 +11,13 @@ public:
 
 	virtual Value GetValue() const = 0;
 
+	void AddDependentOperand(std::shared_ptr<Function> functPtr);
 protected:
-	//virtual void AddDependentOperand(std::shared_ptr<Operand> functPtr) = 0;
-	//virtual void FlushDependentFunctions() = 0;
 
-	std::vector<std::shared_ptr<Operand>> m_dependentOperandsPtrs;
+	void FlushDependentFunctions() const;
+
+	std::vector<std::shared_ptr<Function>> m_dependentOperandsPtrs;
 	inline const static Value m_nanValue = std::numeric_limits<Value>::quiet_NaN();
 };
+
+#include "CFunction.h"

@@ -6,6 +6,7 @@ Function::Function(std::shared_ptr<Operand> const operand)
 	, m_secondOperand(std::nullopt)
 	, m_cachedValue(std::nullopt)
 {
+	//operand->AddDependentOperand(std::make_shared<Function>(this));
 }
 
 Function::Function(std::shared_ptr<Operand> const operandFirst,
@@ -15,6 +16,8 @@ Function::Function(std::shared_ptr<Operand> const operandFirst,
 	, m_secondOperand(operandSecond)
 	, m_cachedValue(std::nullopt)
 {
+	//operandFirst->AddDependentOperand(std::make_shared<Operand>(this));
+	//operandSecond->AddDependentOperand(std::make_shared<Operand>(this));
 }
 
 Function::Value Function::GetValue() const
@@ -23,24 +26,10 @@ Function::Value Function::GetValue() const
 	{
 		CalculateValue();
 	}
-	
+
 	return m_cachedValue.value();
 }
 
-//void Function::AddDependentOperand(std::shared_ptr<Operand> funcPtr)
-//{
-//	m_dependentOperandsPtrs.push_back(funcPtr);
-//}
-//
-//void Function::FlushDependentFunctions()
-//{
-//	for (auto& ptr : m_dependentOperandsPtrs)
-//	{
-//		Function = Function{ *ptr };
-//		ptr->FlushDependentFunctions();
-//	}
-//}
-//
 void Function::CalculateValue() const
 {
 	Value leftOperandValue = m_firstOperand->GetValue();
@@ -86,5 +75,6 @@ void Function::FlushCachedValue()
 	if (m_cachedValue.has_value())
 	{
 		m_cachedValue.reset();
+		FlushDependentFunctions();
 	}
 }

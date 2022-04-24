@@ -20,13 +20,10 @@ public:
 		const Operation& operation, std::shared_ptr<Operand> const operandSecond);
 
 	Value GetValue() const override;
-
-	//void AddDependentOperand(std::shared_ptr<Operand> funcPtr) override;
-	//void FlushDependentFunctions() override;
+	void FlushCachedValue();
 
 private:
 	void CalculateValue() const;
-	void FlushCachedValue();
 
 	std::shared_ptr<Operand> m_firstOperand;
 	std::optional<Operation> m_operation;

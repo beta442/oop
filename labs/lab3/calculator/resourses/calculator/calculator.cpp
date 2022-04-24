@@ -147,7 +147,7 @@ Result Calculator::InitVariable(const std::string& expression)
 				return { false, "No such variable to assign to" };
 			}
 
-			m_vars.emplace(*oLeftPartOfExpression, std::make_shared<Variable>(m_vars.at(value)->GetValue()));
+			m_vars.emplace(*oLeftPartOfExpression, std::shared_ptr<Variable>(m_vars.at(value)));
 			return { true };
 		}
 	}
