@@ -33,9 +33,6 @@
     <ClCompile Include="resourses\calculator\variable.cpp">
       <Filter>Resource Files\Calculator</Filter>
     </ClCompile>
-    <ClCompile Include="resourses\calculator\operand.cpp">
-      <Filter>Resource Files\Calculator</Filter>
-    </ClCompile>
     <ClCompile Include="resourses\calculator\function.cpp">
       <Filter>Resource Files\Calculator</Filter>
     </ClCompile>
@@ -43,6 +40,9 @@
       <Filter>Resource Files\Calculator</Filter>
     </ClCompile>
     <ClCompile Include="resourses\calculator\parser.cpp">
+      <Filter>Resource Files\Calculator</Filter>
+    </ClCompile>
+    <ClCompile Include="resourses\calculator\operand.cpp">
       <Filter>Resource Files\Calculator</Filter>
     </ClCompile>
   </ItemGroup>
@@ -59,9 +59,6 @@
     <ClInclude Include="headers\calculator\CVariable.h">
       <Filter>Header Files\Calculator</Filter>
     </ClInclude>
-    <ClInclude Include="headers\calculator\COperand.h">
-      <Filter>Header Files\Calculator</Filter>
-    </ClInclude>
     <ClInclude Include="headers\calculator\CFunction.h">
       <Filter>Header Files\Calculator</Filter>
     </ClInclude>
@@ -69,6 +66,9 @@
       <Filter>Header Files\Calculator</Filter>
     </ClInclude>
     <ClInclude Include="headers\calculator\CParser.h">
+      <Filter>Header Files\Calculator</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\calculator\COperand.h">
       <Filter>Header Files\Calculator</Filter>
     </ClInclude>
   </ItemGroup>
