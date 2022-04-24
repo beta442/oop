@@ -3,6 +3,7 @@
 #include "../std_lib.h"
 
 #include "CFunction.h"
+#include "COperand.h"
 #include "CParser.h"
 #include "CResult.h"
 #include "CVariable.h"
@@ -21,11 +22,13 @@ public:
 
 private:
 	using Identifier = std::string;
+	using OperandPtr = Operand::OperandPtr;
 	using VariableValueMap = std::map<Identifier, std::shared_ptr<Variable> const>;
 	using FunctionValueMap = std::map<Identifier, std::shared_ptr<Function> const>;
 
 	bool IsFunctionDeclarated(const std::string& identifier) const;
 	bool IsVariableDeclarated(const std::string& identifier) const;
+	std::optional<OperandPtr> GetOperandPtrBy(const std::string identifier) const;
 
 	inline const static Parser m_parser;
 

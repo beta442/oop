@@ -49,62 +49,100 @@ Result Calculator::DeclareFunction(const std::string& expression)
 		return { false, "Failed to parse given expression" };
 	}
 
-	auto oLeftPartOfExpression = RemoveFirst(results, m_parser.IsValidIdentifier);
-	if (oLeftPartOfExpression.has_value())
+	std::string leftIdentifier, rightOperand;
+	if (auto oLeftPartOfExpression = RemoveFirst(results, m_parser.IsValidIdentifier),
+		oRightPartOfExpression = RemoveFirst(results, m_parser.IsValidIdentifier);
+		!oLeftPartOfExpression.has_value())
 	{
-		std::string leftIdentifier = oLeftPartOfExpression.value();
-		if (IsVariableDeclarated(leftIdentifier))
+		return { false, "Failed to declare function, wrong left identifier" };
+	}
+	else if (!oRightPartOfExpression.has_value())
+	{
+		return { false, "Failed to declare function, wrong right identifier" };
+	}
+	else
+	{
+		leftIdentifier = oLeftPartOfExpression.value();
+		rightOperand = oRightPartOfExpression.value();
+	}
+
+	if (IsVariableDeclarated(leftIdentifier) || IsFunctionDeclarated(leftIdentifier))
+	{
+		return { false, "Given function name is already taken" };
+	}
+
+	if (resultType == Parser::ResultType::IdentifierAssignIdentifier)
+	{
+		if (IsVariableDeclarated(rightOperand))
 		{
-			return { false, "Given function name is already taken" };
+			m_funcs.emplace(leftIdentifier, std::make_shared<Function>(m_vars[rightOperand]));
 		}
-
-		if (auto oRightPartOfExpression = RemoveFirst(results, m_parser.IsValidIdentifier);
-			resultType == Parser::ResultType::IdentifierAssignIdentifier && oRightPartOfExpression.has_value())
+		else if (IsFunctionDeclarated(rightOperand))
 		{
-			std::string rightOperand = oRightPartOfExpression.value();
-			if (IsVariableDeclarated(rightOperand))
-			{
-				m_funcs.emplace(leftIdentifier, std::make_shared<Function>(m_vars[rightOperand]));
-			}
-			else if (IsFunctionDeclarated(rightOperand))
-			{
-				m_funcs.emplace(leftIdentifier, m_funcs[rightOperand]);
-			}
-			else
-			{
-				return { false, "No such variable or function to assign to" };
-			}
+			m_funcs.emplace(leftIdentifier, m_funcs[rightOperand]);
 		}
-		else if (auto oRightMiddlePartOfExpression = RemoveFirst(results, m_parser.IsValidOperation),
-			oRightRightPartOfExpression = RemoveFirst(results, m_parser.IsValidIdentifier);
-				 resultType == Parser::ResultType::IdentifierAssignExpression && oRightPartOfExpression.has_value() && oRightRightPartOfExpression.has_value())
+		else
 		{
-			if (!oRightMiddlePartOfExpression.has_value())
-			{
-				return { false, "Incorrect operation" };
-			}
-
-			std::string rightFirstOperand = oRightPartOfExpression.value();
-			std::string operation = oRightMiddlePartOfExpression.value();
-			std::string rightSecondOperand = oRightRightPartOfExpression.value();
-
-			if (!(IsVariableDeclarated(rightFirstOperand) || IsFunctionDeclarated(rightFirstOperand)))
-			{
-				return { false, "Can't find first operand" };
-			}
-
-			if (!(IsVariableDeclarated(rightSecondOperand) || IsFunctionDeclarated(rightSecondOperand)))
-			{
-				return { false, "Can't find second operand" };
-			}
-
-			//m_funcs.emplace(leftIdentifier, std::make_shared<Function>({ rightFirstOperand, operation, rightSecondOperand }));
+			return { false, "No such variable or function to assign to" };
 		}
-
 		return { true };
 	}
 
-	return { false, "Failed to declare function" };
+	std::string operationString, rightSecondOperand;
+	if (auto oRightMiddlePartOfExpression = RemoveFirst(results, m_parser.IsValidOperation),
+		oRightRightPartOfExpression = RemoveFirst(results, m_parser.IsValidIdentifier);
+		!oRightMiddlePartOfExpression.has_value())
+	{
+		return { false, "Incorrect operation" };
+	}
+	else if (!oRightRightPartOfExpression.has_value())
+	{
+		return { false, "Incorrect operand after operation" };
+	}
+	else
+	{
+		operationString = oRightMiddlePartOfExpression.value();
+		rightSecondOperand = oRightRightPartOfExpression.value();
+	}
+
+	if (resultType == Parser::ResultType::IdentifierAssignExpression)
+	{
+		if (!(IsVariableDeclarated(rightOperand) || IsFunctionDeclarated(rightOperand)))
+		{
+			return { false, "Can't find first operand" };
+		}
+
+		if (!(IsVariableDeclarated(rightSecondOperand) || IsFunctionDeclarated(rightSecondOperand)))
+		{
+			return { false, "Can't find second operand" };
+		}
+
+		auto oOperation = Operand::StringToOperation(operationString);
+		if (!oOperation.has_value())
+		{
+			return { false, "Not implemented operation" };
+		}
+
+		std::shared_ptr<Operand> leftAssignmentOperandPtr, rightAssignmentOperandPtr;
+		const Operand::Operation operation = oOperation.value();
+
+		if (const auto oLeftAssignmentOperand = GetOperandPtrBy(rightOperand),
+			oRightAssignmentOperand = GetOperandPtrBy(rightSecondOperand);
+			!oLeftAssignmentOperand.has_value() || !oRightAssignmentOperand.has_value())
+		{
+			return { false, "Can't find assignment operands" };
+		}
+		else
+		{
+			leftAssignmentOperandPtr = oLeftAssignmentOperand.value();
+			rightAssignmentOperandPtr = oRightAssignmentOperand.value();
+		}
+
+		m_funcs.emplace(leftIdentifier,
+			std::make_shared<Function>(Function{ leftAssignmentOperandPtr, operation, rightAssignmentOperandPtr }));
+	}
+
+	return { true };
 }
 
 Result Calculator::InitVariable(const std::string& expression)
@@ -115,44 +153,66 @@ Result Calculator::InitVariable(const std::string& expression)
 		return { false, "Failed to parse given expression" };
 	}
 
-	auto oLeftPartOfExpression = RemoveFirst(results, m_parser.IsValidIdentifier);
-	if (oLeftPartOfExpression.has_value())
+	std::string leftPartOfExpression, righPartOfExpression;
+	if (auto oLeftPartOfExpression = RemoveFirst(results, m_parser.IsValidIdentifier),
+		oRightPartOfExpression = RemoveFirst(results, m_parser.IsValidDouble);
+		!oLeftPartOfExpression.has_value())
 	{
-		if (auto oRightPartOfExpression = RemoveFirst(results, m_parser.IsValidDouble);
-			resultType == Parser::ResultType::IdentifierAssignDouble && oRightPartOfExpression.has_value())
-		{
-			std::string value = *oRightPartOfExpression;
-			std::replace(std::begin(value), std::end(value), ',', '.');
-			std::stringstream ss{ value };
-
-			double val;
-			ss >> val;
-
-			if (!IsVariableDeclarated(*oLeftPartOfExpression))
-			{
-				m_vars.emplace(*oLeftPartOfExpression, std::make_shared<Variable>(val));
-			}
-			else
-			{
-				m_vars[*oLeftPartOfExpression]->SetValue(val);
-			}
-			return { true };
-		}
-		if (auto oRightPartOfExpression = RemoveFirst(results, m_parser.IsValidIdentifier);
-			resultType == Parser::ResultType::IdentifierAssignIdentifier && oRightPartOfExpression.has_value())
-		{
-			std::string value = *oRightPartOfExpression;
-			if (!IsVariableDeclarated(value))
-			{
-				return { false, "No such variable to assign to" };
-			}
-
-			m_vars.emplace(*oLeftPartOfExpression, std::shared_ptr<Variable>(m_vars.at(value)));
-			return { true };
-		}
+		return { false, "Incorrectly typed left identifier" };
+	}
+	else if (!oRightPartOfExpression.has_value() && resultType == Parser::ResultType::IdentifierAssignDouble)
+	{
+		return { false, "Incorrectly typed right double value" };
+	}
+	else
+	{
+		leftPartOfExpression = *oLeftPartOfExpression;
+		righPartOfExpression = *oRightPartOfExpression;
 	}
 
-	return { false, "Failed to assign value to variable" };
+	if (IsFunctionDeclarated(leftPartOfExpression))
+	{
+		return { false, "Can't declare variable, given name is already taken" };
+	}
+
+	if (resultType == Parser::ResultType::IdentifierAssignDouble)
+	{
+		std::replace(std::begin(righPartOfExpression), std::end(righPartOfExpression), ',', '.');
+		std::stringstream ss{ righPartOfExpression };
+
+		Operand::Value val;
+		ss >> val;
+
+		if (IsVariableDeclarated(leftPartOfExpression))
+		{
+			m_vars[leftPartOfExpression]->SetValue(val);
+		}
+		else
+		{
+			m_vars.emplace(leftPartOfExpression, std::make_shared<Variable>(val));
+		}
+	}
+	else if (resultType == Parser::ResultType::IdentifierAssignIdentifier)
+	{
+		if (auto oLeftPartOfExpression = RemoveFirst(results, m_parser.IsValidIdentifier);
+			!oLeftPartOfExpression.has_value())
+		{
+			return { false, "Incorrectly typed right identifier" };
+		}
+		else
+		{
+			righPartOfExpression = oLeftPartOfExpression.value();
+		}
+
+		if (!IsVariableDeclarated(righPartOfExpression))
+		{
+			return { false, "No such variable to assign to" };
+		}
+
+		m_vars.emplace(leftPartOfExpression, std::make_shared<Variable>(m_vars.at(righPartOfExpression)->GetValue()));
+	}
+
+	return { true };
 }
 
 bool Calculator::IsFunctionDeclarated(const std::string& identifier) const
@@ -163,6 +223,19 @@ bool Calculator::IsFunctionDeclarated(const std::string& identifier) const
 bool Calculator::IsVariableDeclarated(const std::string& identifier) const
 {
 	return m_vars.count(identifier) != 0;
+}
+
+std::optional<Calculator::OperandPtr> Calculator::GetOperandPtrBy(const std::string identifier) const
+{
+	if (IsVariableDeclarated(identifier))
+	{
+		return m_vars.at(identifier);
+	}
+	else if (IsFunctionDeclarated(identifier))
+	{
+		return m_funcs.at(identifier);
+	}
+	return std::nullopt;
 }
 
 void PrepareStreamForPrintDoubleValues(std::ostream& output, size_t precision)
