@@ -26,6 +26,4 @@ void Variable::SetValue(const Variable::Value value)
 
 void Variable::FlushCachedValue()
 {
-	//FlushDependentFunctions();
 }
-
