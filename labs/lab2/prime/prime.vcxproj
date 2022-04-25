@@ -148,6 +148,11 @@
     <ClInclude Include="headers\prime_generator.h" />
     <ClInclude Include="headers\std_lib.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\test\lab2\prime\prime.vcxproj">
+      <Project>{1bc59654-bd53-4814-809d-c9501201136c}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
