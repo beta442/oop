@@ -159,15 +159,28 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\labs\lab3\calculator\headers\pch.cpp" />
     <ClCompile Include="..\..\..\labs\lab3\calculator\resourses\calculator\calculator.cpp" />
-    <ClCompile Include="..\..\..\labs\lab3\calculator\resourses\calculator\Variable.cpp" />
+    <ClCompile Include="..\..\..\labs\lab3\calculator\resourses\calculator\function.cpp" />
+    <ClCompile Include="..\..\..\labs\lab3\calculator\resourses\calculator\operand.cpp" />
+    <ClCompile Include="..\..\..\labs\lab3\calculator\resourses\calculator\parser.cpp" />
+    <ClCompile Include="..\..\..\labs\lab3\calculator\resourses\calculator\result.cpp" />
+    <ClCompile Include="..\..\..\labs\lab3\calculator\resourses\calculator\variable.cpp" />
+    <ClCompile Include="..\..\..\labs\lab3\calculator\resourses\calculator_controller.cpp" />
     <ClCompile Include="calculator.test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\labs\lab3\calculator\headers\calculator\calculator.h" />
+    <ClInclude Include="..\..\..\labs\lab3\calculator\headers\calculator\CCalculator.h" />
+    <ClInclude Include="..\..\..\labs\lab3\calculator\headers\calculator\CFunction.h" />
+    <ClInclude Include="..\..\..\labs\lab3\calculator\headers\calculator\COperand.h" />
+    <ClInclude Include="..\..\..\labs\lab3\calculator\headers\calculator\CParser.h" />
+    <ClInclude Include="..\..\..\labs\lab3\calculator\headers\calculator\CResult.h" />
+    <ClInclude Include="..\..\..\labs\lab3\calculator\headers\calculator\CVariable.h" />
+    <ClInclude Include="..\..\..\labs\lab3\calculator\headers\CCalculator_controller.h" />
+    <ClInclude Include="..\..\..\labs\lab3\calculator\headers\std_lib.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

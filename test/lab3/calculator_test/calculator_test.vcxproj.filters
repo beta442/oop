@@ -6,25 +6,44 @@
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+      <UniqueIdentifier>{74b19dce-6c92-44c9-80e5-fbc4bc53744a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Calculator">
+      <UniqueIdentifier>{794ca33e-6be3-47ff-8b17-32056dcc3e18}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+      <UniqueIdentifier>{bdb489e8-0660-4eb8-94c8-1802ee463323}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resource Files\Calculator">
-      <UniqueIdentifier>{afdfbce7-16f2-4654-8703-ece25ca36bf9}</UniqueIdentifier>
+      <UniqueIdentifier>{92ca91de-fc91-489a-b109-c95c5cc0b90f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="calculator.test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\labs\lab3\calculator\headers\pch.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\labs\lab3\calculator\resourses\calculator_controller.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\labs\lab3\calculator\resourses\calculator\calculator.cpp">
       <Filter>Resource Files\Calculator</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\labs\lab3\calculator\resourses\calculator\Variable.cpp">
+    <ClCompile Include="..\..\..\labs\lab3\calculator\resourses\calculator\function.cpp">
+      <Filter>Resource Files\Calculator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\labs\lab3\calculator\resourses\calculator\operand.cpp">
+      <Filter>Resource Files\Calculator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\labs\lab3\calculator\resourses\calculator\parser.cpp">
+      <Filter>Resource Files\Calculator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\labs\lab3\calculator\resourses\calculator\result.cpp">
+      <Filter>Resource Files\Calculator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\labs\lab3\calculator\resourses\calculator\variable.cpp">
       <Filter>Resource Files\Calculator</Filter>
     </ClCompile>
   </ItemGroup>
@@ -32,8 +51,29 @@
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\labs\lab3\calculator\headers\calculator\calculator.h">
+    <ClInclude Include="..\..\..\labs\lab3\calculator\headers\CCalculator_controller.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\labs\lab3\calculator\headers\std_lib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\labs\lab3\calculator\headers\calculator\CCalculator.h">
+      <Filter>Header Files\Calculator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\labs\lab3\calculator\headers\calculator\CFunction.h">
+      <Filter>Header Files\Calculator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\labs\lab3\calculator\headers\calculator\COperand.h">
+      <Filter>Header Files\Calculator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\labs\lab3\calculator\headers\calculator\CParser.h">
+      <Filter>Header Files\Calculator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\labs\lab3\calculator\headers\calculator\CResult.h">
+      <Filter>Header Files\Calculator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\labs\lab3\calculator\headers\calculator\CVariable.h">
+      <Filter>Header Files\Calculator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
