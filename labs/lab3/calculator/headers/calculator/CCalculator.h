@@ -28,7 +28,10 @@ private:
 
 	bool IsFunctionDeclarated(const std::string& identifier) const;
 	bool IsVariableDeclarated(const std::string& identifier) const;
-	std::optional<OperandPtr> GetOperandPtrBy(const std::string identifier) const;
+	std::optional<OperandPtr> GetOperandPtrBy(const std::string& identifier) const;
+	Result DeclareFunction(const std::string& firstIdentifier, const std::string& secondIdentifier);
+	Result DeclareFunction(const std::string& identifier,
+		const std::string& leftOperand, Operand::Operation operation, const std::string& rightOperand);
 
 	inline const static Parser m_parser;
 
