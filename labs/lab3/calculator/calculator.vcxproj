@@ -183,6 +183,11 @@
     <ClInclude Include="headers\CCalculator_controller.h" />
     <ClInclude Include="headers\std_lib.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\test\lab3\calculator_test\calculator_test.vcxproj">
+      <Project>{1c4498ce-3489-4cf9-b72c-4857b3bb42f7}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
