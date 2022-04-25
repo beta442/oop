@@ -50,12 +50,18 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lab3", "lab3", "{94054C9B-E08E-4860-9B7B-9C2890B57D6E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "car", "labs\lab3\car\car.vcxproj", "{D4612E0F-FF09-4125-B6B4-46EFD39EF9B0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{762E844D-35F4-4123-866F-7105067A2E23} = {762E844D-35F4-4123-866F-7105067A2E23}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lab3", "lab3", "{516CC616-6637-4D02-8D1F-AE3387FA03F4}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "car_test", "test\lab3\car_test\car_test.vcxproj", "{762E844D-35F4-4123-866F-7105067A2E23}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "calculator", "labs\lab3\calculator\calculator.vcxproj", "{327B0853-236F-4ECA-8E9F-CF4D53BE6FB0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1C4498CE-3489-4CF9-B72C-4857B3BB42F7} = {1C4498CE-3489-4CF9-B72C-4857B3BB42F7}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "calculator_test", "test\lab3\calculator_test\calculator_test.vcxproj", "{1C4498CE-3489-4CF9-B72C-4857B3BB42F7}"
 EndProject
