@@ -37,9 +37,14 @@ Parser::ParsingResult Parser::ParseExpression(const std::string& str)
 		return result;
 	}
 
+	size_t i = 0;
 	for (auto& match : matches)
 	{
-		result.parsedResults.push_back(match.str());
+		if (i == 1 || i == 3 || i == 5 || i == 6)
+		{
+			result.parsedResults.push_back(match.str());
+		}
+		++i;
 	}
 
 	return result;
