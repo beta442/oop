@@ -19,9 +19,7 @@ void Variable::SetValue(const Variable::Value value)
 {
 	if (m_value != value)
 	{
-		//std::cout << "Hey" << std::endl;
 		FlushDependentFunctions();
-		//std::cout << "Hey2" << std::endl;
 		m_value = value;
 	}
 }
