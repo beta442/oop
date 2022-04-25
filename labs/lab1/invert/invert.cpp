@@ -1,6 +1,8 @@
-#include "../../../headers/String2Number.h"
 #include "cmath"
+#include <iostream>
 #include <fstream>
+#include <string>
+#include <sstream>
 
 constexpr int DEBUG = 0;
 
@@ -43,7 +45,8 @@ WrappedMatrix3x3Row GetDoubleRowFromString(std::string const& str, const char& d
 	size_t index = 0;
 	while (index < LINE_SIZE && getline(ss, s, delim))
 	{
-		result.items[index] = ConvertToDouble(s);
+		//todo: convert using stream
+		//result.items[index] = ConvertToDouble(s);
 		index++;
 	}
 
