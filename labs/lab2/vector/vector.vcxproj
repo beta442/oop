@@ -34,6 +34,11 @@
     <ClInclude Include="headers\std_lib.h" />
     <ClInclude Include="headers\vector.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\test\lab2\vector\vector.vcxproj">
+      <Project>{f8582459-919e-4fbe-b921-f42b445375ac}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
