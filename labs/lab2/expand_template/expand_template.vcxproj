@@ -155,6 +155,11 @@
     <ClInclude Include="headers\std_libs.h" />
     <ClInclude Include="main_utils.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\test\lab2\expand_template\expand_template.vcxproj">
+      <Project>{640cb79f-b0e7-4967-b4ae-cf18e72afadd}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
