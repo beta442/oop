@@ -33,8 +33,6 @@ private:
 	Result DeclareFunction(const std::string& identifier,
 		const std::string& leftOperand, Operand::Operation operation, const std::string& rightOperand);
 
-	inline const static Parser m_parser;
-
 	VariableValueMap m_vars;
 	FunctionValueMap m_funcs;
 	size_t m_precision;

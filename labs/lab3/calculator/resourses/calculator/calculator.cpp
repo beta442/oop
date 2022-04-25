@@ -22,7 +22,7 @@ Result Calculator::DeclareVariable(const std::string& identifier)
 	{
 		return { false, VARIABLE_NAME_TAKEN_MSG };
 	}
-	if (!m_parser.IsStringValidIdentifier(identifier))
+	if (!Parser::IsStringValidIdentifier(identifier))
 	{
 		return { false, INVALID_VARIABLE_NAME_MSG };
 	}
@@ -52,14 +52,14 @@ const std::string FUNCTION_WASNT_CREATED_MSG = "Function wasn't created";
 
 Result Calculator::DeclareFunction(const std::string& expression)
 {
-	auto [resultType, results] = m_parser.ParseExpression(expression);
+	auto [resultType, results] = Parser::ParseExpression(expression);
 	if (resultType == Parser::ResultType::Failure || std::size(results) == 0)
 	{
 		return { false, EXPRESSION_PARSE_FAIL_MSG };
 	}
 
-	std::string leftIdentifier = RemoveFirst(results, m_parser.IsValidIdentifier).value(),
-				rightOperand = RemoveFirst(results, m_parser.IsValidIdentifier).value();
+	std::string leftIdentifier = RemoveFirst(results, Parser::IsValidIdentifier).value(),
+				rightOperand = RemoveFirst(results, Parser::IsValidIdentifier).value();
 
 	if (IsVariableDeclarated(leftIdentifier) || IsFunctionDeclarated(leftIdentifier))
 	{
@@ -71,8 +71,8 @@ Result Calculator::DeclareFunction(const std::string& expression)
 		return DeclareFunction(leftIdentifier, rightOperand);
 	}
 
-	std::string operationString = RemoveFirst(results, m_parser.IsValidOperation).value(),
-				rightSecondOperand = RemoveFirst(results, m_parser.IsValidIdentifier).value();
+	std::string operationString = RemoveFirst(results, Parser::IsValidOperation).value(),
+				rightSecondOperand = RemoveFirst(results, Parser::IsValidIdentifier).value();
 
 	auto oOperation = Operand::StringToOperation(operationString);
 	if (!oOperation.has_value())
@@ -137,13 +137,13 @@ const std::string NO_SUCH_VARIABLE_MSG = "Can't declare variable: no such variab
 
 Result Calculator::InitVariable(const std::string& expression)
 {
-	auto [resultType, results] = m_parser.ParseExpression(expression);
+	auto [resultType, results] = Parser::ParseExpression(expression);
 	if (resultType == Parser::ResultType::Failure || std::size(results) == 0)
 	{
 		return { false, EXPRESSION_PARSE_FAIL_MSG };
 	}
 
-	std::string leftPartOfExpression = RemoveFirst(results, m_parser.IsValidIdentifier).value();
+	std::string leftPartOfExpression = RemoveFirst(results, Parser::IsValidIdentifier).value();
 
 	if (IsFunctionDeclarated(leftPartOfExpression))
 	{
@@ -153,11 +153,12 @@ Result Calculator::InitVariable(const std::string& expression)
 	std::string righPartOfExpression;
 	if (resultType == Parser::ResultType::IdentifierAssignDouble)
 	{
-		righPartOfExpression = RemoveFirst(results, m_parser.IsValidDouble).value();
+		righPartOfExpression = RemoveFirst(results, Parser::IsValidDouble).value();
 		std::replace(std::begin(righPartOfExpression), std::end(righPartOfExpression), ',', '.');
 		std::stringstream ss{ righPartOfExpression };
 		Operand::Value val;
 		ss >> val;
+
 		if (ss.fail())
 		{
 			return { false, FAILED_TO_READ_DOUBLE_VALUE_MSG };
@@ -175,7 +176,7 @@ Result Calculator::InitVariable(const std::string& expression)
 	}
 	if (resultType == Parser::ResultType::IdentifierAssignIdentifier)
 	{
-		righPartOfExpression = RemoveFirst(results, m_parser.IsValidIdentifier).value();
+		righPartOfExpression = RemoveFirst(results, Parser::IsValidIdentifier).value();
 
 		if (!IsVariableDeclarated(righPartOfExpression))
 		{
