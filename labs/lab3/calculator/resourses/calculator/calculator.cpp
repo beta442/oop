@@ -27,7 +27,7 @@ Result Calculator::DeclareVariable(const std::string& identifier)
 		return { false, INVALID_VARIABLE_NAME_MSG };
 	}
 
-	m_vars.emplace(identifier, std::make_shared<Variable>());
+	m_vars.emplace(identifier, std::shared_ptr<Variable>(new Variable{}));
 	return { true };
 }
 
@@ -138,7 +138,7 @@ Result Calculator::DeclareFunction(const std::string& identifier,
 	}
 
 	m_funcs.emplace(identifier,
-		std::make_shared<Function>(Function{ leftAssignmentOperandPtr, operation, rightAssignmentOperandPtr }));
+		std::shared_ptr<Function>(new Function{ leftAssignmentOperandPtr, operation, rightAssignmentOperandPtr }));
 
 	return { true };
 }
@@ -181,7 +181,7 @@ Result Calculator::InitVariable(const std::string& expression)
 		}
 		else
 		{
-			m_vars.emplace(leftPartOfExpression, std::make_shared<Variable>(val));
+			m_vars.emplace(leftPartOfExpression, std::shared_ptr<Variable>(new Variable{ val }));
 		}
 		return { true };
 	}
@@ -194,7 +194,8 @@ Result Calculator::InitVariable(const std::string& expression)
 			return { false, NO_SUCH_VARIABLE_MSG };
 		}
 
-		m_vars.emplace(leftPartOfExpression, std::make_shared<Variable>(m_vars.at(righPartOfExpression)->GetValue()));
+		m_vars.emplace(leftPartOfExpression,
+			std::shared_ptr<Variable>(new Variable{ m_vars.at(righPartOfExpression)->GetValue() }));
 		return { true };
 	}
 
