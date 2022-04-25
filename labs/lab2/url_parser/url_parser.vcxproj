@@ -149,6 +149,11 @@
     <ClInclude Include="headers\url_parser.h" />
     <ClInclude Include="headers\url_parser_utils.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\test\lab2\url_parser\url_parser.vcxproj">
+      <Project>{047d0e09-7187-4408-a63a-6b661d5e10b9}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
