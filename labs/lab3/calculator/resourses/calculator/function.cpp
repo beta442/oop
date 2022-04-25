@@ -53,19 +53,19 @@ void Function::CalculateValue() const
 	switch (op)
 	{
 	case Operation::Sum:
-		m_cachedValue = leftOperandValue + rightOperandValue;
+		m_cachedValue.emplace(leftOperandValue + rightOperandValue);
 		break;
 	case Operation::Sub:
-		m_cachedValue = leftOperandValue - rightOperandValue;
+		m_cachedValue.emplace(leftOperandValue - rightOperandValue);
 		break;
 	case Operation::Mul:
-		m_cachedValue = leftOperandValue * rightOperandValue;
+		m_cachedValue.emplace(leftOperandValue * rightOperandValue);
 		break;
 	case Operation::Div:
-		m_cachedValue = leftOperandValue / rightOperandValue;
+		m_cachedValue.emplace(leftOperandValue / rightOperandValue);
 		break;
 	default:
-		m_cachedValue = m_nanValue;
+		m_cachedValue.emplace(m_nanValue);
 		break;
 	}
 }
