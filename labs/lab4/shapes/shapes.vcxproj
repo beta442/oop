@@ -147,7 +147,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="headers\shapes\CLineSegment.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="resources\shapes\circle.cpp" />
     <ClCompile Include="resources\shapes\ishape.cpp" />

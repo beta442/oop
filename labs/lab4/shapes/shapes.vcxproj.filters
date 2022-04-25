@@ -33,9 +33,6 @@
     <ClCompile Include="resources\shapes\line_segment.cpp">
       <Filter>Resource Files\Shapes</Filter>
     </ClCompile>
-    <ClCompile Include="headers\shapes\CLineSegment.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="resources\shapes\triangle.cpp">
       <Filter>Resource Files\Shapes</Filter>
     </ClCompile>
