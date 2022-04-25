@@ -94,7 +94,7 @@ Result Calculator::DeclareFunction(const std::string& firstIdentifier, const std
 {
 	if (IsVariableDeclarated(secondIdentifier))
 	{
-		m_funcs.emplace(firstIdentifier, std::make_shared<Function>(m_vars[secondIdentifier]));
+		m_funcs.emplace(firstIdentifier, GetOperandPtrBy(secondIdentifier));
 	}
 	else if (IsFunctionDeclarated(secondIdentifier))
 	{
@@ -114,27 +114,15 @@ const std::string NO_SUCH_DECLARATED_OPERANDS_MSG = "Can't find assignment opera
 Result Calculator::DeclareFunction(const std::string& identifier,
 	const std::string& leftOperand, Operand::Operation operation, const std::string& rightOperand)
 {
-	if (!(IsVariableDeclarated(leftOperand) || IsFunctionDeclarated(leftOperand)))
+	std::shared_ptr<Operand> leftAssignmentOperandPtr = GetOperandPtrBy(leftOperand),
+							 rightAssignmentOperandPtr = GetOperandPtrBy(rightOperand);
+	if (leftAssignmentOperandPtr == nullptr)
 	{
 		return { false, CANT_FIND_FIRST_ASSIGNMENT_OPERAND_MSG };
 	}
-
-	if (!(IsVariableDeclarated(rightOperand) || IsFunctionDeclarated(rightOperand)))
+	else if (rightAssignmentOperandPtr == nullptr)
 	{
 		return { false, CANT_FIND_SECOND_ASSIGNMENT_OPERAND_MSG };
-	}
-
-	std::shared_ptr<Operand> leftAssignmentOperandPtr, rightAssignmentOperandPtr;
-	if (const auto oLeftAssignmentOperand = GetOperandPtrBy(leftOperand),
-		oRightAssignmentOperand = GetOperandPtrBy(rightOperand);
-		!oLeftAssignmentOperand.has_value() || !oRightAssignmentOperand.has_value())
-	{
-		return { false, NO_SUCH_DECLARATED_OPERANDS_MSG };
-	}
-	else
-	{
-		leftAssignmentOperandPtr = oLeftAssignmentOperand.value();
-		rightAssignmentOperandPtr = oRightAssignmentOperand.value();
 	}
 
 	m_funcs.emplace(identifier,
@@ -212,7 +200,7 @@ bool Calculator::IsVariableDeclarated(const std::string& identifier) const
 	return m_vars.count(identifier) != 0;
 }
 
-std::optional<Calculator::OperandPtr> Calculator::GetOperandPtrBy(const std::string& identifier) const
+Calculator::OperandPtr Calculator::GetOperandPtrBy(const std::string& identifier) const
 {
 	if (IsVariableDeclarated(identifier))
 	{
@@ -222,7 +210,7 @@ std::optional<Calculator::OperandPtr> Calculator::GetOperandPtrBy(const std::str
 	{
 		return m_funcs.at(identifier);
 	}
-	return std::nullopt;
+	return nullptr;
 }
 
 void PrepareStreamForPrintDoubleValues(std::ostream& output, size_t precision)

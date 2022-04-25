@@ -24,11 +24,11 @@ private:
 	using Identifier = std::string;
 	using OperandPtr = Operand::OperandPtr;
 	using VariableValueMap = std::map<Identifier, std::shared_ptr<Variable> const>;
-	using FunctionValueMap = std::map<Identifier, std::shared_ptr<Function> const>;
+	using FunctionValueMap = std::map<Identifier, OperandPtr const>;
 
 	bool IsFunctionDeclarated(const std::string& identifier) const;
 	bool IsVariableDeclarated(const std::string& identifier) const;
-	std::optional<OperandPtr> GetOperandPtrBy(const std::string& identifier) const;
+	OperandPtr GetOperandPtrBy(const std::string& identifier) const;
 	Result DeclareFunction(const std::string& firstIdentifier, const std::string& secondIdentifier);
 	Result DeclareFunction(const std::string& identifier,
 		const std::string& leftOperand, Operand::Operation operation, const std::string& rightOperand);
