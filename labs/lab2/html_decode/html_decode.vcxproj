@@ -161,6 +161,11 @@
   <ItemGroup>
     <ClCompile Include="html_decode.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\test\lab2\html_decode\html_decode.vcxproj">
+      <Project>{c498d5a5-951f-4c21-b8a4-bb14770aab6b}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
