@@ -45,6 +45,9 @@
     <ClCompile Include="resourses\calculator\operand.cpp">
       <Filter>Resource Files\Calculator</Filter>
     </ClCompile>
+    <ClCompile Include="headers\pch.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\std_lib.h">
