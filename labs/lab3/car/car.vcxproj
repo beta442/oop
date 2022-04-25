@@ -158,6 +158,11 @@
     <ClInclude Include="headers\main_utils.h" />
     <ClInclude Include="headers\std_lib.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\test\lab3\car_test\car_test.vcxproj">
+      <Project>{762e844d-35f4-4123-866f-7105067a2e23}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
