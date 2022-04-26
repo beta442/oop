@@ -7,10 +7,9 @@
 class Function : public Operand
 {
 public:
-
 	Function(OperandPtr const operand);
 	Function(OperandPtr const operandFirst,
-		const Operation& operation, std::shared_ptr<Operand> const operandSecond);
+		const Operation& operation, OperandPtr const operandSecond);
 
 	Value GetValue() const override;
 	void FlushCachedValue();
@@ -20,6 +19,6 @@ private:
 
 	std::shared_ptr<Operand> m_firstOperand;
 	std::optional<Operation> m_operation;
-	std::optional<std::shared_ptr<Operand>> m_secondOperand;
+	std::optional<OperandPtr> m_secondOperand;
 	mutable std::optional<Value> m_cachedValue;
 };
