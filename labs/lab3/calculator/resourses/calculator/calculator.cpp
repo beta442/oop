@@ -53,7 +53,9 @@ const std::string FUNCTION_WASNT_CREATED_MSG = "Function wasn't created";
 Result Calculator::DeclareFunction(const std::string& expression)
 {
 	auto [resultType, results] = Parser::ParseExpression(expression);
-	if (resultType == Parser::ResultType::Failure || std::size(results) == 0)
+	if (resultType != Parser::ResultType::IdentifierAssignIdentifier ||
+		resultType != Parser::ResultType::IdentifierAssignExpression ||
+		std::size(results) == 0)
 	{
 		return { false, EXPRESSION_PARSE_FAIL_MSG };
 	}
