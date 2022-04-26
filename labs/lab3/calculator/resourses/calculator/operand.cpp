@@ -2,17 +2,17 @@
 
 void Operand::AddDependentOperand(std::shared_ptr<Operand> const functPtr)
 {
-	m_dependentOperandsPtrs.push_back(functPtr);
+	if (functPtr != nullptr)
+	{
+		m_dependentOperandsPtrs.push_back(functPtr);
+	}
 }
 
 void Operand::FlushDependentFunctions() const
 {
 	for (auto& ptr : m_dependentOperandsPtrs)
 	{
-		if (ptr != nullptr)
-		{
-			ptr->FlushCachedValue();
-		}
+		ptr->FlushCachedValue();
 	}
 }
 
