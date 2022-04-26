@@ -15,7 +15,7 @@ f.write("let v0=0\n");
 f.write("let v1=1\n");
 f.write("fn fib0=v0\n");
 f.write("fn fib1=v1\n");
-for i in range(2, 50):
+for i in range(2, 60):
     data += "fn fib" + str(i) + "=fib" + str(i - 1) + "+fib" + str(i - 2) + "\n"
     f.write(data);
     data = ""
