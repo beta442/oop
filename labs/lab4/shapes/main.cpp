@@ -1,15 +1,22 @@
 #include "headers/pch.h"
 
-#include "headers/shapes/CRectangle.h"
+#include "headers/CShapesContainer.h"
 
 int main()
 {
-	const CPoint basePoint{ 10.10, 20.20 };
-	const double width = 100, height = 50;
-	const uint32_t outlineColor = 16711680, fillColor = 65280;
-	const CRectangle rect{ basePoint, width, height, outlineColor, fillColor };
+	 CShapesContainer shapeContainer;
 
-	std::cout << rect.ToString() << std::endl;
+	if (!shapeContainer.ReadShape(std::cin))
+	{
+		std::cout << "Something went wrong. Exiting..." << std::endl;
+		return 1;
+	}
+
+	std::cout << "Shape with max area info:" << std::endl;
+	shapeContainer.PrintShapeInfoWithMaxArea(std::cout);
+	std::cout << std::endl;
+	std::cout << "Shape's with min perimeter info:" << std::endl;
+	shapeContainer.PrintShapeInfoWithMinPerimeter(std::cout);
 
 	return 0;
 }
