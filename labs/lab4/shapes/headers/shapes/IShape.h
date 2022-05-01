@@ -14,6 +14,8 @@ public:
 	virtual uint32_t GetOutlineColor() const = 0;
 
 protected:
+	IShape(const CPoint basePoint, const uint32_t outlineColor);
+
 	CPoint m_basePoint;
 	uint32_t m_outlineColor;
 };
