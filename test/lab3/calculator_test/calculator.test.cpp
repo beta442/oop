@@ -210,3 +210,123 @@ SCENARIO("Calculator's expressions parsing test")
 		}
 	}
 }
+
+#include "../../../labs/lab3/calculator/headers/calculator/CCalculator.h"
+
+SCENARIO("Calculator test")
+{
+	Calculator calc;
+
+	SECTION("Declaring nan variable")
+	{
+		WHEN("Variables declarated")
+		{
+			Result res1 = calc.DeclareVariable("Id");
+			Result res2 = calc.DeclareVariable("IdSec");
+			THEN("Results are ok")
+			{
+				REQUIRE(res1.IsOk());
+				REQUIRE(res2.IsOk());
+			}
+		}
+
+	}
+
+	SECTION("Declaring variables in incorrect way")
+	{
+		WHEN("Variables are incorrect")
+		{
+			Result res1 = calc.DeclareVariable("");
+			Result res2 = calc.DeclareVariable("1");
+			calc.DeclareVariable("A");
+			Result res3 = calc.DeclareVariable("A");
+			THEN("Results are not ok")
+			{
+				REQUIRE_FALSE(res1.IsOk());
+				REQUIRE_FALSE(res2.IsOk());
+				REQUIRE_FALSE(res3.IsOk());
+			}
+		}
+	}
+
+	SECTION("Init variable")
+	{
+		WHEN("Given expression is incorrect")
+		{
+			Result res1 = calc.InitVariable("");
+			Result res2 = calc.InitVariable("1");
+			Result res3 = calc.InitVariable("1=1");
+			Result res4 = calc.InitVariable("1=A");
+			Result res5 = calc.InitVariable("1A=A");
+			Result res6 = calc.InitVariable("1A=10");
+			Result res7 = calc.InitVariable("1A=0.9");
+			Result res8 = calc.InitVariable("A=B");
+			THEN("InitVariable() returns false result")
+			{
+				REQUIRE_FALSE(res1.IsOk());
+				REQUIRE_FALSE(res2.IsOk());
+				REQUIRE_FALSE(res3.IsOk());
+				REQUIRE_FALSE(res4.IsOk());
+				REQUIRE_FALSE(res5.IsOk());
+				REQUIRE_FALSE(res6.IsOk());
+				REQUIRE_FALSE(res7.IsOk());
+				REQUIRE_FALSE(res8.IsOk());
+			}
+		}
+
+		WHEN("Given expression is correct")
+		{
+			Result res1 = calc.InitVariable("A=10");
+			Result res2 = calc.InitVariable("B=A");
+			THEN("InitVariable() returns true result")
+			{
+				REQUIRE(res1.IsOk());
+				REQUIRE(res2.IsOk());
+			}
+		}
+	}
+
+	SECTION("Declaring function")
+	{
+		WHEN("Given expression is incorrect")
+		{
+			Result res1 = calc.DeclareFunction("");
+			Result res2 = calc.DeclareFunction("1");
+			Result res3 = calc.DeclareFunction("1=1");
+			Result res4 = calc.DeclareFunction("1A=1");
+			Result res5 = calc.DeclareFunction("1A=1A");
+			Result res6 = calc.DeclareFunction("A=A");
+			Result res7 = calc.DeclareFunction("A=A");
+			calc.InitVariable("A=10");
+			Result res8 = calc.DeclareFunction("A=A+10");
+			Result res9 = calc.DeclareFunction("C=A+B");
+			Result res10 = calc.DeclareFunction("D=A^A");
+			THEN("DeclareFunction() returns false result")
+			{
+				REQUIRE_FALSE(res1.IsOk());
+				REQUIRE_FALSE(res2.IsOk());
+				REQUIRE_FALSE(res3.IsOk());
+				REQUIRE_FALSE(res4.IsOk());
+				REQUIRE_FALSE(res5.IsOk());
+				REQUIRE_FALSE(res6.IsOk());
+				REQUIRE_FALSE(res7.IsOk());
+				REQUIRE_FALSE(res8.IsOk());
+				REQUIRE_FALSE(res9.IsOk());
+				REQUIRE_FALSE(res10.IsOk());
+			}
+		}	
+	}
+	SECTION("Given expression is correct")
+	{
+		calc.InitVariable("A=10");
+		Result res1 = calc.DeclareFunction("B=A");
+		Result res2 = calc.DeclareFunction("C=B");
+		Result res3 = calc.DeclareFunction("D=C");
+		THEN("DeclareFunction() returns good result")
+		{
+			REQUIRE(res1.IsOk());
+			REQUIRE(res2.IsOk());
+			REQUIRE(res3.IsOk());
+		}
+	}
+}
