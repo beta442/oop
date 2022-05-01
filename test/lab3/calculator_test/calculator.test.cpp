@@ -59,3 +59,43 @@ SCENARIO("Result at creation state")
 		}
 	}
 }
+
+#include "../../../labs/lab3/calculator/headers/calculator/CParser.h"
+
+SCENARIO("Calculator's expressions parsing test")
+{
+	Parser parser;
+
+	SECTION("Identifier parsing results")
+	{
+		WHEN("Identifier is valid")
+		{
+			const std::string validIdentifierFirst = "aA123B123Cccasd123";
+			const std::string validIdentifierSecond = "A";
+			const std::string validIdentifierThird = "a";
+			const std::string validIdentifierFourth = "aBcaasdA";
+			THEN("IsStringValidIdentifier() returns true")
+			{
+				REQUIRE(parser.IsStringValidIdentifier(validIdentifierFirst));
+				REQUIRE(parser.IsStringValidIdentifier(validIdentifierSecond));
+				REQUIRE(parser.IsStringValidIdentifier(validIdentifierThird));
+				REQUIRE(parser.IsStringValidIdentifier(validIdentifierFourth));
+			}
+		}
+
+		WHEN("Idenitifier is invalid")
+		{
+			const std::string invalidIdentifierFirst = "123";
+			const std::string invalidIdentifierSecond = "1a2A3A";
+			const std::string invalidIdentifierThird = "A=";
+			const std::string invalidIdentifierfourth = "A123A!SC/!=";
+			THEN("IsStringValidIdentifier() returns false")
+			{
+				REQUIRE_FALSE(parser.IsStringValidIdentifier(invalidIdentifierFirst));
+				REQUIRE_FALSE(parser.IsStringValidIdentifier(invalidIdentifierSecond));
+				REQUIRE_FALSE(parser.IsStringValidIdentifier(invalidIdentifierThird));
+				REQUIRE_FALSE(parser.IsStringValidIdentifier(invalidIdentifierfourth));
+			}
+		}
+	}
+}
