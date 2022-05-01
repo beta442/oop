@@ -159,5 +159,54 @@ SCENARIO("Calculator's expressions parsing test")
 				REQUIRE_FALSE(parser.IsStringValidOperation(invalidOperationFourth));
 			}
 		}
+
+		SECTION("Expression parsing tests")
+		{
+			WHEN("Exrpession is valid")
+			{
+				const std::string validExpression1 = "A=B";
+				const std::string validExpression2 = "A=B123";
+				const std::string validExpression3 = "A123=B";
+				const std::string validExpression4 = "A123A=B";
+				const std::string validExpression5 = "A123A=B213B";
+				const std::string validExpression6 = "A123A=123.123";
+				const std::string validExpression7 = "A123A=123,123";
+				const std::string validExpression8 = "A123A=A123A+A213A";
+				THEN("ParseExpression() returns ok result")
+				{
+					REQUIRE(parser.ParseExpression(validExpression1).type == Parser::ResultType::IdentifierAssignIdentifier);
+					REQUIRE(parser.ParseExpression(validExpression2).type == Parser::ResultType::IdentifierAssignIdentifier);
+					REQUIRE(parser.ParseExpression(validExpression3).type == Parser::ResultType::IdentifierAssignIdentifier);
+					REQUIRE(parser.ParseExpression(validExpression4).type == Parser::ResultType::IdentifierAssignIdentifier);
+					REQUIRE(parser.ParseExpression(validExpression5).type == Parser::ResultType::IdentifierAssignIdentifier);
+					REQUIRE(parser.ParseExpression(validExpression6).type == Parser::ResultType::IdentifierAssignDouble);
+					REQUIRE(parser.ParseExpression(validExpression7).type == Parser::ResultType::IdentifierAssignDouble);
+					REQUIRE(parser.ParseExpression(validExpression8).type == Parser::ResultType::IdentifierAssignExpression);
+				}
+			}
+
+			WHEN("Exrpession is invalid")
+			{
+				const std::string invalidExpression1 = "";
+				const std::string invalidExpression2 = "123";
+				const std::string invalidExpression3 = "123A";
+				const std::string invalidExpression4 = "123A=123B";
+				const std::string invalidExpression5 = "123c=123Bc+123";
+				const std::string invalidExpression6 = "123c=123Bc++123";
+				const std::string invalidExpression7 = "123c=123Bc-123";
+				const std::string invalidExpression8 = "123c=123Bc/123";
+				THEN("ParseExpression() returns failure result")
+				{
+					REQUIRE(parser.ParseExpression(invalidExpression1).type == Parser::ResultType::Failure);
+					REQUIRE(parser.ParseExpression(invalidExpression2).type == Parser::ResultType::Failure);
+					REQUIRE(parser.ParseExpression(invalidExpression3).type == Parser::ResultType::Failure);
+					REQUIRE(parser.ParseExpression(invalidExpression4).type == Parser::ResultType::Failure);
+					REQUIRE(parser.ParseExpression(invalidExpression5).type == Parser::ResultType::Failure);
+					REQUIRE(parser.ParseExpression(invalidExpression6).type == Parser::ResultType::Failure);
+					REQUIRE(parser.ParseExpression(invalidExpression7).type == Parser::ResultType::Failure);
+					REQUIRE(parser.ParseExpression(invalidExpression8).type == Parser::ResultType::Failure);
+				}
+			}
+		}
 	}
 }
