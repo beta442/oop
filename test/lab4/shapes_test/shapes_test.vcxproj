@@ -159,6 +159,8 @@
     <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\rectangle.cpp" />
     <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\triangle.cpp" />
     <ClCompile Include="shapes.test.cpp" />
+    <ClCompile Include="unit\circle.test.cpp" />
+    <ClCompile Include="unit\rectangle.test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\CCircle.h" />

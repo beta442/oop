@@ -43,6 +43,12 @@
     <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\triangle.cpp">
       <Filter>Resource Files\Shapes</Filter>
     </ClCompile>
+    <ClCompile Include="unit\circle.test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="unit\rectangle.test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\labs\lab4\shapes\headers\std_lib.h">
