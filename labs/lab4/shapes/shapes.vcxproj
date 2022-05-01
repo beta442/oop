@@ -158,6 +158,7 @@
     <ClCompile Include="resources\shapes\triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="headers\CShapesContainer.h" />
     <ClInclude Include="headers\shapes\CCircle.h" />
     <ClInclude Include="headers\shapes\CLineSegment.h" />
     <ClInclude Include="headers\shapes\CPoint.h" />

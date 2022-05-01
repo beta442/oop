@@ -2,7 +2,9 @@
 #define PCH_H
 
 #include <iostream>
+#include <map>
 #include <sstream>
 #include <string>
+#include <vector>
 
 #endif // !PCH_H

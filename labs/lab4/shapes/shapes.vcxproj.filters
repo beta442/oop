@@ -74,5 +74,8 @@
     <ClInclude Include="headers\shapes\CCircle.h">
       <Filter>Header Files\Shapes</Filter>
     </ClInclude>
+    <ClInclude Include="headers\CShapesContainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
