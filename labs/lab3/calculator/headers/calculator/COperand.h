@@ -5,6 +5,8 @@
 class Operand
 {
 public:
+	virtual ~Operand() = default;
+
 	using Value = double;
 	using OperandPtr = std::shared_ptr<Operand>;
 
