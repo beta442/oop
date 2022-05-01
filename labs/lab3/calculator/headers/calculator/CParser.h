@@ -23,7 +23,7 @@ public:
 
 	static bool IsStringValidIdentifier(const std::string& str);
 	static bool IsStringValidDouble(const std::string& str);
-	static bool IsStringValidOperation(const std::string & str);
+	static bool IsStringValidOperation(const std::string& str);
 	static ParsingResult ParseExpression(const std::string& str);
 
 	inline static const auto IsValidIdentifier = [](const std::string& str) {
