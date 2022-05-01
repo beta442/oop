@@ -1,37 +1,58 @@
+#define _USE_MATH_DEFINES
+#include <cmath>
+
 #include "../../headers/shapes/CCircle.h"
+
+CCircle::CCircle(CPoint basePoint,
+	double radius, uint32_t outlineColor, uint32_t fillColor)
+	: ISolidShape(basePoint, outlineColor, fillColor)
+	, m_radius(radius)
+{
+}
 
 double CCircle::GetArea() const
 {
-	return 0.0;
+	return M_PI * m_radius * m_radius;
 }
 
 double CCircle::GetPerimeter() const
 {
-	return 0.0;
+	return 2 * M_PI * m_radius;
 }
 
 std::string CCircle::ToString() const
 {
-	return std::string();
+	std::ostringstream oss;
+
+	oss << std::hex;
+	oss << "Circle:" << std::endl
+		<< "--center: " << m_basePoint.ToString()
+		<< "--radius: " << m_radius << std::endl
+		<< "--area: " << GetArea() << std::endl
+		<< "--perimeter: " << GetPerimeter() << std::endl
+		<< "--outline color: " << m_outlineColor << std::endl
+		<< "--fill color: " << m_fillColor << std::endl;
+
+	return oss.str();
 }
 
 uint32_t CCircle::GetOutlineColor() const
 {
-	return uint32_t();
+	return m_outlineColor;
 }
 
 uint32_t CCircle::GetFillColor() const
 {
-	return uint32_t();
+	return m_fillColor;
 }
 
 
 CPoint CCircle::GetCenter() const
 {
-	return CPoint();
+	return m_basePoint;
 }
 
 double CCircle::GetRadius()
 {
-	return 0.0;
+	return m_radius;
 }
