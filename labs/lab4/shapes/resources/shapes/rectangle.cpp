@@ -2,12 +2,10 @@
 
 CRectangle::CRectangle(CPoint basePoint,
 	double width, double height, uint32_t outlineColor, uint32_t fillColor)
-	: m_width(width)
+	: ISolidShape(basePoint, outlineColor, fillColor)
+	, m_width(width)
 	, m_height(height)
 {
-	m_basePoint = basePoint;
-	m_outlineColor = outlineColor;
-	m_fillColor = fillColor;
 }
 
 double CRectangle::GetArea() const
