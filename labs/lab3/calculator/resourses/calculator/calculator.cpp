@@ -81,7 +81,7 @@ Result Calculator::DeclareFunction(const std::string& expression)
 	{
 		return { false, NOT_IMPLEMENTED_OPERATION_MSG };
 	}
-
+	
 	if (resultType == Parser::ResultType::IdentifierAssignExpression)
 	{
 		return DeclareFunction(leftIdentifier, rightOperand, oOperation.value(), rightSecondOperand);
