@@ -48,6 +48,9 @@
     <ClCompile Include="headers\pch.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="resources\shape_container.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\pch.h">
