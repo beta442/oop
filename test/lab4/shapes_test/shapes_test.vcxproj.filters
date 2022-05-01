@@ -49,6 +49,9 @@
     <ClCompile Include="unit\rectangle.test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="unit\triangle.test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\labs\lab4\shapes\headers\std_lib.h">
