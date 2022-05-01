@@ -1,7 +1,7 @@
 #include "../../headers/shapes/CRectangle.h"
 
-CRectangle::CRectangle(CPoint basePoint,
-	double width, double height, uint32_t outlineColor, uint32_t fillColor)
+CRectangle::CRectangle(const CPoint& basePoint,
+	const double width, const double height, const uint32_t outlineColor, uint32_t fillColor)
 	: ISolidShape(basePoint, outlineColor, fillColor)
 	, m_width(width)
 	, m_height(height)

@@ -3,8 +3,8 @@
 
 #include "../../headers/shapes/CCircle.h"
 
-CCircle::CCircle(CPoint basePoint,
-	double radius, uint32_t outlineColor, uint32_t fillColor)
+CCircle::CCircle(const CPoint& basePoint,
+	const double radius, const uint32_t outlineColor, const uint32_t fillColor)
 	: ISolidShape(basePoint, outlineColor, fillColor)
 	, m_radius(radius)
 {
@@ -45,7 +45,6 @@ uint32_t CCircle::GetFillColor() const
 {
 	return m_fillColor;
 }
-
 
 CPoint CCircle::GetCenter() const
 {
