@@ -98,4 +98,33 @@ SCENARIO("Calculator's expressions parsing test")
 			}
 		}
 	}
+
+	SECTION("Double value parsing results")
+	{
+		WHEN("Double value is valid")
+		{
+			const std::string validDoubleFirst = "0,12399";
+			const std::string validDoubleSecond = "1992.399999";
+			const std::string validDoubleThird = "999129993";
+			THEN("IsStringValideDouble() returns true")
+			{
+				REQUIRE(parser.IsStringValidDouble(validDoubleFirst));
+				REQUIRE(parser.IsStringValidDouble(validDoubleSecond));
+				REQUIRE(parser.IsStringValidDouble(validDoubleThird));
+			}
+		}
+
+		WHEN("Double value is invalid")
+		{
+			const std::string invalidDoubleFirst = "1A2399,";
+			const std::string invalidDoubleSecond = "1992399999.";
+			const std::string invalidDoubleThird = ".,999129993";
+			THEN("IsStringValideDouble() returns false")
+			{
+				REQUIRE_FALSE(parser.IsStringValidDouble(invalidDoubleFirst));
+				REQUIRE_FALSE(parser.IsStringValidDouble(invalidDoubleSecond));
+				REQUIRE_FALSE(parser.IsStringValidDouble(invalidDoubleThird));
+			}
+		}
+	}
 }
