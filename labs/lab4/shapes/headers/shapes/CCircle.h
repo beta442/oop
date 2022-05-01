@@ -16,7 +16,7 @@ public:
 	uint32_t GetFillColor() const override;
 
 	CPoint GetCenter() const;
-	double GetRadius();
+	double GetRadius() const;
 
 private:
 	double m_radius;

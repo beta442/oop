@@ -52,7 +52,7 @@ CPoint CCircle::GetCenter() const
 	return m_basePoint;
 }
 
-double CCircle::GetRadius()
+double CCircle::GetRadius() const
 {
 	return m_radius;
 }
