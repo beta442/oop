@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../std_lib.h"
+#include "../pch.h"
 #include "CPoint.h"
 
 class IShape

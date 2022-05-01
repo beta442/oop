@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="headers\pch.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="resources\shapes\circle.cpp" />
     <ClCompile Include="resources\shapes\ishape.cpp" />
@@ -164,7 +165,7 @@
     <ClInclude Include="headers\shapes\CTriangle.h" />
     <ClInclude Include="headers\shapes\IShape.h" />
     <ClInclude Include="headers\shapes\ISolidShape.h" />
-    <ClInclude Include="headers\std_lib.h" />
+    <ClInclude Include="headers\pch.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

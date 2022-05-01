@@ -45,9 +45,12 @@
     <ClCompile Include="resources\shapes\circle.cpp">
       <Filter>Resource Files\Shapes</Filter>
     </ClCompile>
+    <ClCompile Include="headers\pch.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\std_lib.h">
+    <ClInclude Include="headers\pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="headers\shapes\CPoint.h">
