@@ -13,7 +13,6 @@ TEST_CASE("Rectangle at creation state")
 
 	WHEN("Rectangle created")
 	{
-		const std::string expectedInfo = "Width: 100\nHeight: 50\n";
 		THEN("Getters works correctly")
 		{
 			REQUIRE(rect.GetWidth() == width);
@@ -22,7 +21,6 @@ TEST_CASE("Rectangle at creation state")
 			REQUIRE(rect.GetPerimeter() == (width + height) * 2);
 			REQUIRE(rect.GetFillColor() == fillColor);
 			REQUIRE(rect.GetOutlineColor() == outlineColor);
-			REQUIRE(rect.ToString() == expectedInfo);
 			REQUIRE(rect.GetLeftTop() == basePoint);
 			REQUIRE(rect.GetRightBottom() == rightBottomPoint);
 		}
