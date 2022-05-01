@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{c4a80ffc-71b7-4225-8da6-5ba4c60d401e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Shapes">
+      <UniqueIdentifier>{3ae56bc2-4025-43a4-8832-06e8e49ec5a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{8511270f-c3d6-460c-bdcd-edc640718cbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Shapes">
+      <UniqueIdentifier>{67d2e522-3c66-4c9a-ac51-fd44b3314150}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="shapes.test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\circle.cpp">
+      <Filter>Resource Files\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\ishape.cpp">
+      <Filter>Resource Files\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\isolid_shape.cpp">
+      <Filter>Resource Files\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\line_segment.cpp">
+      <Filter>Resource Files\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\point.cpp">
+      <Filter>Resource Files\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\rectangle.cpp">
+      <Filter>Resource Files\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\triangle.cpp">
+      <Filter>Resource Files\Shapes</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\std_lib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\CCircle.h">
+      <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\CLineSegment.h">
+      <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\CPoint.h">
+      <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\CRectangle.h">
+      <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\CTriangle.h">
+      <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\IShape.h">
+      <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\ISolidShape.h">
+      <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
+  </ItemGroup>
+</Project>
