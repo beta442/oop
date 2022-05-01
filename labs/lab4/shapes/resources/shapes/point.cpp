@@ -13,3 +13,8 @@ std::string CPoint::ToString() const
 
 	return oss.str();
 }
+
+double CPoint::Distance(const CPoint& other) const
+{
+	return std::sqrt((other.x - x) * (other.x - x) + (other.y - y) * (other.y - y));
+}

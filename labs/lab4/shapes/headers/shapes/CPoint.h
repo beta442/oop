@@ -9,5 +9,7 @@ public:
 
 	bool operator==(const CPoint& other) const;
 
+	double Distance(const CPoint& other) const;
+
 	double x, y;
 };
