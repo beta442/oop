@@ -24,5 +24,38 @@ SCENARIO("Variable at creation state")
 			REQUIRE(var.GetValue() == value);
 		}
 	}
+}
 
+#include "../../../labs/lab3/calculator/headers/calculator/CResult.h"
+
+SCENARIO("Result at creation state")
+{
+	WHEN("Result created w/o provided messsage")
+	{
+		const Result resErr{ false };
+		const Result resOk{ true };
+
+		THEN("Result hasn't any msg")
+		{
+			REQUIRE(!resErr.HasMessage());
+			REQUIRE(!resOk.HasMessage());
+			REQUIRE(std::size(resErr.Message()) == 0);
+			REQUIRE(std::size(resOk.Message()) == 0);
+		}
+	}
+
+	WHEN("Result created with provided message")
+	{
+		const std::string errMsg = "Err occured";
+		const Result resErrWithMsg{ false, errMsg };
+		const std::string okMsg = "Everything is ok";
+		const Result resOkWitHMsg{ true, okMsg };
+		THEN("Result contains message inside")
+		{
+			REQUIRE(resErrWithMsg.HasMessage());
+			REQUIRE(resOkWitHMsg.HasMessage());
+			REQUIRE(resErrWithMsg.Message() == errMsg);
+			REQUIRE(resOkWitHMsg.Message() == okMsg);
+		}
+	}
 }
