@@ -22,10 +22,16 @@ double CRectangle::GetPerimeter() const
 
 std::string CRectangle::ToString() const
 {
-	std::stringstream ss;
-	ss << "Width: " << GetWidth() << std::endl
-	   << "Height: " << GetHeight() << std::endl;
-	return ss.str();
+	std::ostringstream oss;
+	oss << "Rectangle:" << std::endl
+		<< "--left top: " << m_basePoint.ToString()
+		<< "--width: " << m_width << std::endl
+		<< "--height: " << m_height << std::endl
+		<< "--area: " << GetArea() << std::endl
+		<< "--perimeter: " << GetPerimeter() << std::endl
+		<< "--outline color: " << m_outlineColor << std::endl
+		<< "--fill color: " << m_fillColor << std::endl;
+	return oss.str();
 }
 
 uint32_t CRectangle::GetOutlineColor() const
@@ -45,7 +51,7 @@ CPoint CRectangle::GetLeftTop() const
 
 CPoint CRectangle::GetRightBottom() const
 {
-	return CPoint{m_basePoint.x + m_width, m_basePoint.y + m_height};
+	return CPoint{ m_basePoint.x + m_width, m_basePoint.y + m_height };
 }
 
 double CRectangle::GetWidth() const
