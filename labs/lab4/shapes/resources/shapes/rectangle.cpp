@@ -23,6 +23,7 @@ double CRectangle::GetPerimeter() const
 std::string CRectangle::ToString() const
 {
 	std::ostringstream oss;
+	oss << std::hex;
 	oss << "Rectangle:" << std::endl
 		<< "--left top: " << m_basePoint.ToString()
 		<< "--width: " << m_width << std::endl
