@@ -127,4 +127,37 @@ SCENARIO("Calculator's expressions parsing test")
 			}
 		}
 	}
+
+	SECTION("Operation string parsing result")
+	{
+		WHEN("Operation string is valid")
+		{
+			const std::string validOperationFirst = "+";
+			const std::string validOperationSecond = "-";
+			const std::string validOperationThird = "*";
+			const std::string validOperationFourth = "/";
+			THEN("IsStringValidOperation() returns true")
+			{
+				REQUIRE(parser.IsStringValidOperation(validOperationFirst));
+				REQUIRE(parser.IsStringValidOperation(validOperationSecond));
+				REQUIRE(parser.IsStringValidOperation(validOperationThird));
+				REQUIRE(parser.IsStringValidOperation(validOperationFourth));
+			}
+		}
+
+		WHEN("Operation string is invalid")
+		{
+			const std::string invalidOperationFirst = "-+++*";
+			const std::string invalidOperationSecond = "++++++++";
+			const std::string invalidOperationThird = "asd";
+			const std::string invalidOperationFourth = "/*-+";
+			THEN("IsStringValidOperation() returns false")
+			{
+				REQUIRE_FALSE(parser.IsStringValidOperation(invalidOperationFirst));
+				REQUIRE_FALSE(parser.IsStringValidOperation(invalidOperationSecond));
+				REQUIRE_FALSE(parser.IsStringValidOperation(invalidOperationThird));
+				REQUIRE_FALSE(parser.IsStringValidOperation(invalidOperationFourth));
+			}
+		}
+	}
 }
