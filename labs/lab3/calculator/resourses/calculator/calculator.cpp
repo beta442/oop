@@ -128,7 +128,7 @@ Result Calculator::DeclareFunction(const std::string& identifier,
 	}
 
 	m_funcs.emplace(identifier,
-		std::shared_ptr<Function>(new Function{ leftAssignmentOperandPtr, operation, rightAssignmentOperandPtr }));
+		std::shared_ptr<Function>(Function::Create( leftAssignmentOperandPtr, operation, rightAssignmentOperandPtr )));
 
 	return { true };
 }

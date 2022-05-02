@@ -1,10 +1,10 @@
 #include "../../headers/calculator/COperand.h"
 
-void Operand::AddDependentOperand(std::shared_ptr<Operand> const functPtr)
+void Operand::AddDependentOperand(std::shared_ptr<Operand> functPtr)
 {
 	if (functPtr != nullptr)
 	{
-		m_dependentOperandsPtrs.push_back(functPtr);
+		m_dependentOperandsPtrs.emplace_back(std::move(functPtr));
 	}
 }
 
@@ -16,7 +16,7 @@ void Operand::FlushDependentFunctions() const
 	}
 }
 
-std::optional<Operand::Operation> Operand::StringToOperation(const std::string str)
+std::optional<Operand::Operation> Operand::StringToOperation(const std::string& str)
 {
 	if (str == "+")
 	{

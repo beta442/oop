@@ -20,15 +20,18 @@ public:
 
 	virtual Value GetValue() const = 0;
 
-	static std::optional<Operation> StringToOperation(const std::string str);
+	static std::optional<Operation> StringToOperation(const std::string& str);
 
-	void AddDependentOperand(OperandPtr const functPtr);
+	void AddDependentOperand(OperandPtr functPtr);
 
 protected:
 	void FlushDependentFunctions() const;
 
 	virtual void FlushCachedValue() = 0;
 
+	//todo: циклическая зависимость, один указатель необходимо делать weak
+	//todo: use method lock
+	//simplify: использовать обычные ссылки
 	std::vector<OperandPtr> m_dependentOperandsPtrs;
 	inline const static Value m_nanValue = std::numeric_limits<Value>::quiet_NaN();
 };

@@ -1,23 +1,24 @@
 #include "../../headers/calculator/CFunction.h"
 
-Function::Function(OperandPtr const operand)
-	: m_firstOperand(operand)
-	, m_operation(std::nullopt)
-	, m_secondOperand(std::nullopt)
-	, m_cachedValue(std::nullopt)
+void Function::Init(OperandPtr const operand)
 {
-	operand->AddDependentOperand(std::shared_ptr<Function>(this));
+	m_firstOperand = operand;
+	m_operation = std::nullopt;
+	m_secondOperand = std::nullopt;
+	m_cachedValue = std::nullopt;
+	operand->AddDependentOperand(shared_from_this());
 }
 
-Function::Function(OperandPtr const operandFirst,
+void Function::Init(OperandPtr const operandFirst,
 	const Operation& operation, OperandPtr const operandSecond)
-	: m_firstOperand(operandFirst)
-	, m_operation(operation)
-	, m_secondOperand(operandSecond)
-	, m_cachedValue(std::nullopt)
 {
-	operandFirst->AddDependentOperand(std::shared_ptr<Function>(this));
-	operandSecond->AddDependentOperand(std::shared_ptr<Function>(this));
+	m_firstOperand = operandFirst;
+	m_operation = operation;
+	m_secondOperand = operandSecond;
+	m_cachedValue = std::nullopt;
+	// todo:: std::enable_shared_from_this
+	operandFirst->AddDependentOperand(shared_from_this());
+	operandSecond->AddDependentOperand(shared_from_this());
 }
 
 Function::Value Function::GetValue() const

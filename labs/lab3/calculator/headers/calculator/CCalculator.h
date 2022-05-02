@@ -16,6 +16,7 @@ public:
 	Result DeclareVariable(const std::string& identifier);
 	Result DeclareFunction(const std::string& expression);
 	Result InitVariable(const std::string& expression);
+	//todo: печатью должен заниматься контроллер
 	void PrintIdentifierAndValue(const std::string& identifier, std::ostream& output) const;
 	void PrintVariables(std::ostream& output) const;
 	void PrintFunctions(std::ostream& output) const;
