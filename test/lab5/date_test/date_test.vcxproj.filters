@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Unit">
+      <UniqueIdentifier>{17f966b4-5d50-4da7-831d-b7d065b6f2f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Date">
+      <UniqueIdentifier>{c6e4e94d-e4d5-4cec-889a-2e7836dc3f81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{fe70ad6b-73fb-4f89-b1ce-bd5f8fb69f3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Date">
+      <UniqueIdentifier>{8ba899a9-a720-4141-bebe-d00f6a018f1a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="date.main.test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="unit\date.test.cpp">
+      <Filter>Source Files\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\labs\lab5\date\src\date.cpp">
+      <Filter>Source Files\Date</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\labs\lab5\date\headers\stdafx.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\labs\lab5\date\headers\stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\labs\lab5\date\headers\date\CDate.h">
+      <Filter>Header Files\Date</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
