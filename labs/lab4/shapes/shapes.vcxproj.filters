@@ -16,7 +16,7 @@
     <Filter Include="Header Files\Shapes">
       <UniqueIdentifier>{033e2a07-1a01-4952-8ede-604b2395178c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\Shapes">
+    <Filter Include="Source Files\Shapes">
       <UniqueIdentifier>{52e6c128-463c-472c-a2a6-a79d6b0229b9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -25,31 +25,31 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="resources\shapes\point.cpp">
-      <Filter>Resource Files\Shapes</Filter>
+      <Filter>Source Files\Shapes</Filter>
     </ClCompile>
     <ClCompile Include="resources\shapes\ishape.cpp">
-      <Filter>Resource Files\Shapes</Filter>
+      <Filter>Source Files\Shapes</Filter>
     </ClCompile>
     <ClCompile Include="resources\shapes\line_segment.cpp">
-      <Filter>Resource Files\Shapes</Filter>
+      <Filter>Source Files\Shapes</Filter>
     </ClCompile>
     <ClCompile Include="resources\shapes\triangle.cpp">
-      <Filter>Resource Files\Shapes</Filter>
+      <Filter>Source Files\Shapes</Filter>
     </ClCompile>
     <ClCompile Include="resources\shapes\isolid_shape.cpp">
-      <Filter>Resource Files\Shapes</Filter>
+      <Filter>Source Files\Shapes</Filter>
     </ClCompile>
     <ClCompile Include="resources\shapes\rectangle.cpp">
-      <Filter>Resource Files\Shapes</Filter>
+      <Filter>Source Files\Shapes</Filter>
     </ClCompile>
     <ClCompile Include="resources\shapes\circle.cpp">
-      <Filter>Resource Files\Shapes</Filter>
+      <Filter>Source Files\Shapes</Filter>
     </ClCompile>
     <ClCompile Include="headers\pch.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="resources\shape_container.cpp">
-      <Filter>Resource Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
