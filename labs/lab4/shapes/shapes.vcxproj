@@ -169,6 +169,11 @@
     <ClInclude Include="headers\shapes\ISolidShape.h" />
     <ClInclude Include="headers\pch.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\test\lab4\shapes_test\shapes_test.vcxproj">
+      <Project>{1ad7950a-6183-412e-aebb-d5c42b875136}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

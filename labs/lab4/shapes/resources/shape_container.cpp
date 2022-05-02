@@ -78,7 +78,9 @@ bool CShapesContainer::ReadLineSegment(std::istream& input)
 
 	if (input >> startX >> startY >> endX >> endY >> std::hex >> outlineColor)
 	{
-		m_shapes.push_back(std::shared_ptr<CLineSegment>(new CLineSegment{ CPoint{ startX, startY }, CPoint{ endX, endY }, outlineColor }));
+		//todo: remove std::move
+		//use std::make_shared
+		m_shapes.emplace_back(std::move(std::shared_ptr<CLineSegment>(new CLineSegment{ CPoint{ startX, startY }, CPoint{ endX, endY }, outlineColor })));
 		return true;
 	}
 
@@ -92,7 +94,7 @@ bool CShapesContainer::ReadTriangle(std::istream& input)
 
 	if (input >> v1X >> v1Y >> v2X >> v2Y >> v3X >> v3Y >> std::hex >> outlineColor >> std::hex >> fillColor)
 	{
-		m_shapes.push_back(std::shared_ptr<CTriangle>(new CTriangle{ CPoint{ v1X, v2X }, CPoint{ v2X, v2Y }, CPoint{ v3X, v3Y }, outlineColor, fillColor }));
+		m_shapes.emplace_back(std::move(std::shared_ptr<CTriangle>(new CTriangle{ CPoint{ v1X, v2X }, CPoint{ v2X, v2Y }, CPoint{ v3X, v3Y }, outlineColor, fillColor })));
 		return true;
 	}
 
@@ -106,7 +108,7 @@ bool CShapesContainer::ReadRectangle(std::istream& input)
 
 	if (input >> leftTopX >> leftTopY >> width >> height >> std::hex >> outlineColor >> std::hex >> fillColor)
 	{
-		m_shapes.push_back(std::shared_ptr<CRectangle>(new CRectangle{ CPoint{ leftTopX, leftTopY }, width, height, outlineColor, fillColor }));
+		m_shapes.emplace_back(std::move(std::shared_ptr<CRectangle>(new CRectangle{ CPoint{ leftTopX, leftTopY }, width, height, outlineColor, fillColor })));
 		return true;
 	}
 
@@ -120,7 +122,7 @@ bool CShapesContainer::ReadCircle(std::istream& input)
 
 	if (input >> centerX >> centerY >> radius >> std::hex >> outlineColor >> std::hex >> fillColor)
 	{
-		m_shapes.push_back(std::shared_ptr<CCircle>(new CCircle{ CPoint{ centerX, centerY }, radius, outlineColor, fillColor }));
+		m_shapes.emplace_back(std::move(std::shared_ptr<CCircle>(new CCircle{ CPoint{ centerX, centerY }, radius, outlineColor, fillColor })));
 		return true;
 	}
 
@@ -131,6 +133,7 @@ void CShapesContainer::PrintShapeInfoWithMaxArea(std::ostream& output) const
 {
 	if (auto shapePtr = FindMaxAreaShape())
 	{
+		//std::() найти подходящий алгоритм для поиска мин/макс элементов
 		output << shapePtr->ToString();
 	}
 	else
