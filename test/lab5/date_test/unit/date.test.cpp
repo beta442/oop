@@ -15,7 +15,7 @@ TEST_CASE("Date at create state")
 		{
 			REQUIRE(date.GetDay() == 1);
 			REQUIRE(date.GetMonth() == Date::Month(1));
-			REQUIRE(date.GetWeekDay() == Date::WeekDay(0));
+			REQUIRE(date.GetWeekDay() == Date::WeekDay(4));
 			REQUIRE(date.GetYear() == 1970);
 		}
 	}
@@ -107,6 +107,7 @@ TEST_CASE("Date at create state")
 		Date date15{ 32, Date::Month(12), 1972 };
 		Date date16{ 15, Date::Month(-1), 1972 };
 		Date date17{ 15, Date::Month(13), 1972 };
+
 		THEN("Dates are in invalid state")
 		{
 			REQUIRE_FALSE(date1.IsValid());
@@ -127,32 +128,38 @@ TEST_CASE("Date at create state")
 			REQUIRE_FALSE(date16.IsValid());
 			REQUIRE_FALSE(date17.IsValid());
 		}
+
 		THEN("Getters shows default info")
 		{
-			REQUIRE(date1.GetDay() == 1);
-			REQUIRE(date1.GetMonth() == Date::Month(1));
-			REQUIRE(date1.GetWeekDay() == Date::WeekDay(0));
-			REQUIRE(date1.GetYear() == 1970);
-			REQUIRE(date2.GetDay() == 1);
-			REQUIRE(date2.GetMonth() == Date::Month(1));
-			REQUIRE(date2.GetWeekDay() == Date::WeekDay(0));
-			REQUIRE(date2.GetYear() == 1970);
-			REQUIRE(date3.GetDay() == 1);
-			REQUIRE(date3.GetMonth() == Date::Month(1));
-			REQUIRE(date3.GetWeekDay() == Date::WeekDay(0));
-			REQUIRE(date3.GetYear() == 1970);
-			REQUIRE(date10.GetDay() == 1);
-			REQUIRE(date10.GetMonth() == Date::Month(1));
-			REQUIRE(date10.GetWeekDay() == Date::WeekDay(0));
-			REQUIRE(date10.GetYear() == 1970);
-			REQUIRE(date15.GetDay() == 1);
-			REQUIRE(date15.GetMonth() == Date::Month(1));
-			REQUIRE(date15.GetWeekDay() == Date::WeekDay(0));
-			REQUIRE(date15.GetYear() == 1970);
-			REQUIRE(date17.GetDay() == 1);
-			REQUIRE(date17.GetMonth() == Date::Month(1));
-			REQUIRE(date17.GetWeekDay() == Date::WeekDay(0));
-			REQUIRE(date17.GetYear() == 1970);
+			const unsigned expectedDay = 1;
+			const Date::Month expectedMonth = Date::Month(1);
+			const unsigned expectedYear = 1970;
+			const Date::WeekDay expectedDayOfWeek = Date::WeekDay(4);
+
+			REQUIRE(date1.GetDay() == expectedDay);
+			REQUIRE(date1.GetMonth() == expectedMonth);
+			REQUIRE(date1.GetWeekDay() == expectedDayOfWeek);
+			REQUIRE(date1.GetYear() == expectedYear);
+			REQUIRE(date2.GetDay() == expectedDay);
+			REQUIRE(date2.GetMonth() == expectedMonth);
+			REQUIRE(date2.GetWeekDay() == expectedDayOfWeek);
+			REQUIRE(date2.GetYear() == expectedYear);
+			REQUIRE(date3.GetDay() == expectedDay);
+			REQUIRE(date3.GetMonth() == expectedMonth);
+			REQUIRE(date3.GetWeekDay() == expectedDayOfWeek);
+			REQUIRE(date3.GetYear() == expectedYear);
+			REQUIRE(date10.GetDay() == expectedDay);
+			REQUIRE(date10.GetMonth() == expectedMonth);
+			REQUIRE(date10.GetWeekDay() == expectedDayOfWeek);
+			REQUIRE(date10.GetYear() == expectedYear);
+			REQUIRE(date15.GetDay() == expectedDay);
+			REQUIRE(date15.GetMonth() == expectedMonth);
+			REQUIRE(date15.GetWeekDay() == expectedDayOfWeek);
+			REQUIRE(date15.GetYear() == expectedYear);
+			REQUIRE(date17.GetDay() == expectedDay);
+			REQUIRE(date17.GetMonth() == expectedMonth);
+			REQUIRE(date17.GetWeekDay() == expectedDayOfWeek);
+			REQUIRE(date17.GetYear() == expectedYear);
 		}
 	}
 
@@ -227,7 +234,7 @@ TEST_CASE("Date at create state")
 	}
 }
 
-TEST_CASE("Date operator++")
+TEST_CASE("Date operator++. Date in correct state")
 {
 	Date date1{ 0 };
 	Date date2{ 1, Date::Month(1), 1970 };
@@ -273,6 +280,36 @@ TEST_CASE("Date operator++")
 		}
 
 		THEN("Date is correct")
+		{
+			REQUIRE(date1.GetDay() == expectedDay);
+			REQUIRE(date1.GetMonth() == expectedMonth);
+			REQUIRE(date1.GetWeekDay() == expectedDayOfWeek);
+			REQUIRE(date1.GetYear() == expectedYear);
+
+			REQUIRE(date2.GetDay() == expectedDay);
+			REQUIRE(date2.GetMonth() == expectedMonth);
+			REQUIRE(date2.GetWeekDay() == expectedDayOfWeek);
+			REQUIRE(date2.GetYear() == expectedYear);
+		}
+	}
+}
+
+TEST_CASE("Date operator++. Date in incorrect state")
+{
+	Date date1{ 2932900 };
+	Date date2{ 101, Date::Month(1), 1970 };
+
+	WHEN("operator++ used")
+	{
+		const unsigned expectedDay = 1;
+		const Date::Month expectedMonth = Date::Month(1);
+		const unsigned expectedYear = 1970;
+		const Date::WeekDay expectedDayOfWeek = Date::WeekDay(4);
+
+		++date1;
+		++date2;
+
+		THEN("Getters shows default info")
 		{
 			REQUIRE(date1.GetDay() == expectedDay);
 			REQUIRE(date1.GetMonth() == expectedMonth);
