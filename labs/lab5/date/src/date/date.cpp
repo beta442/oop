@@ -103,7 +103,7 @@ unsigned Date::GetDay() const
 	return *m_monthDay;
 }
 
-const Date::WeekDay START_WEEK_DAY = Date::WeekDay(0);
+const Date::WeekDay START_WEEK_DAY = Date::WeekDay(4);
 Date::WeekDay DayOfWeek(unsigned day, Date::Month month, unsigned year);
 
 Date::WeekDay Date::GetWeekDay() const
