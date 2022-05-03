@@ -157,7 +157,7 @@ unsigned Date::ConvertDateInfoToTimeStamp(unsigned day, Month month, unsigned ye
 		{
 			counter -= (*daysToMonth)[monthIndex];
 			counter += (*daysToMonth)[providedMonthIndex - 1];
-			counter += isProvidedYearLeap ? day - 2 : day - 1;
+			counter += isProvidedYearLeap && static_cast<int>(month) == 2 ? day - 2 : day - 1;
 		}
 		--yearPassed;
 	}
@@ -262,6 +262,23 @@ void Date::operator++()
 	}
 
 	++m_dayCounter;
+
+	CalculateDate();
+
+	if (!DateIsValid(*m_monthDay, *m_month, *m_year))
+	{
+		SetInvalidState();
+	}
+}
+
+void Date::operator--()
+{
+	if (!IsValid())
+	{
+		return;
+	}
+
+	--m_dayCounter;
 
 	CalculateDate();
 

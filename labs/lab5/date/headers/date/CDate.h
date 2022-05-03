@@ -41,7 +41,6 @@ public:
 	unsigned GetYear() const;
 	WeekDay GetWeekDay() const;
 
-	void operator++();
 
 	// возвращает информацию о корректности хранимой даты.
 	// Например, после вызова CDate date(99, static_cast<Month>(99), 10983);
@@ -49,6 +48,9 @@ public:
 	//	CDate date(1, January, 1970); --date;
 	// метод date.IsValid() должен вернуть false;
 	bool IsValid() const;
+
+	void operator++();
+	void operator--();
 
 private:
 	static bool DateIsValid(unsigned day, Month month, unsigned year);
