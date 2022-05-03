@@ -134,12 +134,7 @@ unsigned Date::ConvertDateInfoToTimeStamp(unsigned day, Month month, unsigned ye
 	const std::vector<unsigned>* daysToMonth = isProvidedYearLeap ? &DAYS_TO_MONTH_366 : &DAYS_TO_MONTH_365;
 
 	if (const size_t daysInMonth = (*daysToMonth)[providedMonthIndex] - (*daysToMonth)[providedMonthIndex - 1];
-		year < START_YEAR ||
-		year > END_YEAR ||
-		providedMonthIndex < START_MONTH_INDEX ||
-		providedMonthIndex > END_MONTH_INDEX ||
-		day == 0 ||
-		day > daysInMonth)
+		year < START_YEAR || year > END_YEAR || providedMonthIndex < START_MONTH_INDEX || providedMonthIndex > END_MONTH_INDEX || day == 0 || day > daysInMonth)
 	{
 		return 0;
 	}
@@ -152,7 +147,7 @@ unsigned Date::ConvertDateInfoToTimeStamp(unsigned day, Month month, unsigned ye
 	{
 		daysToMonth = IsYearLeap(yearPassed) ? &DAYS_TO_MONTH_366 : &DAYS_TO_MONTH_365;
 		counter += (*daysToMonth)[monthIndex];
-		
+
 		if (yearPassed == START_YEAR)
 		{
 			counter -= (*daysToMonth)[monthIndex];
@@ -384,4 +379,14 @@ bool Date::operator<(const Date& other) const
 bool Date::operator>(const Date& other) const
 {
 	return m_dayCounter > other.m_dayCounter;
+}
+
+bool Date::operator<=(const Date& other) const
+{
+	return m_dayCounter <= other.m_dayCounter;
+}
+
+bool Date::operator>=(const Date& other) const
+{
+	return m_dayCounter >= other.m_dayCounter;
 }

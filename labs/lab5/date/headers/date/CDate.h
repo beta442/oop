@@ -60,6 +60,8 @@ public:
 	bool operator!=(const Date& other) const;
 	bool operator<(const Date& other) const;
 	bool operator>(const Date& other) const;
+	bool operator<=(const Date& other) const;
+	bool operator>=(const Date& other) const;
 
 private:
 	static bool DateIsValid(unsigned day, Month month, unsigned year);
