@@ -323,3 +323,93 @@ TEST_CASE("Date operator++. Date in incorrect state")
 		}
 	}
 }
+
+TEST_CASE("Date operator--. Date in correct state")
+{
+	Date date1{ 794 };
+	Date date2{ 5, Date::Month(3), 1972 };
+
+	WHEN("operator-- used")
+	{
+		const unsigned expectedDay = 26;
+		const Date::Month expectedMonth = Date::Month(11);
+		const unsigned expectedYear = 1971;
+		const Date::WeekDay expectedDayOfWeek = Date::WeekDay(5);
+
+		for (size_t i = 0; i < 100; ++i)
+		{
+			--date1;
+			--date2;
+		}
+
+		THEN("Date is correct")
+		{
+			REQUIRE(date1.GetDay() == expectedDay);
+			REQUIRE(date1.GetMonth() == expectedMonth);
+			REQUIRE(date1.GetWeekDay() == expectedDayOfWeek);
+			REQUIRE(date1.GetYear() == expectedYear);
+
+			REQUIRE(date2.GetDay() == expectedDay);
+			REQUIRE(date2.GetMonth() == expectedMonth);
+			REQUIRE(date2.GetWeekDay() == expectedDayOfWeek);
+			REQUIRE(date2.GetYear() == expectedYear);
+		}
+	}
+
+	WHEN("operator-- used until 29th of Feb in leap year")
+	{
+		const unsigned expectedDay = 29;
+		const Date::Month expectedMonth = Date::Month(2);
+		const unsigned expectedYear = 1972;
+		const Date::WeekDay expectedDayOfWeek = Date::WeekDay(2);
+
+		for (size_t i = 0; i < 5; ++i)
+		{
+			--date1;
+			--date2;
+		}
+
+		THEN("Date is correct")
+		{
+			REQUIRE(date1.GetDay() == expectedDay);
+			REQUIRE(date1.GetMonth() == expectedMonth);
+			REQUIRE(date1.GetWeekDay() == expectedDayOfWeek);
+			REQUIRE(date1.GetYear() == expectedYear);
+
+			REQUIRE(date2.GetDay() == expectedDay);
+			REQUIRE(date2.GetMonth() == expectedMonth);
+			REQUIRE(date2.GetWeekDay() == expectedDayOfWeek);
+			REQUIRE(date2.GetYear() == expectedYear);
+		}
+	}
+}
+
+TEST_CASE("Date operator--. Date in incorrect state")
+{
+	Date date1{ 2932900 };
+	Date date2{ 101, Date::Month(1), 1970 };
+
+	WHEN("operator-- used")
+	{
+		const unsigned expectedDay = 1;
+		const Date::Month expectedMonth = Date::Month(1);
+		const unsigned expectedYear = 1970;
+		const Date::WeekDay expectedDayOfWeek = Date::WeekDay(4);
+
+		--date1;
+		--date2;
+
+		THEN("Getters shows default info")
+		{
+			REQUIRE(date1.GetDay() == expectedDay);
+			REQUIRE(date1.GetMonth() == expectedMonth);
+			REQUIRE(date1.GetWeekDay() == expectedDayOfWeek);
+			REQUIRE(date1.GetYear() == expectedYear);
+
+			REQUIRE(date2.GetDay() == expectedDay);
+			REQUIRE(date2.GetMonth() == expectedMonth);
+			REQUIRE(date2.GetWeekDay() == expectedDayOfWeek);
+			REQUIRE(date2.GetYear() == expectedYear);
+		}
+	}
+}
