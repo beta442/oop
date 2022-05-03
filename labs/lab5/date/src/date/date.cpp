@@ -322,7 +322,7 @@ void Date::operator-(unsigned day)
 	}
 }
 
-long Date::operator-(const Date date)
+long Date::operator-(const Date& other)
 {
 	if (!IsValid() || !date.IsValid())
 	{
@@ -364,4 +364,9 @@ void Date::operator-=(unsigned day)
 	{
 		SetInvalidState();
 	}
+}
+
+bool Date::operator==(const Date& other)
+{
+	return m_dayCounter == other.m_dayCounter;
 }

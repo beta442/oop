@@ -53,9 +53,10 @@ public:
 	void operator--();
 	void operator+(unsigned day);
 	void operator-(unsigned day);
-	long operator-(const Date date);
+	long operator-(const Date& other);
 	void operator+=(unsigned day);
 	void operator-=(unsigned day);
+	bool operator==(const Date& other);
 
 private:
 	static bool DateIsValid(unsigned day, Month month, unsigned year);
