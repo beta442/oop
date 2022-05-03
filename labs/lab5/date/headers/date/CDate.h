@@ -34,16 +34,14 @@ public:
 	};
 
 	Date(unsigned day, Month month, unsigned year);
-
 	Date(unsigned timestamp = 0); // timestamp is how many days passed after m_startYear
 
 	unsigned GetDay() const; // result is between 1-31
-
 	Month GetMonth() const;
-
 	unsigned GetYear() const;
-
 	WeekDay GetWeekDay() const;
+
+	void operator++();
 
 	// возвращает информацию о корректности хранимой даты.
 	// Например, после вызова CDate date(99, static_cast<Month>(99), 10983);
@@ -60,7 +58,7 @@ private:
 	void CalculateDate() const;
 	void SetInvalidState();
 
-	std::optional<long> m_dayCounter;
+	long m_dayCounter;
 	mutable std::optional<unsigned> m_year;
 	mutable std::optional<unsigned> m_monthDay;
 	mutable std::optional<Month> m_month;

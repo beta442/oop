@@ -49,7 +49,7 @@ void Date::SetInvalidState()
 {
 	if (m_isValidState)
 	{
-		m_dayCounter.emplace(0);
+		m_dayCounter = LOWER_COUNTER_BOUND;
 		m_year.emplace(START_YEAR);
 		m_month.emplace(START_MONTH);
 		m_monthDay.emplace(START_MONTH_DAY);
@@ -117,7 +117,7 @@ Date::WeekDay Date::GetWeekDay() const
 		CalculateDate();
 	}
 
-	return DayOfWeek(m_monthDay.value(), m_month.value(), m_year.value());
+	return DayOfWeek(*m_monthDay, *m_month, *m_year);
 }
 
 const int START_MONTH_INDEX = 1;
@@ -194,35 +194,46 @@ Date::WeekDay DayOfWeek(unsigned day, Date::Month month, unsigned year)
 
 void Date::CalculateDate() const
 {
-	long count = LOWER_COUNTER_BOUND - 1;
+	if (m_dayCounter == 0)
+	{
+		m_year.emplace(START_YEAR);
+		m_month.emplace(START_MONTH);
+		m_monthDay.emplace(START_MONTH_DAY);
+		return;
+	}
+
+	long counter = LOWER_COUNTER_BOUND;
 
 	short monthIndex = END_MONTH_INDEX;
 	unsigned year = START_YEAR - 1;
-	unsigned mem, day;
+	long mem = 31, day = 1;
 	const std::vector<unsigned>* daysToMonth = &DAYS_TO_MONTH_365;
-	while (count < m_dayCounter)
+	while (counter < m_dayCounter)
 	{
 		daysToMonth = IsYearLeap(year) ? &DAYS_TO_MONTH_366 : &DAYS_TO_MONTH_365;
 		++year;
 
-		count += (*daysToMonth)[monthIndex];
-		if (count == m_dayCounter)
+		counter += (*daysToMonth)[monthIndex];
+		if (counter == m_dayCounter)
 		{
-			day = 31;
+			day = 1;
+			monthIndex = 0;
+			++year;
+			break;
 		}
-		while (count > m_dayCounter)
+		while (counter > m_dayCounter)
 		{
 			--monthIndex;
-			count -= (*daysToMonth)[monthIndex + 1] - (*daysToMonth)[monthIndex];
-			if (count < m_dayCounter)
+			counter -= (*daysToMonth)[monthIndex + 1] - (*daysToMonth)[monthIndex];
+			if (counter <= m_dayCounter)
 			{
-				mem = count;
+				mem = counter - 1;
 			}
-			while (count < m_dayCounter)
+			while (counter < m_dayCounter)
 			{
-				++count;
+				++counter;
 			}
-			day = count - mem;
+			day = counter - mem;
 		}
 	}
 	if (monthIndex != 12)
