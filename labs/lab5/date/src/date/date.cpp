@@ -18,13 +18,14 @@ Date::Date(unsigned day, Month month, unsigned year)
 	}
 }
 
-const long m_upperCounterBound = 2932896; // 31.12.9999
+const long LOWER_COUNTER_BOUND = 0; // 01.01.1970
+const long UPPER_COUNTER_BOUND = 2932896; // 31.12.9999
 
 Date::Date(unsigned timestamp)
 	: m_dayCounter(timestamp)
 	, m_isValidState(true)
 {
-	if (timestamp > m_upperCounterBound)
+	if (timestamp > UPPER_COUNTER_BOUND)
 	{
 		SetInvalidState();
 	}
@@ -122,7 +123,6 @@ Date::WeekDay Date::GetWeekDay() const
 
 const int START_MONTH_INDEX = 1;
 const int END_MONTH_INDEX = 12;
-const long LOWER_COUNTER_BOUND = 0; // 01.01.1970
 
 const std::vector<unsigned> DAYS_TO_MONTH_365 = { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365 };
 const std::vector<unsigned> DAYS_TO_MONTH_366 = { 0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366 };
