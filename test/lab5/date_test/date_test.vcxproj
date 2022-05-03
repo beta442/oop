@@ -165,7 +165,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\..\labs\lab5\date\src\date.cpp" />
+    <ClCompile Include="..\..\..\labs\lab5\date\src\date\date.cpp" />
     <ClCompile Include="date.main.test.cpp" />
     <ClCompile Include="unit\date.test.cpp" />
   </ItemGroup>

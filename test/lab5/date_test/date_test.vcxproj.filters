@@ -29,11 +29,11 @@
     <ClCompile Include="unit\date.test.cpp">
       <Filter>Source Files\Unit</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\labs\lab5\date\src\date.cpp">
-      <Filter>Source Files\Date</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\labs\lab5\date\headers\stdafx.cpp">
       <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\labs\lab5\date\src\date\date.cpp">
+      <Filter>Source Files\Date</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
