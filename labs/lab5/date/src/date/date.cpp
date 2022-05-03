@@ -1,6 +1,6 @@
-#include "../headers/stdafx.h"
+#include "../../headers/stdafx.h"
 
-#include "../headers/date/CDate.h"
+#include "../../headers/date/CDate.h"
 
 Date::Date(unsigned day, Month month, unsigned year)
 	: m_monthDay(day)

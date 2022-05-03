@@ -27,7 +27,7 @@
     <ClCompile Include="headers\stdafx.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\date.cpp">
+    <ClCompile Include="src\date\date.cpp">
       <Filter>Source Files\Date</Filter>
     </ClCompile>
   </ItemGroup>
