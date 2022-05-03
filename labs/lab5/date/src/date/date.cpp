@@ -321,3 +321,13 @@ void Date::operator-(unsigned day)
 		SetInvalidState();
 	}
 }
+
+long Date::operator-(const Date date)
+{
+	if (!IsValid() || !date.IsValid())
+	{
+		return 0;
+	}
+
+	return m_dayCounter - date.m_dayCounter;
+}
