@@ -198,3 +198,37 @@ unsigned Date::GetDay() const
 
 	return *m_monthDay;
 }
+
+const std::vector<int> SAKAMOTO_MONTH_TO_INT = { 0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4 };
+const Date::WeekDay START_WEEK_DAY = Date::WeekDay(0);
+
+Date::WeekDay DayOfWeek(unsigned day, Date::Month month, unsigned year)
+{
+	const int monthIndex = static_cast<int>(month);
+	if (day == 0 || monthIndex < START_MONTH_INDEX || monthIndex > END_MONTH_INDEX || year < START_YEAR || year > END_YEAR)
+	{
+		return START_WEEK_DAY;
+	}
+
+	if (monthIndex < 3)
+	{
+		year -= 1;
+	}
+
+	return Date::WeekDay((year + year / 4 - year / 100 + year / 400 + SAKAMOTO_MONTH_TO_INT[monthIndex - 1] + day) % 7);
+}
+
+Date::WeekDay Date::GetWeekDay() const
+{
+	if (!IsValid())
+	{
+		return START_WEEK_DAY;
+	}
+
+	if (!m_year.has_value() || !m_month.has_value() || !m_monthDay.has_value())
+	{
+		CalculateDate();
+	}
+
+	return DayOfWeek(m_monthDay.value(), m_month.value(), m_year.value());
+}
