@@ -48,6 +48,16 @@ TEST_CASE("Date at create state")
 		const Date::Month expectedMonth3 = Date::Month(10);
 		const unsigned expectedYear3 = 5902;
 		const Date::WeekDay expectedDayOfWeek3 = Date::WeekDay(4);
+		Date date4{ 787 };
+		const unsigned expectedDay4 = 27;
+		const Date::Month expectedMonth4 = Date::Month(2);
+		const unsigned expectedYear4 = 1972;
+		const Date::WeekDay expectedDayOfWeek4 = Date::WeekDay(0);
+		Date date5{ 789 };
+		const unsigned expectedDay5 = 29;
+		const Date::Month expectedMonth5 = Date::Month(2);
+		const unsigned expectedYear5 = 1972;
+		const Date::WeekDay expectedDayOfWeek5 = Date::WeekDay(2);
 
 		THEN("Getters are working correctly")
 		{
@@ -65,6 +75,16 @@ TEST_CASE("Date at create state")
 			REQUIRE(date3.GetMonth() == expectedMonth3);
 			REQUIRE(date3.GetYear() == expectedYear3);
 			REQUIRE(date3.GetWeekDay() == expectedDayOfWeek3);
+
+			REQUIRE(date4.GetDay() == expectedDay4);
+			REQUIRE(date4.GetMonth() == expectedMonth4);
+			REQUIRE(date4.GetYear() == expectedYear4);
+			REQUIRE(date4.GetWeekDay() == expectedDayOfWeek4);
+
+			REQUIRE(date5.GetDay() == expectedDay5);
+			REQUIRE(date5.GetMonth() == expectedMonth5);
+			REQUIRE(date5.GetYear() == expectedYear5);
+			REQUIRE(date5.GetWeekDay() == expectedDayOfWeek5);
 		}
 	}
 
@@ -166,6 +186,16 @@ TEST_CASE("Date at create state")
 		const unsigned expectedYear3 = 9999;
 		const Date::WeekDay expectedDayOfWeek3 = Date::WeekDay(5);
 		Date date3{ expectedDay3, expectedMonth3, expectedYear3 };
+		const unsigned expectedDay4 = 27;
+		const Date::Month expectedMonth4 = Date::Month(2);
+		const unsigned expectedYear4 = 1972;
+		const Date::WeekDay expectedDayOfWeek4 = Date::WeekDay(0);
+		Date date4{ expectedDay4, expectedMonth4, expectedYear4 };
+		const unsigned expectedDay5 = 29;
+		const Date::Month expectedMonth5 = Date::Month(2);
+		const unsigned expectedYear5 = 1972;
+		const Date::WeekDay expectedDayOfWeek5 = Date::WeekDay(2);
+		Date date5{ expectedDay5, expectedMonth5, expectedYear5 };
 
 		THEN("Getters are working correctly")
 		{
@@ -183,6 +213,33 @@ TEST_CASE("Date at create state")
 			REQUIRE(date3.GetMonth() == expectedMonth3);
 			REQUIRE(date3.GetYear() == expectedYear3);
 			REQUIRE(date3.GetWeekDay() == expectedDayOfWeek3);
+
+			REQUIRE(date4.GetDay() == expectedDay4);
+			REQUIRE(date4.GetMonth() == expectedMonth4);
+			REQUIRE(date4.GetYear() == expectedYear4);
+			REQUIRE(date4.GetWeekDay() == expectedDayOfWeek4);
+
+			REQUIRE(date5.GetDay() == expectedDay5);
+			REQUIRE(date5.GetMonth() == expectedMonth5);
+			REQUIRE(date5.GetYear() == expectedYear5);
+			REQUIRE(date5.GetWeekDay() == expectedDayOfWeek5);
+		}
+	}
+}
+
+TEST_CASE("Date operator++")
+{
+	Date date1{ 0 };
+	Date date2{ 1, Date::Month(1), 1970 };
+
+	WHEN("operator++ used")
+	{
+		for (size_t i = 0; i < 9999; ++i)
+		{
+		}
+
+		THEN("Date is correct")
+		{
 		}
 	}
 }
