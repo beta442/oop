@@ -234,12 +234,55 @@ TEST_CASE("Date operator++")
 
 	WHEN("operator++ used")
 	{
+		const unsigned expectedDay = 18;
+		const Date::Month expectedMonth = Date::Month(5);
+		const unsigned expectedYear = 1997;
+		const Date::WeekDay expectedDayOfWeek = Date::WeekDay(0);
+
 		for (size_t i = 0; i < 9999; ++i)
 		{
+			++date1;
+			++date2;
 		}
 
 		THEN("Date is correct")
 		{
+			REQUIRE(date1.GetDay() == expectedDay);
+			REQUIRE(date1.GetMonth() == expectedMonth);
+			REQUIRE(date1.GetWeekDay() == expectedDayOfWeek);
+			REQUIRE(date1.GetYear() == expectedYear);
+
+			REQUIRE(date2.GetDay() == expectedDay);
+			REQUIRE(date2.GetMonth() == expectedMonth);
+			REQUIRE(date2.GetWeekDay() == expectedDayOfWeek);
+			REQUIRE(date2.GetYear() == expectedYear);
+		}
+	}
+
+	WHEN("operator++ used until 29th of Feb in leap year")
+	{
+		const unsigned expectedDay = 29;
+		const Date::Month expectedMonth = Date::Month(2);
+		const unsigned expectedYear = 1980;
+		const Date::WeekDay expectedDayOfWeek = Date::WeekDay(5);
+
+		for (size_t i = 0; i < 3711; ++i)
+		{
+			++date1;
+			++date2;
+		}
+
+		THEN("Date is correct")
+		{
+			REQUIRE(date1.GetDay() == expectedDay);
+			REQUIRE(date1.GetMonth() == expectedMonth);
+			REQUIRE(date1.GetWeekDay() == expectedDayOfWeek);
+			REQUIRE(date1.GetYear() == expectedYear);
+
+			REQUIRE(date2.GetDay() == expectedDay);
+			REQUIRE(date2.GetMonth() == expectedMonth);
+			REQUIRE(date2.GetWeekDay() == expectedDayOfWeek);
+			REQUIRE(date2.GetYear() == expectedYear);
 		}
 	}
 }
