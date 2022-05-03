@@ -130,26 +130,34 @@ const std::vector<unsigned> DAYS_TO_MONTH_366 = { 0, 31, 60, 91, 121, 152, 182, 
 unsigned Date::ConvertDateInfoToTimeStamp(unsigned day, Month month, unsigned year)
 {
 	const int providedMonthIndex = static_cast<int>(month);
-	if (year < START_YEAR || year > END_YEAR || providedMonthIndex < START_MONTH_INDEX || providedMonthIndex > END_MONTH_INDEX)
+	bool isProvidedYearLeap = IsYearLeap(year);
+	const std::vector<unsigned>* daysToMonth = isProvidedYearLeap ? &DAYS_TO_MONTH_366 : &DAYS_TO_MONTH_365;
+
+	if (const size_t daysInMonth = (*daysToMonth)[providedMonthIndex] - (*daysToMonth)[providedMonthIndex - 1];
+		year < START_YEAR ||
+		year > END_YEAR ||
+		providedMonthIndex < START_MONTH_INDEX ||
+		providedMonthIndex > END_MONTH_INDEX ||
+		day == 0 ||
+		day > daysInMonth)
 	{
 		return 0;
 	}
 
 	unsigned counter = LOWER_COUNTER_BOUND;
 	unsigned yearPassed = year;
-
 	short monthIndex = END_MONTH_INDEX;
-	const std::vector<unsigned>* daysToMonth = IsYearLeap(year) ? &DAYS_TO_MONTH_366 : &DAYS_TO_MONTH_365;
 
 	while (yearPassed >= START_YEAR)
 	{
 		daysToMonth = IsYearLeap(yearPassed) ? &DAYS_TO_MONTH_366 : &DAYS_TO_MONTH_365;
 		counter += (*daysToMonth)[monthIndex];
+		
 		if (yearPassed == START_YEAR)
 		{
 			counter -= (*daysToMonth)[monthIndex];
 			counter += (*daysToMonth)[providedMonthIndex - 1];
-			counter += day - 1;
+			counter += isProvidedYearLeap ? day - 2 : day - 1;
 		}
 		--yearPassed;
 	}
@@ -205,13 +213,13 @@ void Date::CalculateDate() const
 	long counter = LOWER_COUNTER_BOUND;
 
 	short monthIndex = END_MONTH_INDEX;
-	unsigned year = START_YEAR - 1;
-	long mem = 31, day = 1;
+	long year = START_YEAR - 1;
+	long mem, day;
 	const std::vector<unsigned>* daysToMonth = &DAYS_TO_MONTH_365;
 	while (counter < m_dayCounter)
 	{
-		daysToMonth = IsYearLeap(year) ? &DAYS_TO_MONTH_366 : &DAYS_TO_MONTH_365;
 		++year;
+		daysToMonth = IsYearLeap(year) ? &DAYS_TO_MONTH_366 : &DAYS_TO_MONTH_365;
 
 		counter += (*daysToMonth)[monthIndex];
 		if (counter == m_dayCounter)
@@ -244,4 +252,21 @@ void Date::CalculateDate() const
 	m_year.emplace(year);
 	m_month.emplace(Month(monthIndex));
 	m_monthDay.emplace(day);
+}
+
+void Date::operator++()
+{
+	if (!IsValid())
+	{
+		return;
+	}
+
+	++m_dayCounter;
+
+	CalculateDate();
+
+	if (!DateIsValid(*m_monthDay, *m_month, *m_year))
+	{
+		SetInvalidState();
+	}
 }
