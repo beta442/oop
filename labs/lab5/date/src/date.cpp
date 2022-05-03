@@ -12,6 +12,10 @@ Date::Date(unsigned day, Month month, unsigned year)
 	{
 		SetInvalidState();
 	}
+	else
+	{
+		m_dayCounter = ConvertDateInfoToTimeStamp(day, month, year);
+	}
 }
 
 Date::Date(unsigned timestamp)
@@ -22,6 +26,36 @@ Date::Date(unsigned timestamp)
 	{
 		SetInvalidState();
 	}
+}
+
+unsigned Date::ConvertDateInfoToTimeStamp(unsigned day, Month month, unsigned year)
+{
+	const int providedMonthIndex = static_cast<int>(month);
+	if (year < m_startYear || year > m_endYear || providedMonthIndex < m_startMonthIndex || providedMonthIndex > m_endMonthIndex)
+	{
+		return 0;
+	}
+
+	unsigned counter = m_lowerCounterBound;
+	unsigned yearPassed = year;
+
+	short monthIndex = m_endMonthIndex;
+	const std::vector<unsigned>* daysToMonth = IsYearLeap(year) ? &m_daysToMonth366 : &m_daysToMonth365;
+
+	while (yearPassed >= m_startYear)
+	{
+		daysToMonth = IsYearLeap(yearPassed) ? &m_daysToMonth366 : &m_daysToMonth365;
+		counter += (*daysToMonth)[monthIndex];
+		if (yearPassed == m_startYear)
+		{
+			counter -= (*daysToMonth)[monthIndex];
+			counter += (*daysToMonth)[providedMonthIndex - 1];
+			counter += day - 1;
+		}
+		--yearPassed;
+	}
+
+	return counter;
 }
 
 bool Date::DateIsValid(unsigned day, Month month, unsigned year)
@@ -46,7 +80,7 @@ bool Date::IsValid() const
 	return m_isValidState;
 }
 
-bool Date::IsYearLeap(const unsigned year) const
+bool Date::IsYearLeap(unsigned year)
 {
 	return (year % 4 == 0) && (year % 100 != 0 || year % 400 == 0);
 }
@@ -67,7 +101,7 @@ void Date::CalculateDate() const
 {
 	long count = m_lowerCounterBound - 1;
 
-	short monthIndex = 12;
+	short monthIndex = m_endMonthIndex;
 	unsigned year = m_startYear - 1;
 	unsigned mem, day;
 	const std::vector<unsigned>* daysToMonth = &m_daysToMonth365;

@@ -35,13 +35,13 @@ public:
 
 	Date(unsigned day, Month month, unsigned year);
 
-	Date(unsigned timestamp = 0); // timestamp is how many days passed after 01.01.1970
+	Date(unsigned timestamp = 0); // timestamp is how many days passed after m_startYear
 
 	unsigned GetDay() const; // result is between 1-31
 
 	Month GetMonth() const;
 
-	unsigned GetYear() const; // result is between 
+	unsigned GetYear() const;
 
 	WeekDay GetWeekDay() const;
 
@@ -53,19 +53,12 @@ public:
 	bool IsValid() const;
 
 private:
-	struct DateInfo
-	{
-		unsigned day;
-		Month month;
-		unsigned year;
-	};
+	static bool DateIsValid(unsigned day, Month month, unsigned year);
+	static bool IsYearLeap(unsigned year);
+	static unsigned ConvertDateInfoToTimeStamp(unsigned day, Month month, unsigned year);
 
-	bool DateIsValid(unsigned day, Month month, unsigned year);
-	bool IsYearLeap(const unsigned year) const;
 	void CalculateDate() const;
 	void SetInvalidState() const;
-	/*DateInfo ConvertTimeStampToDateInfo(unsigned timestamp) const;
-	unsigned ConvertDateInfoToTimeStamp(const DateInfo& info) const;*/
 
 	inline static const long m_lowerCounterBound = 0; // 01.01.1970
 	inline static const long m_upperCounterBound = 2932896; // 31.12.9999
