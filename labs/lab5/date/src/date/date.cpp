@@ -375,3 +375,13 @@ bool Date::operator!=(const Date& other) const
 {
 	return m_dayCounter != other.m_dayCounter;
 }
+
+bool Date::operator<(const Date& other) const
+{
+	return m_dayCounter < other.m_dayCounter;
+}
+
+bool Date::operator>(const Date& other) const
+{
+	return m_dayCounter > other.m_dayCounter;
+}
