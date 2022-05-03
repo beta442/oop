@@ -51,6 +51,7 @@ public:
 
 	void operator++();
 	void operator--();
+	void operator+(unsigned day);
 
 private:
 	static bool DateIsValid(unsigned day, Month month, unsigned year);

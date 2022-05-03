@@ -287,3 +287,20 @@ void Date::operator--()
 		SetInvalidState();
 	}
 }
+
+void Date::operator+(unsigned day)
+{
+	if (!IsValid())
+	{
+		return;
+	}
+
+	m_dayCounter += day;
+
+	CalculateDate();
+
+	if (!DateIsValid(*m_monthDay, *m_month, *m_year))
+	{
+		SetInvalidState();
+	}
+}
