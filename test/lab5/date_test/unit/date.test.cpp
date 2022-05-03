@@ -254,6 +254,9 @@ TEST_CASE("Date operator++. Date in correct state")
 
 		THEN("Date is correct")
 		{
+			REQUIRE(date1.IsValid());
+			REQUIRE(date2.IsValid());
+
 			REQUIRE(date1.GetDay() == expectedDay);
 			REQUIRE(date1.GetMonth() == expectedMonth);
 			REQUIRE(date1.GetWeekDay() == expectedDayOfWeek);
@@ -281,6 +284,9 @@ TEST_CASE("Date operator++. Date in correct state")
 
 		THEN("Date is correct")
 		{
+			REQUIRE(date1.IsValid());
+			REQUIRE(date2.IsValid());
+
 			REQUIRE(date1.GetDay() == expectedDay);
 			REQUIRE(date1.GetMonth() == expectedMonth);
 			REQUIRE(date1.GetWeekDay() == expectedDayOfWeek);
@@ -290,6 +296,21 @@ TEST_CASE("Date operator++. Date in correct state")
 			REQUIRE(date2.GetMonth() == expectedMonth);
 			REQUIRE(date2.GetWeekDay() == expectedDayOfWeek);
 			REQUIRE(date2.GetYear() == expectedYear);
+		}
+	}
+
+	Date date3{ 2932896 };
+	Date date4{ 31, Date::Month(12), 9999 };
+
+	WHEN("operator++ used && date in upperBound state")
+	{
+		++date3;
+		++date4;
+
+		THEN("Date state turns to invalid")
+		{
+			REQUIRE_FALSE(date3.IsValid());
+			REQUIRE_FALSE(date4.IsValid());
 		}
 	}
 }
@@ -311,6 +332,9 @@ TEST_CASE("Date operator++. Date in incorrect state")
 
 		THEN("Getters shows default info")
 		{
+			REQUIRE_FALSE(date1.IsValid());
+			REQUIRE_FALSE(date2.IsValid());
+
 			REQUIRE(date1.GetDay() == expectedDay);
 			REQUIRE(date1.GetMonth() == expectedMonth);
 			REQUIRE(date1.GetWeekDay() == expectedDayOfWeek);
@@ -344,6 +368,9 @@ TEST_CASE("Date operator--. Date in correct state")
 
 		THEN("Date is correct")
 		{
+			REQUIRE(date1.IsValid());
+			REQUIRE(date2.IsValid());
+
 			REQUIRE(date1.GetDay() == expectedDay);
 			REQUIRE(date1.GetMonth() == expectedMonth);
 			REQUIRE(date1.GetWeekDay() == expectedDayOfWeek);
@@ -371,6 +398,9 @@ TEST_CASE("Date operator--. Date in correct state")
 
 		THEN("Date is correct")
 		{
+			REQUIRE(date1.IsValid());
+			REQUIRE(date2.IsValid());
+
 			REQUIRE(date1.GetDay() == expectedDay);
 			REQUIRE(date1.GetMonth() == expectedMonth);
 			REQUIRE(date1.GetWeekDay() == expectedDayOfWeek);
@@ -380,6 +410,21 @@ TEST_CASE("Date operator--. Date in correct state")
 			REQUIRE(date2.GetMonth() == expectedMonth);
 			REQUIRE(date2.GetWeekDay() == expectedDayOfWeek);
 			REQUIRE(date2.GetYear() == expectedYear);
+		}
+	}
+
+	Date date3{ 0 };
+	Date date4{ 1, Date::Month(1), 1970 };
+
+	WHEN("operator-- used && date in lowerBound state")
+	{
+		--date3;
+		--date4;
+
+		THEN("Date state turns to invalid")
+		{
+			REQUIRE_FALSE(date3.IsValid());
+			REQUIRE_FALSE(date4.IsValid());
 		}
 	}
 }
@@ -401,6 +446,9 @@ TEST_CASE("Date operator--. Date in incorrect state")
 
 		THEN("Getters shows default info")
 		{
+			REQUIRE_FALSE(date1.IsValid());
+			REQUIRE_FALSE(date2.IsValid());
+
 			REQUIRE(date1.GetDay() == expectedDay);
 			REQUIRE(date1.GetMonth() == expectedMonth);
 			REQUIRE(date1.GetWeekDay() == expectedDayOfWeek);
