@@ -30,8 +30,96 @@ Date::Date(unsigned timestamp)
 	}
 }
 
+bool Date::IsValid() const
+{
+	return m_isValidState;
+}
+
+bool Date::IsYearLeap(unsigned year)
+{
+	return (year % 4 == 0) && (year % 100 != 0 || year % 400 == 0);
+}
+
 const unsigned START_YEAR = 1970;
 const unsigned END_YEAR = 9999;
+const Date::Month START_MONTH = Date::Month(1);
+const int START_MONTH_DAY = 1;
+
+void Date::SetInvalidState()
+{
+	if (m_isValidState)
+	{
+		m_dayCounter.emplace(0);
+		m_year.emplace(START_YEAR);
+		m_month.emplace(START_MONTH);
+		m_monthDay.emplace(START_MONTH_DAY);
+		m_isValidState = false;
+	}
+}
+
+unsigned Date::GetYear() const
+{
+	if (!IsValid())
+	{
+		return START_YEAR;
+	}
+
+	if (!m_year.has_value())
+	{
+		CalculateDate();
+	}
+
+	return *m_year;
+}
+
+Date::Month Date::GetMonth() const
+{
+	if (!IsValid())
+	{
+		return START_MONTH;
+	}
+
+	if (!m_month.has_value())
+	{
+		CalculateDate();
+	}
+
+	return *m_month;
+}
+
+unsigned Date::GetDay() const
+{
+	if (!IsValid())
+	{
+		return START_MONTH_DAY;
+	}
+
+	if (!m_monthDay.has_value())
+	{
+		CalculateDate();
+	}
+
+	return *m_monthDay;
+}
+
+const Date::WeekDay START_WEEK_DAY = Date::WeekDay(0);
+Date::WeekDay DayOfWeek(unsigned day, Date::Month month, unsigned year);
+
+Date::WeekDay Date::GetWeekDay() const
+{
+	if (!IsValid())
+	{
+		return START_WEEK_DAY;
+	}
+
+	if (!m_year.has_value() || !m_month.has_value() || !m_monthDay.has_value())
+	{
+		CalculateDate();
+	}
+
+	return DayOfWeek(m_monthDay.value(), m_month.value(), m_year.value());
+}
+
 const int START_MONTH_INDEX = 1;
 const int END_MONTH_INDEX = 12;
 const long LOWER_COUNTER_BOUND = 0; // 01.01.1970
@@ -86,29 +174,22 @@ bool Date::DateIsValid(unsigned day, Month month, unsigned year)
 	return true;
 }
 
-bool Date::IsValid() const
-{
-	return m_isValidState;
-}
+const std::vector<int> SAKAMOTO_MONTH_TO_INT = { 0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4 };
 
-bool Date::IsYearLeap(unsigned year)
+Date::WeekDay DayOfWeek(unsigned day, Date::Month month, unsigned year)
 {
-	return (year % 4 == 0) && (year % 100 != 0 || year % 400 == 0);
-}
-
-const Date::Month START_MONTH = Date::Month(1);
-const int START_MONTH_DAY = 1;
-
-void Date::SetInvalidState()
-{
-	if (m_isValidState)
+	const int monthIndex = static_cast<int>(month);
+	if (day == 0 || monthIndex < START_MONTH_INDEX || monthIndex > END_MONTH_INDEX || year < START_YEAR || year > END_YEAR)
 	{
-		m_dayCounter.emplace(0);
-		m_year.emplace(START_YEAR);
-		m_month.emplace(START_MONTH);
-		m_monthDay.emplace(START_MONTH_DAY);
-		m_isValidState = false;
+		return START_WEEK_DAY;
 	}
+
+	if (monthIndex < 3)
+	{
+		year -= 1;
+	}
+
+	return Date::WeekDay((year + year / 4 - year / 100 + year / 400 + SAKAMOTO_MONTH_TO_INT[monthIndex - 1] + day) % 7);
 }
 
 void Date::CalculateDate() const
@@ -152,83 +233,4 @@ void Date::CalculateDate() const
 	m_year.emplace(year);
 	m_month.emplace(Month(monthIndex));
 	m_monthDay.emplace(day);
-}
-
-unsigned Date::GetYear() const
-{
-	if (!IsValid())
-	{
-		return START_YEAR;
-	}
-
-	if (!m_year.has_value())
-	{
-		CalculateDate();
-	}
-
-	return *m_year;
-}
-
-Date::Month Date::GetMonth() const
-{
-	if (!IsValid())
-	{
-		return START_MONTH;
-	}
-
-	if (!m_month.has_value())
-	{
-		CalculateDate();
-	}
-
-	return *m_month;
-}
-
-unsigned Date::GetDay() const
-{
-	if (!IsValid())
-	{
-		return START_MONTH_DAY;
-	}
-
-	if (!m_monthDay.has_value())
-	{
-		CalculateDate();
-	}
-
-	return *m_monthDay;
-}
-
-const std::vector<int> SAKAMOTO_MONTH_TO_INT = { 0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4 };
-const Date::WeekDay START_WEEK_DAY = Date::WeekDay(0);
-
-Date::WeekDay DayOfWeek(unsigned day, Date::Month month, unsigned year)
-{
-	const int monthIndex = static_cast<int>(month);
-	if (day == 0 || monthIndex < START_MONTH_INDEX || monthIndex > END_MONTH_INDEX || year < START_YEAR || year > END_YEAR)
-	{
-		return START_WEEK_DAY;
-	}
-
-	if (monthIndex < 3)
-	{
-		year -= 1;
-	}
-
-	return Date::WeekDay((year + year / 4 - year / 100 + year / 400 + SAKAMOTO_MONTH_TO_INT[monthIndex - 1] + day) % 7);
-}
-
-Date::WeekDay Date::GetWeekDay() const
-{
-	if (!IsValid())
-	{
-		return START_WEEK_DAY;
-	}
-
-	if (!m_year.has_value() || !m_month.has_value() || !m_monthDay.has_value())
-	{
-		CalculateDate();
-	}
-
-	return DayOfWeek(m_monthDay.value(), m_month.value(), m_year.value());
 }
