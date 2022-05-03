@@ -41,7 +41,6 @@ public:
 	unsigned GetYear() const;
 	WeekDay GetWeekDay() const;
 
-
 	// возвращает информацию о корректности хранимой даты.
 	// Например, после вызова CDate date(99, static_cast<Month>(99), 10983);
 	// или после:
@@ -62,6 +61,13 @@ public:
 	bool operator>(const Date& other) const;
 	bool operator<=(const Date& other) const;
 	bool operator>=(const Date& other) const;
+	friend std::ostream& operator<<(std::ostream& os, Date& date)
+	{
+		unsigned day = date.GetDay();
+		unsigned month = static_cast<unsigned>(date.GetMonth());
+		os << (day >= 10 ? "" : "0") << day << ':' << (month >= 10 ? "" : "0") << month << ":" << date.GetYear();
+		return os;
+	}
 
 private:
 	static bool DateIsValid(unsigned day, Month month, unsigned year);
