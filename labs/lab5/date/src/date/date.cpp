@@ -18,6 +18,8 @@ Date::Date(unsigned day, Month month, unsigned year)
 	}
 }
 
+const long m_upperCounterBound = 2932896; // 31.12.9999
+
 Date::Date(unsigned timestamp)
 	: m_dayCounter(timestamp)
 	, m_isValidState(true)
@@ -28,25 +30,34 @@ Date::Date(unsigned timestamp)
 	}
 }
 
+const unsigned START_YEAR = 1970;
+const unsigned END_YEAR = 9999;
+const int START_MONTH_INDEX = 1;
+const int END_MONTH_INDEX = 12;
+const long LOWER_COUNTER_BOUND = 0; // 01.01.1970
+
+const std::vector<unsigned> DAYS_TO_MONTH_365 = { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365 };
+const std::vector<unsigned> DAYS_TO_MONTH_366 = { 0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366 };
+
 unsigned Date::ConvertDateInfoToTimeStamp(unsigned day, Month month, unsigned year)
 {
 	const int providedMonthIndex = static_cast<int>(month);
-	if (year < m_startYear || year > m_endYear || providedMonthIndex < m_startMonthIndex || providedMonthIndex > m_endMonthIndex)
+	if (year < START_YEAR || year > END_YEAR || providedMonthIndex < START_MONTH_INDEX || providedMonthIndex > END_MONTH_INDEX)
 	{
 		return 0;
 	}
 
-	unsigned counter = m_lowerCounterBound;
+	unsigned counter = LOWER_COUNTER_BOUND;
 	unsigned yearPassed = year;
 
-	short monthIndex = m_endMonthIndex;
-	const std::vector<unsigned>* daysToMonth = IsYearLeap(year) ? &m_daysToMonth366 : &m_daysToMonth365;
+	short monthIndex = END_MONTH_INDEX;
+	const std::vector<unsigned>* daysToMonth = IsYearLeap(year) ? &DAYS_TO_MONTH_366 : &DAYS_TO_MONTH_365;
 
-	while (yearPassed >= m_startYear)
+	while (yearPassed >= START_YEAR)
 	{
-		daysToMonth = IsYearLeap(yearPassed) ? &m_daysToMonth366 : &m_daysToMonth365;
+		daysToMonth = IsYearLeap(yearPassed) ? &DAYS_TO_MONTH_366 : &DAYS_TO_MONTH_365;
 		counter += (*daysToMonth)[monthIndex];
-		if (yearPassed == m_startYear)
+		if (yearPassed == START_YEAR)
 		{
 			counter -= (*daysToMonth)[monthIndex];
 			counter += (*daysToMonth)[providedMonthIndex - 1];
@@ -61,12 +72,12 @@ unsigned Date::ConvertDateInfoToTimeStamp(unsigned day, Month month, unsigned ye
 bool Date::DateIsValid(unsigned day, Month month, unsigned year)
 {
 	const int monthIndex = static_cast<int>(month);
-	if (day == 0 || year < m_startYear || year > m_endYear || monthIndex < m_startMonthIndex || monthIndex > m_endMonthIndex)
+	if (day == 0 || year < START_YEAR || year > END_YEAR || monthIndex < START_MONTH_INDEX || monthIndex > END_MONTH_INDEX)
 	{
 		return false;
 	}
 
-	const std::vector<unsigned>* daysToMonth = IsYearLeap(year) ? &m_daysToMonth366 : &m_daysToMonth365;
+	const std::vector<unsigned>* daysToMonth = IsYearLeap(year) ? &DAYS_TO_MONTH_366 : &DAYS_TO_MONTH_365;
 
 	if (day > (*daysToMonth)[monthIndex] - (*daysToMonth)[monthIndex - 1])
 	{
@@ -85,29 +96,32 @@ bool Date::IsYearLeap(unsigned year)
 	return (year % 4 == 0) && (year % 100 != 0 || year % 400 == 0);
 }
 
-void Date::SetInvalidState() const
+const Date::Month START_MONTH = Date::Month(1);
+const int START_MONTH_DAY = 1;
+
+void Date::SetInvalidState()
 {
 	if (m_isValidState)
 	{
 		m_dayCounter.emplace(0);
-		m_year.emplace(m_startYear);
-		m_month.emplace(m_startMonth);
-		m_monthDay.emplace(m_startMonthDay);
+		m_year.emplace(START_YEAR);
+		m_month.emplace(START_MONTH);
+		m_monthDay.emplace(START_MONTH_DAY);
 		m_isValidState = false;
 	}
 }
 
 void Date::CalculateDate() const
 {
-	long count = m_lowerCounterBound - 1;
+	long count = LOWER_COUNTER_BOUND - 1;
 
-	short monthIndex = m_endMonthIndex;
-	unsigned year = m_startYear - 1;
+	short monthIndex = END_MONTH_INDEX;
+	unsigned year = START_YEAR - 1;
 	unsigned mem, day;
-	const std::vector<unsigned>* daysToMonth = &m_daysToMonth365;
+	const std::vector<unsigned>* daysToMonth = &DAYS_TO_MONTH_365;
 	while (count < m_dayCounter)
 	{
-		daysToMonth = IsYearLeap(year) ? &m_daysToMonth366 : &m_daysToMonth365;
+		daysToMonth = IsYearLeap(year) ? &DAYS_TO_MONTH_366 : &DAYS_TO_MONTH_365;
 		++year;
 
 		count += (*daysToMonth)[monthIndex];
@@ -144,7 +158,7 @@ unsigned Date::GetYear() const
 {
 	if (!IsValid())
 	{
-		return m_startYear;
+		return START_YEAR;
 	}
 
 	if (!m_year.has_value())
@@ -159,7 +173,7 @@ Date::Month Date::GetMonth() const
 {
 	if (!IsValid())
 	{
-		return m_startMonth;
+		return START_MONTH;
 	}
 
 	if (!m_month.has_value())
@@ -174,7 +188,7 @@ unsigned Date::GetDay() const
 {
 	if (!IsValid())
 	{
-		return m_startMonthDay;
+		return START_MONTH_DAY;
 	}
 
 	if (!m_monthDay.has_value())

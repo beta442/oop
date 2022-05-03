@@ -58,22 +58,11 @@ private:
 	static unsigned ConvertDateInfoToTimeStamp(unsigned day, Month month, unsigned year);
 
 	void CalculateDate() const;
-	void SetInvalidState() const;
+	void SetInvalidState();
 
-	inline static const long m_lowerCounterBound = 0; // 01.01.1970
-	inline static const long m_upperCounterBound = 2932896; // 31.12.9999
-	inline static const unsigned m_startYear = 1970;
-	inline static const unsigned m_endYear = 9999;
-	inline static const Month m_startMonth = Month(1);
-	inline static const int m_startMonthIndex = 1;
-	inline static const int m_endMonthIndex = 12;
-	inline static const int m_startMonthDay = 1;
-	inline static const std::vector<unsigned> m_daysToMonth365 = { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365 };
-	inline static const std::vector<unsigned> m_daysToMonth366 = { 0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366 };
-
-	mutable std::optional<long> m_dayCounter;
+	std::optional<long> m_dayCounter;
 	mutable std::optional<unsigned> m_year;
 	mutable std::optional<unsigned> m_monthDay;
 	mutable std::optional<Month> m_month;
-	mutable bool m_isValidState;
+	bool m_isValidState;
 };
