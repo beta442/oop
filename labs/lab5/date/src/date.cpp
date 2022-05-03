@@ -2,19 +2,21 @@
 
 #include "../headers/date/CDate.h"
 
-//Date::Date(unsigned day, Month month, unsigned year)
-//	: m_monthDay(day)
-//	, m_month(month)
-//	, m_year(year)
-//{
-//	if ()
-//	{
-//	}
-//}
+Date::Date(unsigned day, Month month, unsigned year)
+	: m_monthDay(day)
+	, m_month(month)
+	, m_year(year)
+	, m_isValidState(true)
+{
+	if (!DateIsValid(day, month, year))
+	{
+		SetInvalidState();
+	}
+}
 
 Date::Date(unsigned timestamp)
 	: m_dayCounter(timestamp)
-	, m_validStateStatus(true)
+	, m_isValidState(true)
 {
 	if (timestamp > m_upperCounterBound)
 	{
@@ -22,9 +24,26 @@ Date::Date(unsigned timestamp)
 	}
 }
 
+bool Date::DateIsValid(unsigned day, Month month, unsigned year)
+{
+	const int monthIndex = static_cast<int>(month);
+	if (day == 0 || year < m_startYear || year > m_endYear || monthIndex < m_startMonthIndex || monthIndex > m_endMonthIndex)
+	{
+		return false;
+	}
+
+	const std::vector<unsigned>* daysToMonth = IsYearLeap(year) ? &m_daysToMonth366 : &m_daysToMonth365;
+
+	if (day > (*daysToMonth)[monthIndex] - (*daysToMonth)[monthIndex - 1])
+	{
+		return false;
+	}
+	return true;
+}
+
 bool Date::IsValid() const
 {
-	return m_validStateStatus;
+	return m_isValidState;
 }
 
 bool Date::IsYearLeap(const unsigned year) const
@@ -32,31 +51,26 @@ bool Date::IsYearLeap(const unsigned year) const
 	return (year % 4 == 0) && (year % 100 != 0 || year % 400 == 0);
 }
 
-void Date::SetInvalidState()
+void Date::SetInvalidState() const
 {
-	if (m_validStateStatus)
+	if (m_isValidState)
 	{
-		m_dayCounter.reset();
-		m_year.reset();
-		m_month.reset();
-		m_monthDay.reset();
-		m_validStateStatus = false;
+		m_dayCounter.emplace(0);
+		m_year.emplace(m_startYear);
+		m_month.emplace(m_startMonth);
+		m_monthDay.emplace(m_startMonthDay);
+		m_isValidState = false;
 	}
 }
 
 void Date::CalculateDate() const
 {
-	if (m_dayCounter > m_upperCounterBound)
-	{
-		return;
-	}
-
 	long count = m_lowerCounterBound - 1;
 
 	short monthIndex = 12;
 	unsigned year = m_startYear - 1;
 	unsigned mem, day;
-	const std::vector<long>* daysToMonth = &m_daysToMonth365;
+	const std::vector<unsigned>* daysToMonth = &m_daysToMonth365;
 	while (count < m_dayCounter)
 	{
 		daysToMonth = IsYearLeap(year) ? &m_daysToMonth366 : &m_daysToMonth365;
@@ -111,7 +125,7 @@ Date::Month Date::GetMonth() const
 {
 	if (!IsValid())
 	{
-		return Month(1);
+		return m_startMonth;
 	}
 
 	if (!m_month.has_value())
@@ -126,7 +140,7 @@ unsigned Date::GetDay() const
 {
 	if (!IsValid())
 	{
-		return 1;
+		return m_startMonthDay;
 	}
 
 	if (!m_monthDay.has_value())
