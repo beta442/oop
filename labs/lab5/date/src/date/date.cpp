@@ -324,12 +324,12 @@ void Date::operator-(unsigned day)
 
 long Date::operator-(const Date& other)
 {
-	if (!IsValid() || !date.IsValid())
+	if (!IsValid() || !other.IsValid())
 	{
 		return 0;
 	}
 
-	return m_dayCounter - date.m_dayCounter;
+	return m_dayCounter - other.m_dayCounter;
 }
 
 void Date::operator+=(unsigned day)
@@ -366,7 +366,12 @@ void Date::operator-=(unsigned day)
 	}
 }
 
-bool Date::operator==(const Date& other)
+bool Date::operator==(const Date& other) const
 {
 	return m_dayCounter == other.m_dayCounter;
+}
+
+bool Date::operator!=(const Date& other) const
+{
+	return m_dayCounter != other.m_dayCounter;
 }
