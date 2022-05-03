@@ -11,6 +11,13 @@ TEST_CASE("Date at create state")
 		{
 			REQUIRE_FALSE(date.IsValid());
 		}
+		THEN("Getters shows default info")
+		{
+			REQUIRE(date.GetDay() == 1);
+			REQUIRE(date.GetMonth() == Date::Month(1));
+			REQUIRE(date.GetWeekDay() == Date::WeekDay(0));
+			REQUIRE(date.GetYear() == 1970);
+		}
 	}
 
 	WHEN("Correct timestamp provided")
@@ -30,28 +37,34 @@ TEST_CASE("Date at create state")
 		const unsigned expectedDay1 = 1;
 		const Date::Month expectedMonth1 = Date::Month(1);
 		const unsigned expectedYear1 = 1970;
+		const Date::WeekDay expectedDayOfWeek1 = Date::WeekDay(4);
 		Date date2{ 2932896 };
 		const unsigned expectedDay2 = 31;
 		const Date::Month expectedMonth2 = Date::Month(12);
 		const unsigned expectedYear2 = 9999;
+		const Date::WeekDay expectedDayOfWeek2 = Date::WeekDay(5);
 		Date date3{ 1436428 };
 		const unsigned expectedDay3 = 23;
 		const Date::Month expectedMonth3 = Date::Month(10);
 		const unsigned expectedYear3 = 5902;
+		const Date::WeekDay expectedDayOfWeek3 = Date::WeekDay(4);
 
 		THEN("Getters are working correctly")
 		{
 			REQUIRE(date1.GetDay() == expectedDay1);
 			REQUIRE(date1.GetMonth() == expectedMonth1);
 			REQUIRE(date1.GetYear() == expectedYear1);
+			REQUIRE(date1.GetWeekDay() == expectedDayOfWeek1);
 
 			REQUIRE(date2.GetDay() == expectedDay2);
 			REQUIRE(date2.GetMonth() == expectedMonth2);
 			REQUIRE(date2.GetYear() == expectedYear2);
+			REQUIRE(date2.GetWeekDay() == expectedDayOfWeek2);
 
 			REQUIRE(date3.GetDay() == expectedDay3);
 			REQUIRE(date3.GetMonth() == expectedMonth3);
 			REQUIRE(date3.GetYear() == expectedYear3);
+			REQUIRE(date3.GetWeekDay() == expectedDayOfWeek3);
 		}
 	}
 
@@ -94,6 +107,33 @@ TEST_CASE("Date at create state")
 			REQUIRE_FALSE(date16.IsValid());
 			REQUIRE_FALSE(date17.IsValid());
 		}
+		THEN("Getters shows default info")
+		{
+			REQUIRE(date1.GetDay() == 1);
+			REQUIRE(date1.GetMonth() == Date::Month(1));
+			REQUIRE(date1.GetWeekDay() == Date::WeekDay(0));
+			REQUIRE(date1.GetYear() == 1970);
+			REQUIRE(date2.GetDay() == 1);
+			REQUIRE(date2.GetMonth() == Date::Month(1));
+			REQUIRE(date2.GetWeekDay() == Date::WeekDay(0));
+			REQUIRE(date2.GetYear() == 1970);
+			REQUIRE(date3.GetDay() == 1);
+			REQUIRE(date3.GetMonth() == Date::Month(1));
+			REQUIRE(date3.GetWeekDay() == Date::WeekDay(0));
+			REQUIRE(date3.GetYear() == 1970);
+			REQUIRE(date10.GetDay() == 1);
+			REQUIRE(date10.GetMonth() == Date::Month(1));
+			REQUIRE(date10.GetWeekDay() == Date::WeekDay(0));
+			REQUIRE(date10.GetYear() == 1970);
+			REQUIRE(date15.GetDay() == 1);
+			REQUIRE(date15.GetMonth() == Date::Month(1));
+			REQUIRE(date15.GetWeekDay() == Date::WeekDay(0));
+			REQUIRE(date15.GetYear() == 1970);
+			REQUIRE(date17.GetDay() == 1);
+			REQUIRE(date17.GetMonth() == Date::Month(1));
+			REQUIRE(date17.GetWeekDay() == Date::WeekDay(0));
+			REQUIRE(date17.GetYear() == 1970);
+		}
 	}
 
 	WHEN("Correct dates provided")
@@ -114,14 +154,17 @@ TEST_CASE("Date at create state")
 		const unsigned expectedDay1 = 30;
 		const Date::Month expectedMonth1 = Date::Month(6);
 		const unsigned expectedYear1 = 9876;
+		const Date::WeekDay expectedDayOfWeek1 = Date::WeekDay(5);
 		Date date1{ expectedDay1, expectedMonth1, expectedYear1 };
 		const unsigned expectedDay2 = 1;
 		const Date::Month expectedMonth2 = Date::Month(1);
 		const unsigned expectedYear2 = 1970;
+		const Date::WeekDay expectedDayOfWeek2 = Date::WeekDay(4);
 		Date date2{ expectedDay2, expectedMonth2, expectedYear2 };
 		const unsigned expectedDay3 = 31;
 		const Date::Month expectedMonth3 = Date::Month(12);
 		const unsigned expectedYear3 = 9999;
+		const Date::WeekDay expectedDayOfWeek3 = Date::WeekDay(5);
 		Date date3{ expectedDay3, expectedMonth3, expectedYear3 };
 
 		THEN("Getters are working correctly")
@@ -129,14 +172,17 @@ TEST_CASE("Date at create state")
 			REQUIRE(date1.GetDay() == expectedDay1);
 			REQUIRE(date1.GetMonth() == expectedMonth1);
 			REQUIRE(date1.GetYear() == expectedYear1);
+			REQUIRE(date1.GetWeekDay() == expectedDayOfWeek1);
 
 			REQUIRE(date2.GetDay() == expectedDay2);
 			REQUIRE(date2.GetMonth() == expectedMonth2);
 			REQUIRE(date2.GetYear() == expectedYear2);
+			REQUIRE(date2.GetWeekDay() == expectedDayOfWeek2);
 
 			REQUIRE(date3.GetDay() == expectedDay3);
 			REQUIRE(date3.GetMonth() == expectedMonth3);
 			REQUIRE(date3.GetYear() == expectedYear3);
+			REQUIRE(date3.GetWeekDay() == expectedDayOfWeek3);
 		}
 	}
 }
