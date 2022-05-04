@@ -1,5 +1,8 @@
 #include "../../headers/stdafx.h"
 
+#include <sstream>
+#include <string>
+
 #include "../../headers/date/CDate.h"
 
 Date::Date(unsigned day, Month month, unsigned year)
@@ -420,6 +423,8 @@ bool Date::operator>=(const Date& other) const
 	return m_dayCounter >= other.m_dayCounter;
 }
 
+constexpr auto DELIMETER = '.';
+
 std::ostream& operator<<(std::ostream& os, Date& date)
 {
 	if (!date.IsValid())
@@ -430,13 +435,57 @@ std::ostream& operator<<(std::ostream& os, Date& date)
 
 	unsigned day = date.GetDay();
 	unsigned month = static_cast<unsigned>(date.GetMonth());
-	os << (day >= 10 ? "" : "0") << day << '.' << (month >= 10 ? "" : "0") << month << "." << date.GetYear();
+	os << (day >= 10 ? "" : "0") << day << DELIMETER << (month >= 10 ? "" : "0") << month << DELIMETER << date.GetYear();
 	return os;
+}
+
+Date ParseStringToDate(const std::string& str)
+{
+	std::stringstream ss{ str }, ssBuffer{};
+	std::string buffer;
+	std::getline(ss, buffer, DELIMETER);
+	ssBuffer << buffer;
+
+	unsigned day;
+	if (!(ssBuffer >> day))
+	{
+		return Date(START_MONTH_DAY - 1, START_MONTH, START_YEAR - 1);
+	}
+	ssBuffer.str("");
+	ssBuffer.clear();
+
+	std::getline(ss, buffer, DELIMETER);
+	ssBuffer << buffer;
+	unsigned m;
+	if (!(ssBuffer >> m))
+	{
+		return Date(START_MONTH_DAY - 1, START_MONTH, START_YEAR - 1);
+	}
+	ssBuffer.str("");
+	ssBuffer.clear();
+	ssBuffer.flush();
+
+	unsigned year;
+	if (!(ss >> year))
+	{
+		return Date(START_MONTH_DAY - 1, START_MONTH, START_YEAR - 1);
+	}
+
+	return Date(day, Date::Month(m), year);
 }
 
 std::istream& operator>>(std::istream& is, Date& date)
 {
-	// unsigned year;
+	std::string str;
+	std::getline(is, str);
+
+	date = ParseStringToDate(str);
+
+	if (!date.IsValid())
+	{
+		is.setstate(std::ios_base::failbit);
+		return is;
+	}
 
 	return is;
 }
