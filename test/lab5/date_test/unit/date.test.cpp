@@ -915,3 +915,45 @@ TEST_CASE("Date operator-=. Date in incorrect state")
 		}
 	}
 }
+
+TEST_CASE("Date boolean operators")
+{
+	Date date1{ 100 };
+	Date date2{ 11, Date::Month(4), 1970 };
+
+	REQUIRE(date1 == date2);
+	REQUIRE_FALSE(date1 != date2);
+	REQUIRE(date1 <= date2);
+	REQUIRE(date1 >= date2);
+	REQUIRE_FALSE(date1 > date2);
+	REQUIRE_FALSE(date1 < date2);
+}
+
+#include <sstream>
+
+TEST_CASE("Date operator << tests")
+{
+	Date dateValid1{ 0 };
+	Date dateValid2{ 12, Date::Month(12), 1970 };
+	Date dateInvalid{ 101, Date::Month(13), 9999 };
+
+	std::ostringstream oss{};
+	const std::string expectedResult1 = "01.01.1970";
+	const std::string expectedResult2 = "12.12.1970";
+	const std::string expectedResult3 = "INVALID";
+
+	oss << dateValid1;
+	REQUIRE(oss.str() == expectedResult1);
+	oss.str("");
+	oss.clear();
+
+	oss << dateValid2;
+	REQUIRE(oss.str() == expectedResult2);
+	oss.str("");
+	oss.clear();
+
+	oss << dateInvalid;
+	REQUIRE(oss.str() == expectedResult3);
+	oss.str("");
+	oss.clear();
+}
