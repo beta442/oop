@@ -45,7 +45,8 @@ public:
 
 	Date operator++(int);
 	Date& operator++();
-	void operator--();
+	Date operator--(int);
+	Date& operator--();
 	void operator+(unsigned day);
 	void operator-(unsigned day);
 	long operator-(const Date& other);

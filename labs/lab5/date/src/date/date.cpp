@@ -275,11 +275,18 @@ Date& Date::operator++()
 	return *this;
 }
 
-void Date::operator--()
+Date Date::operator--(int)
+{
+	Date tempDate(*this);
+	--*this;
+	return tempDate;
+}
+
+Date& Date::operator--()
 {
 	if (!IsValid())
 	{
-		return;
+		return *this;
 	}
 
 	--m_dayCounter;
@@ -290,6 +297,8 @@ void Date::operator--()
 	{
 		SetInvalidState();
 	}
+
+	return *this;
 }
 
 void Date::operator+(unsigned day)
