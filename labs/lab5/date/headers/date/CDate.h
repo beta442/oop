@@ -49,8 +49,8 @@ public:
 	Date& operator--();
 	friend Date operator+(const Date& date, unsigned day);
 	friend Date operator+(unsigned day, const Date& date);
-	void operator-(unsigned day);
-	long operator-(const Date& other);
+	friend Date operator-(const Date& date, unsigned day);
+	friend long operator-(const Date& date1, const Date& date2);
 	void operator+=(unsigned day);
 	void operator-=(unsigned day);
 	bool operator==(const Date& other) const;

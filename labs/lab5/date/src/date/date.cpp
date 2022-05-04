@@ -326,32 +326,34 @@ Date operator+(unsigned day, const Date& date)
 	return date + day;
 }
 
-
-void Date::operator-(unsigned day)
+Date operator-(const Date& date, unsigned day)
 {
-	if (!IsValid())
+	if (!date.IsValid())
 	{
-		return;
+		return date;
 	}
 
-	m_dayCounter -= day;
+	Date tempDate(date);
+	tempDate.m_dayCounter -= day;
 
-	CalculateDate();
+	tempDate.CalculateDate();
 
-	if (!DateIsValid(*m_monthDay, *m_month, *m_year))
+	if (!tempDate.DateIsValid(*tempDate.m_monthDay, *tempDate.m_month, *tempDate.m_year))
 	{
-		SetInvalidState();
+		tempDate.SetInvalidState();
 	}
+
+	return std::move(tempDate);
 }
 
-long Date::operator-(const Date& other)
+long operator-(const Date& date1, const Date& date2)
 {
-	if (!IsValid() || !other.IsValid())
+	if (!date1.IsValid() || !date2.IsValid())
 	{
 		return 0;
 	}
 
-	return m_dayCounter - other.m_dayCounter;
+	return date1.m_dayCounter - date2.m_dayCounter;
 }
 
 void Date::operator+=(unsigned day)
