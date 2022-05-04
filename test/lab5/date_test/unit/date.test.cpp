@@ -957,3 +957,38 @@ TEST_CASE("Date operator << tests")
 	oss.str("");
 	oss.clear();
 }
+
+TEST_CASE("Date operator >> tests")
+{
+	std::istringstream iss1{ "13.12.1976" };
+	std::istringstream iss2{ "A.12.1976" };
+	std::istringstream iss3{ "13.A.1976" };
+	std::istringstream iss4{ "13.12.BCD" };
+	std::istringstream iss5{ "1312.1976" };
+	std::istringstream iss6{ "13.121976" };
+	std::istringstream iss7{ "13121976" };
+
+	Date date{};
+
+	REQUIRE(iss1 >> date);
+	REQUIRE(date.IsValid());
+	REQUIRE_FALSE(iss2 >> date);
+	REQUIRE_FALSE(date.IsValid());
+	REQUIRE_FALSE(iss3 >> date);
+	REQUIRE_FALSE(date.IsValid());
+	REQUIRE_FALSE(iss4 >> date);
+	REQUIRE_FALSE(date.IsValid());
+	REQUIRE_FALSE(iss5 >> date);
+	REQUIRE_FALSE(date.IsValid());
+	REQUIRE_FALSE(iss6 >> date);
+	REQUIRE_FALSE(date.IsValid());
+	REQUIRE_FALSE(iss7 >> date);
+	REQUIRE_FALSE(date.IsValid());
+	REQUIRE_FALSE(iss1.fail());
+	REQUIRE(iss2.fail());
+	REQUIRE(iss3.fail());
+	REQUIRE(iss4.fail());
+	REQUIRE(iss5.fail());
+	REQUIRE(iss6.fail());
+	REQUIRE(iss7.fail());
+}
