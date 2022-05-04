@@ -249,7 +249,7 @@ TEST_CASE("Date operator++. Date in correct state")
 		for (size_t i = 0; i < 9999; ++i)
 		{
 			++date1;
-			++date2;
+			date2++;
 		}
 
 		THEN("Date is correct")
@@ -279,7 +279,7 @@ TEST_CASE("Date operator++. Date in correct state")
 		for (size_t i = 0; i < 3711; ++i)
 		{
 			++date1;
-			++date2;
+			date2++;
 		}
 
 		THEN("Date is correct")
@@ -305,7 +305,7 @@ TEST_CASE("Date operator++. Date in correct state")
 	WHEN("operator++ used && date in upperBound state")
 	{
 		++date3;
-		++date4;
+		date4++;
 
 		THEN("Date state turns to invalid")
 		{
@@ -328,7 +328,7 @@ TEST_CASE("Date operator++. Date in incorrect state")
 		const Date::WeekDay expectedDayOfWeek = Date::WeekDay(4);
 
 		++date1;
-		++date2;
+		date2++;
 
 		THEN("Getters shows default info")
 		{
@@ -363,7 +363,7 @@ TEST_CASE("Date operator--. Date in correct state")
 		for (size_t i = 0; i < 100; ++i)
 		{
 			--date1;
-			--date2;
+			date2--;
 		}
 
 		THEN("Date is correct")
@@ -393,7 +393,7 @@ TEST_CASE("Date operator--. Date in correct state")
 		for (size_t i = 0; i < 5; ++i)
 		{
 			--date1;
-			--date2;
+			date2--;
 		}
 
 		THEN("Date is correct")
@@ -419,7 +419,7 @@ TEST_CASE("Date operator--. Date in correct state")
 	WHEN("operator-- used && date in lowerBound state")
 	{
 		--date3;
-		--date4;
+		date4--;
 
 		THEN("Date state turns to invalid")
 		{
@@ -442,7 +442,7 @@ TEST_CASE("Date operator--. Date in incorrect state")
 		const Date::WeekDay expectedDayOfWeek = Date::WeekDay(4);
 
 		--date1;
-		--date2;
+		date2--;
 
 		THEN("Getters shows default info")
 		{
