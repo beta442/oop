@@ -689,4 +689,229 @@ TEST_CASE("Date operator-. Date in incorrect state")
 	}
 }
 
+TEST_CASE("Date operator+=. Date in correct state")
+{
+	Date date1{ 0 };
+	Date date2{ 1, Date::Month(1), 1970 };
 
+	WHEN("operator+= used")
+	{
+		const unsigned expectedDay = 19;
+		const Date::Month expectedMonth = Date::Month(6);
+		const unsigned expectedYear = 1972;
+		const Date::WeekDay expectedDayOfWeek = Date::WeekDay(1);
+
+		date1 += 900;
+		date2 += 900;
+
+		THEN("Date is correct")
+		{
+			REQUIRE(date1.IsValid());
+			REQUIRE(date2.IsValid());
+
+			REQUIRE(date1.GetDay() == expectedDay);
+			REQUIRE(date1.GetMonth() == expectedMonth);
+			REQUIRE(date1.GetWeekDay() == expectedDayOfWeek);
+			REQUIRE(date1.GetYear() == expectedYear);
+
+			REQUIRE(date2.GetDay() == expectedDay);
+			REQUIRE(date2.GetMonth() == expectedMonth);
+			REQUIRE(date2.GetWeekDay() == expectedDayOfWeek);
+			REQUIRE(date2.GetYear() == expectedYear);
+		}
+	}
+
+	WHEN("operator+= used until 29th of Feb in leap year")
+	{
+		const unsigned expectedDay = 29;
+		const Date::Month expectedMonth = Date::Month(2);
+		const unsigned expectedYear = 1972;
+		const Date::WeekDay expectedDayOfWeek = Date::WeekDay(2);
+
+		date1 += 789;
+		date2 += 789;
+
+		THEN("Date is correct")
+		{
+			REQUIRE(date1.IsValid());
+			REQUIRE(date2.IsValid());
+
+			REQUIRE(date1.GetDay() == expectedDay);
+			REQUIRE(date1.GetMonth() == expectedMonth);
+			REQUIRE(date1.GetWeekDay() == expectedDayOfWeek);
+			REQUIRE(date1.GetYear() == expectedYear);
+
+			REQUIRE(date2.GetDay() == expectedDay);
+			REQUIRE(date2.GetMonth() == expectedMonth);
+			REQUIRE(date2.GetWeekDay() == expectedDayOfWeek);
+			REQUIRE(date2.GetYear() == expectedYear);
+		}
+	}
+
+	Date date3{ 2932896 };
+	Date date4{ 31, Date::Month(12), 9999 };
+
+	WHEN("operator+= used && date in upperBound state")
+	{
+		date3 += 1;
+		date4 += 1;
+
+		THEN("Date state turns to invalid")
+		{
+			REQUIRE_FALSE(date3.IsValid());
+			REQUIRE_FALSE(date4.IsValid());
+		}
+	}
+}
+
+TEST_CASE("Date operator+=. Date in incorrect state")
+{
+	Date date1{ 2932900 };
+	Date date2{ 101, Date::Month(1), 1970 };
+
+	WHEN("operator+= used")
+	{
+		const unsigned expectedDay = 1;
+		const Date::Month expectedMonth = Date::Month(1);
+		const unsigned expectedYear = 1970;
+		const Date::WeekDay expectedDayOfWeek = Date::WeekDay(4);
+
+		date1 += 9999;
+		date2 += 9999;
+
+		THEN("Getters shows default info")
+		{
+			REQUIRE_FALSE(date1.IsValid());
+			REQUIRE_FALSE(date2.IsValid());
+
+			REQUIRE(date1.GetDay() == expectedDay);
+			REQUIRE(date1.GetMonth() == expectedMonth);
+			REQUIRE(date1.GetWeekDay() == expectedDayOfWeek);
+			REQUIRE(date1.GetYear() == expectedYear);
+
+			REQUIRE(date2.GetDay() == expectedDay);
+			REQUIRE(date2.GetMonth() == expectedMonth);
+			REQUIRE(date2.GetWeekDay() == expectedDayOfWeek);
+			REQUIRE(date2.GetYear() == expectedYear);
+		}
+	}
+}
+
+TEST_CASE("Date operator-=. Date in correct state")
+{
+	Date date1{ 2931498 };
+	Date date2{ 3, Date::Month(3), 9996 };
+
+	WHEN("operator-= used")
+	{
+		const unsigned expectedDay = 1;
+		const Date::Month expectedMonth = Date::Month(1);
+		const unsigned expectedYear = 1970;
+		const Date::WeekDay expectedDayOfWeek = Date::WeekDay(4);
+
+		date1 -= 2931498;
+		date2 -= 2931498;
+
+		THEN("Date is correct")
+		{
+			REQUIRE(date1.IsValid());
+			REQUIRE(date2.IsValid());
+
+			REQUIRE(date1.GetDay() == expectedDay);
+			REQUIRE(date1.GetMonth() == expectedMonth);
+			REQUIRE(date1.GetWeekDay() == expectedDayOfWeek);
+			REQUIRE(date1.GetYear() == expectedYear);
+
+			REQUIRE(date2.GetDay() == expectedDay);
+			REQUIRE(date2.GetMonth() == expectedMonth);
+			REQUIRE(date2.GetWeekDay() == expectedDayOfWeek);
+			REQUIRE(date2.GetYear() == expectedYear);
+		}
+	}
+
+	WHEN("operator-= used until 29th of Feb in leap year")
+	{
+		const unsigned expectedDay = 29;
+		const Date::Month expectedMonth = Date::Month(2);
+		const unsigned expectedYear = 9996;
+		const Date::WeekDay expectedDayOfWeek = Date::WeekDay(4);
+
+		date1 -= 3;
+		date2 -= 3;
+
+		THEN("Date is correct")
+		{
+			REQUIRE(date1.IsValid());
+			REQUIRE(date2.IsValid());
+
+			REQUIRE(date1.GetDay() == expectedDay);
+			REQUIRE(date1.GetMonth() == expectedMonth);
+			REQUIRE(date1.GetWeekDay() == expectedDayOfWeek);
+			REQUIRE(date1.GetYear() == expectedYear);
+
+			REQUIRE(date2.GetDay() == expectedDay);
+			REQUIRE(date2.GetMonth() == expectedMonth);
+			REQUIRE(date2.GetWeekDay() == expectedDayOfWeek);
+			REQUIRE(date2.GetYear() == expectedYear);
+		}
+	}
+
+	Date date3{ 0 };
+	Date date4{ 1, Date::Month(1), 1970 };
+
+	WHEN("operator-= used && date in lowerBound state")
+	{
+		date3 -= 1;
+		date4 -= 1;
+
+		THEN("Date state turns to invalid")
+		{
+			REQUIRE_FALSE(date3.IsValid());
+			REQUIRE_FALSE(date4.IsValid());
+		}
+	}
+
+	WHEN("operator-= used as distance between two dates in valid state")
+	{
+		THEN("It works correctly")
+		{
+			REQUIRE((date1 - date3) == 2931498);
+			REQUIRE((date3 - date1) == -2931498);
+			REQUIRE((date2 - date4) == 2931498);
+			REQUIRE((date4 - date2) == -2931498);
+		}
+	}
+}
+
+TEST_CASE("Date operator-=. Date in incorrect state")
+{
+	Date date1{ 2932900 };
+	Date date2{ 101, Date::Month(1), 1970 };
+
+	WHEN("operator-= used")
+	{
+		const unsigned expectedDay = 1;
+		const Date::Month expectedMonth = Date::Month(1);
+		const unsigned expectedYear = 1970;
+		const Date::WeekDay expectedDayOfWeek = Date::WeekDay(4);
+
+		date1 -= 900;
+		date2 -= 900;
+
+		THEN("Getters shows default info")
+		{
+			REQUIRE_FALSE(date1.IsValid());
+			REQUIRE_FALSE(date2.IsValid());
+
+			REQUIRE(date1.GetDay() == expectedDay);
+			REQUIRE(date1.GetMonth() == expectedMonth);
+			REQUIRE(date1.GetWeekDay() == expectedDayOfWeek);
+			REQUIRE(date1.GetYear() == expectedYear);
+
+			REQUIRE(date2.GetDay() == expectedDay);
+			REQUIRE(date2.GetMonth() == expectedMonth);
+			REQUIRE(date2.GetWeekDay() == expectedDayOfWeek);
+			REQUIRE(date2.GetYear() == expectedYear);
+		}
+	}
+}
