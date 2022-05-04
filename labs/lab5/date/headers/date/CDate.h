@@ -43,7 +43,8 @@ public:
 
 	bool IsValid() const; // if date is out of valid range
 
-	void operator++();
+	Date operator++(int);
+	Date& operator++();
 	void operator--();
 	void operator+(unsigned day);
 	void operator-(unsigned day);
@@ -56,6 +57,12 @@ public:
 	bool operator>(const Date& other) const;
 	bool operator<=(const Date& other) const;
 	bool operator>=(const Date& other) const;
+	friend std::istream& operator>>(std::istream& is, Date& date)
+	{
+		//unsigned year;
+
+		return is;
+	}
 	friend std::ostream& operator<<(std::ostream& os, Date& date)
 	{
 		if (!date.IsValid())
@@ -66,7 +73,7 @@ public:
 
 		unsigned day = date.GetDay();
 		unsigned month = static_cast<unsigned>(date.GetMonth());
-		os << (day >= 10 ? "" : "0") << day << ':' << (month >= 10 ? "" : "0") << month << ":" << date.GetYear();
+		os << (day >= 10 ? "" : "0") << day << '.' << (month >= 10 ? "" : "0") << month << "." << date.GetYear();
 		return os;
 	}
 
