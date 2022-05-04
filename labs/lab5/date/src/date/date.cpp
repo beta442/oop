@@ -301,22 +301,31 @@ Date& Date::operator--()
 	return *this;
 }
 
-void Date::operator+(unsigned day)
+Date operator+(const Date& date, unsigned day)
 {
-	if (!IsValid())
+	if (!date.IsValid())
 	{
-		return;
+		return date;
 	}
 
-	m_dayCounter += day;
+	Date tempDate(date);
+	tempDate.m_dayCounter += day;
 
-	CalculateDate();
+	tempDate.CalculateDate();
 
-	if (!DateIsValid(*m_monthDay, *m_month, *m_year))
+	if (!tempDate.DateIsValid(*tempDate.m_monthDay, *tempDate.m_month, *tempDate.m_year))
 	{
-		SetInvalidState();
+		tempDate.SetInvalidState();
 	}
+
+	return std::move(tempDate);
 }
+
+Date operator+(unsigned day, const Date& date)
+{
+	return date + day;
+}
+
 
 void Date::operator-(unsigned day)
 {
@@ -407,4 +416,25 @@ bool Date::operator<=(const Date& other) const
 bool Date::operator>=(const Date& other) const
 {
 	return m_dayCounter >= other.m_dayCounter;
+}
+
+std::ostream& operator<<(std::ostream& os, Date& date)
+{
+	if (!date.IsValid())
+	{
+		os << "INVALID";
+		return os;
+	}
+
+	unsigned day = date.GetDay();
+	unsigned month = static_cast<unsigned>(date.GetMonth());
+	os << (day >= 10 ? "" : "0") << day << '.' << (month >= 10 ? "" : "0") << month << "." << date.GetYear();
+	return os;
+}
+
+std::istream& operator>>(std::istream& is, Date& date)
+{
+	// unsigned year;
+
+	return is;
 }

@@ -47,7 +47,8 @@ public:
 	Date& operator++();
 	Date operator--(int);
 	Date& operator--();
-	void operator+(unsigned day);
+	friend Date operator+(const Date& date, unsigned day);
+	friend Date operator+(unsigned day, const Date& date);
 	void operator-(unsigned day);
 	long operator-(const Date& other);
 	void operator+=(unsigned day);
@@ -58,25 +59,8 @@ public:
 	bool operator>(const Date& other) const;
 	bool operator<=(const Date& other) const;
 	bool operator>=(const Date& other) const;
-	friend std::istream& operator>>(std::istream& is, Date& date)
-	{
-		//unsigned year;
-
-		return is;
-	}
-	friend std::ostream& operator<<(std::ostream& os, Date& date)
-	{
-		if (!date.IsValid())
-		{
-			os << "INVALID";
-			return os;
-		}
-
-		unsigned day = date.GetDay();
-		unsigned month = static_cast<unsigned>(date.GetMonth());
-		os << (day >= 10 ? "" : "0") << day << '.' << (month >= 10 ? "" : "0") << month << "." << date.GetYear();
-		return os;
-	}
+	friend std::istream& operator>>(std::istream& is, Date& date);
+	friend std::ostream& operator<<(std::ostream& os, Date& date);
 
 private:
 	static bool DateIsValid(unsigned day, Month month, unsigned year);
