@@ -40,7 +40,6 @@ public:
 	Month GetMonth() const;
 	unsigned GetYear() const;
 	WeekDay GetWeekDay() const;
-
 	bool IsValid() const; // if date is out of valid range
 
 	Date operator++(int);
@@ -63,10 +62,6 @@ public:
 	friend std::ostream& operator<<(std::ostream& os, Date& date);
 
 private:
-	static bool DateIsValid(unsigned day, Month month, unsigned year);
-	static bool IsYearLeap(unsigned year);
-	static unsigned ConvertDateInfoToTimeStamp(unsigned day, Month month, unsigned year);
-
 	void CalculateDate() const;
 	void SetInvalidState();
 

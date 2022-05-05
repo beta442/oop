@@ -5,30 +5,37 @@
 
 #include "../../headers/date/CDate.h"
 
-Date::Date(unsigned day, Month month, unsigned year)
-	: m_monthDay(day)
-	, m_month(month)
-	, m_year(year)
-	, m_isValidState(true)
-{
-	if (!DateIsValid(day, month, year))
-	{
-		SetInvalidState();
-	}
-	else
-	{
-		m_dayCounter = ConvertDateInfoToTimeStamp(day, month, year);
-	}
-}
-
 const long LOWER_COUNTER_BOUND = 0; // 01.01.1970
 const long UPPER_COUNTER_BOUND = 2932896; // 31.12.9999
 
+bool DateIsValid(unsigned day, Date::Month month, unsigned year);
+unsigned ConvertDateInfoToTimeStamp(unsigned day, Date::Month month, unsigned year);
+
+Date::Date(unsigned day, Month month, unsigned year)
+	: m_dayCounter(LOWER_COUNTER_BOUND)
+	, m_monthDay(day)
+	, m_month(month)
+	, m_year(year)
+	, m_isValidState(DateIsValid(day, month, year))
+{
+	if (IsValid())
+	{
+		m_dayCounter = ConvertDateInfoToTimeStamp(day, month, year);
+	}
+	else
+	{
+		SetInvalidState();
+	}
+}
+
 Date::Date(unsigned timestamp)
 	: m_dayCounter(timestamp)
-	, m_isValidState(true)
+	, m_monthDay(std::nullopt)
+	, m_month(std::nullopt)
+	, m_year(std::nullopt)
+	, m_isValidState(timestamp <= UPPER_COUNTER_BOUND)
 {
-	if (timestamp > UPPER_COUNTER_BOUND)
+	if (!IsValid())
 	{
 		SetInvalidState();
 	}
@@ -39,7 +46,7 @@ bool Date::IsValid() const
 	return m_isValidState;
 }
 
-bool Date::IsYearLeap(unsigned year)
+bool IsYearLeap(unsigned year)
 {
 	return (year % 4 == 0) && (year % 100 != 0 || year % 400 == 0);
 }
@@ -130,7 +137,7 @@ const int END_MONTH_INDEX = 12;
 const std::vector<unsigned> DAYS_TO_MONTH_365 = { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365 };
 const std::vector<unsigned> DAYS_TO_MONTH_366 = { 0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366 };
 
-unsigned Date::ConvertDateInfoToTimeStamp(unsigned day, Month month, unsigned year)
+unsigned ConvertDateInfoToTimeStamp(unsigned day, Date::Month month, unsigned year)
 {
 	const int providedMonthIndex = static_cast<int>(month);
 	bool isProvidedYearLeap = IsYearLeap(year);
@@ -163,7 +170,7 @@ unsigned Date::ConvertDateInfoToTimeStamp(unsigned day, Month month, unsigned ye
 	return counter;
 }
 
-bool Date::DateIsValid(unsigned day, Month month, unsigned year)
+bool DateIsValid(unsigned day, Date::Month month, unsigned year)
 {
 	const int monthIndex = static_cast<int>(month);
 	if (day == 0 || year < START_YEAR || year > END_YEAR || monthIndex < START_MONTH_INDEX || monthIndex > END_MONTH_INDEX)
@@ -316,7 +323,7 @@ Date operator+(const Date& date, unsigned day)
 
 	tempDate.CalculateDate();
 
-	if (!tempDate.DateIsValid(*tempDate.m_monthDay, *tempDate.m_month, *tempDate.m_year))
+	if (!DateIsValid(*tempDate.m_monthDay, *tempDate.m_month, *tempDate.m_year))
 	{
 		tempDate.SetInvalidState();
 	}
@@ -341,7 +348,7 @@ Date operator-(const Date& date, unsigned day)
 
 	tempDate.CalculateDate();
 
-	if (!tempDate.DateIsValid(*tempDate.m_monthDay, *tempDate.m_month, *tempDate.m_year))
+	if (!DateIsValid(*tempDate.m_monthDay, *tempDate.m_month, *tempDate.m_year))
 	{
 		tempDate.SetInvalidState();
 	}
@@ -361,36 +368,12 @@ long operator-(const Date& date1, const Date& date2)
 
 void Date::operator+=(unsigned day)
 {
-	if (!IsValid())
-	{
-		return;
-	}
-
-	m_dayCounter += day;
-
-	CalculateDate();
-
-	if (!DateIsValid(*m_monthDay, *m_month, *m_year))
-	{
-		SetInvalidState();
-	}
+	*this = *this + day;
 }
 
 void Date::operator-=(unsigned day)
 {
-	if (!IsValid())
-	{
-		return;
-	}
-
-	m_dayCounter -= day;
-
-	CalculateDate();
-
-	if (!DateIsValid(*m_monthDay, *m_month, *m_year))
-	{
-		SetInvalidState();
-	}
+	*this = *this - day;
 }
 
 bool Date::operator==(const Date& other) const
@@ -477,7 +460,7 @@ Date ParseStringToDate(const std::string& str)
 std::istream& operator>>(std::istream& is, Date& date)
 {
 	std::string str;
-	std::getline(is, str);
+	is >> str;
 
 	date = ParseStringToDate(str);
 
