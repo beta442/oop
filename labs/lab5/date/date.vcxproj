@@ -168,6 +168,11 @@
     <ClInclude Include="headers\date\CDate.h" />
     <ClInclude Include="headers\stdafx.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\test\lab5\date_test\date_test.vcxproj">
+      <Project>{1bf1545d-2ba2-42ac-83c3-7f53ca0ea7c4}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
