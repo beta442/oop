@@ -173,12 +173,13 @@ unsigned ConvertDateInfoToTimeStamp(unsigned day, Date::Month month, unsigned ye
 bool DateIsValid(unsigned day, Date::Month month, unsigned year)
 {
 	const int monthIndex = static_cast<int>(month);
-	if (day == 0 || year < START_YEAR || year > END_YEAR || monthIndex < START_MONTH_INDEX || monthIndex > END_MONTH_INDEX)
+	const std::vector<unsigned>* daysToMonth = IsYearLeap(year) ? &DAYS_TO_MONTH_366 : &DAYS_TO_MONTH_365;
+	if (const size_t daysInMonth = (*daysToMonth)[monthIndex] - (*daysToMonth)[monthIndex - 1];
+		day == 0 || day > daysInMonth || year < START_YEAR || year > END_YEAR || monthIndex < START_MONTH_INDEX || monthIndex > END_MONTH_INDEX)
 	{
 		return false;
 	}
 
-	const std::vector<unsigned>* daysToMonth = IsYearLeap(year) ? &DAYS_TO_MONTH_366 : &DAYS_TO_MONTH_365;
 
 	if (day > (*daysToMonth)[monthIndex] - (*daysToMonth)[monthIndex - 1])
 	{
@@ -192,7 +193,9 @@ const std::vector<int> SAKAMOTO_MONTH_TO_INT = { 0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2
 Date::WeekDay DayOfWeek(unsigned day, Date::Month month, unsigned year)
 {
 	const int monthIndex = static_cast<int>(month);
-	if (day == 0 || monthIndex < START_MONTH_INDEX || monthIndex > END_MONTH_INDEX || year < START_YEAR || year > END_YEAR)
+	const std::vector<unsigned>* daysToMonth = IsYearLeap(year) ? &DAYS_TO_MONTH_366 : &DAYS_TO_MONTH_365;
+	if (const size_t daysInMonth = (*daysToMonth)[monthIndex] - (*daysToMonth)[monthIndex - 1];
+		day == 0 || day > daysInMonth || monthIndex < START_MONTH_INDEX || monthIndex > END_MONTH_INDEX || year < START_YEAR || year > END_YEAR)
 	{
 		return START_WEEK_DAY;
 	}
@@ -328,7 +331,7 @@ Date operator+(const Date& date, unsigned day)
 		tempDate.SetInvalidState();
 	}
 
-	return std::move(tempDate);
+	return tempDate;
 }
 
 Date operator+(unsigned day, const Date& date)
@@ -353,7 +356,7 @@ Date operator-(const Date& date, unsigned day)
 		tempDate.SetInvalidState();
 	}
 
-	return std::move(tempDate);
+	return tempDate;
 }
 
 long operator-(const Date& date1, const Date& date2)
