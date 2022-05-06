@@ -37,7 +37,10 @@ MyString::MyString(MyString const& other)
 }
 
 MyString::MyString(MyString&& other)
+	: m_size(0)
+	, m_beginPtr(nullptr)
 {
+	*this = std::move(other);
 }
 
 MyString::MyString(std::string const& stlString)
@@ -75,4 +78,60 @@ void MyString::Clear()
 	m_beginPtr.reset();
 	m_beginPtr = std::make_unique<char[]>(0);
 	m_size = 0;
+}
+
+void MyString::operator=(const MyString& other)
+{
+	m_size = other.m_size;
+	m_beginPtr.reset();
+	m_beginPtr = std::make_unique<char[]>(m_size);
+	for (size_t i = 0; i < m_size; ++i)
+	{
+		m_beginPtr[i] = other.GetStringData()[i];
+	}
+}
+
+MyString MyString::operator+(const MyString& other) const
+{
+	size_t thisStrLength = this->GetLength(), otherStrLength = other.GetLength();
+
+	bool overflow = (size_t)-1 - thisStrLength < otherStrLength;
+	size_t newStrSize = overflow ? (size_t)-1 : thisStrLength + otherStrLength;
+	MyString newStr("", newStrSize);
+
+	for (size_t i = 0; i < thisStrLength; ++i)
+	{
+		newStr.m_beginPtr[i] = this->m_beginPtr[i];
+	}
+	for (size_t i = thisStrLength; i < newStrSize; ++i)
+	{
+		newStr.m_beginPtr[i] = other.m_beginPtr[i - otherStrLength];
+	}
+
+	return newStr;
+}
+
+MyString operator+(const MyString& mStrFirst, const std::string& strSecond)
+{
+	size_t firstStrLength = mStrFirst.GetLength(), secondStrLength = strSecond.size();
+
+	bool overflow = (size_t)-1 - firstStrLength < secondStrLength;
+	size_t newStrSize = overflow ? (size_t)-1 : firstStrLength + secondStrLength;
+	MyString newStr("", newStrSize);
+
+	for (size_t i = 0; i < firstStrLength; ++i)
+	{
+		newStr.m_beginPtr[i] = mStrFirst.m_beginPtr[i];
+	}
+	for (size_t i = firstStrLength; i < newStrSize; ++i)
+	{
+		newStr.m_beginPtr[i] = strSecond[i - secondStrLength];
+	}
+
+	return newStr;
+}
+
+MyString operator+(const std::string& strFirst, const MyString& mStrSecond)
+{
+	return mStrSecond + strFirst;
 }
