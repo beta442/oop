@@ -22,7 +22,7 @@ MyString::MyString(const char* pString, size_t length)
 {
 	for (size_t i = 0; i < m_size; ++i)
 	{
-		m_beginPtr[i] = pString[i];
+		m_beginPtr[i] = i < std::strlen(pString) ? pString[i] : 0;
 	}
 }
 
@@ -132,6 +132,31 @@ MyString operator+(const MyString& mStrFirst, const std::string& strSecond)
 }
 
 MyString operator+(const std::string& strFirst, const MyString& mStrSecond)
+{
+	return mStrSecond + strFirst;
+}
+
+MyString operator+(const MyString& mStrFirst, const char* strSecond)
+{
+	size_t firstStrLength = mStrFirst.GetLength(), secondStrLength = std::strlen(strSecond);
+
+	bool overflow = (size_t)-1 - firstStrLength < secondStrLength;
+	size_t newStrSize = overflow ? (size_t)-1 : firstStrLength + secondStrLength;
+	MyString newStr("", newStrSize);
+
+	for (size_t i = 0; i < firstStrLength; ++i)
+	{
+		newStr.m_beginPtr[i] = mStrFirst.m_beginPtr[i];
+	}
+	for (size_t i = firstStrLength; i < newStrSize; ++i)
+	{
+		newStr.m_beginPtr[i] = strSecond[i - secondStrLength];
+	}
+
+	return newStr;
+}
+
+MyString operator+(const char* strFirst, const MyString& mStrSecond)
 {
 	return mStrSecond + strFirst;
 }
