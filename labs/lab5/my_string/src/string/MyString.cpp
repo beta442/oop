@@ -160,3 +160,25 @@ MyString operator+(const char* strFirst, const MyString& mStrSecond)
 {
 	return mStrSecond + strFirst;
 }
+
+void MyString::operator+=(const MyString& other)
+{
+	size_t thisStrLength = this->GetLength(), otherStrLength = other.GetLength();
+
+	bool overflow = (size_t)-1 - thisStrLength < otherStrLength;
+	size_t newStrSize = overflow ? (size_t)-1 : thisStrLength + otherStrLength;
+
+	MyString temp(*this);
+	m_size = newStrSize;
+	m_beginPtr.reset();
+	m_beginPtr = std::make_unique<char[]>(m_size);
+
+	for (size_t i = 0; i < temp.GetLength(); ++i)
+	{
+		m_beginPtr[i] = temp.m_beginPtr[i];
+	}
+	for (size_t i = thisStrLength; i < m_size; ++i)
+	{
+		m_beginPtr[i] = other.m_beginPtr[i - thisStrLength];
+	}
+}

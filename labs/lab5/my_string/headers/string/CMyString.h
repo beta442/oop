@@ -29,6 +29,7 @@ public:
 	friend MyString operator+(const std::string& strFirst, const MyString& mStrSecond);
 	friend MyString operator+(const MyString& mStrFirst, const char* strSecond);
 	friend MyString operator+(const char* strFirst, const MyString& mStrSecond);
+	void operator+=(const MyString& other);
 
 private:
 	size_t m_size;
