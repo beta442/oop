@@ -168,7 +168,7 @@ void MyString::operator+=(const MyString& other)
 	bool overflow = (size_t)-1 - thisStrLength < otherStrLength;
 	size_t newStrSize = overflow ? (size_t)-1 : thisStrLength + otherStrLength;
 
-	MyString temp(*this);
+	MyString temp(this->GetStringData(), thisStrLength);
 	m_size = newStrSize;
 	m_beginPtr.reset();
 	m_beginPtr = std::make_unique<char[]>(m_size);
@@ -181,4 +181,25 @@ void MyString::operator+=(const MyString& other)
 	{
 		m_beginPtr[i] = other.m_beginPtr[i - thisStrLength];
 	}
+}
+
+bool MyString::operator==(const MyString& other) const
+{
+	if (GetLength() != other.GetLength())
+	{
+		return false;
+	}
+	for (size_t i = 0; i < GetLength(); ++i)
+	{
+		if (m_beginPtr[i] != other.m_beginPtr[i])
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+bool MyString::operator!=(const MyString& other) const
+{
+	return !(*this == other);
 }
