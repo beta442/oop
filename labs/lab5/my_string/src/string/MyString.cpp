@@ -203,3 +203,53 @@ bool MyString::operator!=(const MyString& other) const
 {
 	return !(*this == other);
 }
+
+bool MyString::operator<(const MyString& other) const
+{
+	size_t i1 = 0, i2 = 0;
+
+	while (i1 < GetLength())
+	{
+		if (other.m_beginPtr[i2] < m_beginPtr[i1])
+		{
+			return false;
+		}
+		else if (m_beginPtr[i1] < other.m_beginPtr[i2])
+		{
+			return true;
+		}
+		++i1;
+		++i2;
+	}
+	return i2 != other.GetLength();
+}
+
+bool MyString::operator>(const MyString& other) const
+{
+	size_t i1 = 0, i2 = 0;
+
+	while (i1 < GetLength())
+	{
+		if (other.m_beginPtr[i2] < m_beginPtr[i1])
+		{
+			return true;
+		}
+		else if (m_beginPtr[i1] < other.m_beginPtr[i2])
+		{
+			return false;
+		}
+		++i1;
+		++i2;
+	}
+	return i2 == other.GetLength();
+}
+
+bool MyString::operator<=(const MyString& other) const
+{
+	return !(*this > other);
+}
+
+bool MyString::operator>=(const MyString& other) const
+{
+	return !(*this < other);
+}

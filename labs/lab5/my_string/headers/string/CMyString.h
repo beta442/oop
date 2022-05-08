@@ -32,6 +32,10 @@ public:
 	void operator+=(const MyString& other);
 	bool operator==(const MyString& other) const;
 	bool operator!=(const MyString& other) const;
+	bool operator<(const MyString& other) const;
+	bool operator<=(const MyString& other) const;
+	bool operator>(const MyString& other) const;
+	bool operator>=(const MyString& other) const;
 
 private:
 	size_t m_size;
