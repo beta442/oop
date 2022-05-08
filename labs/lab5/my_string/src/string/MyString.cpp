@@ -40,7 +40,7 @@ MyString::MyString(MyString&& other)
 	: m_size(0)
 	, m_beginPtr(nullptr)
 {
-	*this = std::move(other);
+	*this = other;
 }
 
 MyString::MyString(std::string const& stlString)
