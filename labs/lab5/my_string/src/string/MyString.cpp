@@ -253,3 +253,13 @@ bool MyString::operator>=(const MyString& other) const
 {
 	return !(*this < other);
 }
+
+char& MyString::operator[](size_t index)
+{
+	return m_beginPtr[index];
+}
+
+char MyString::operator[](size_t index) const
+{
+	return m_beginPtr[index];
+}

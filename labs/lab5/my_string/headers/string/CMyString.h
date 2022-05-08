@@ -36,6 +36,8 @@ public:
 	bool operator<=(const MyString& other) const;
 	bool operator>(const MyString& other) const;
 	bool operator>=(const MyString& other) const;
+	char operator[](size_t index) const;
+	char& operator[](size_t index);
 
 private:
 	size_t m_size;
