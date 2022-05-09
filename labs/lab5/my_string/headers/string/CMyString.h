@@ -31,6 +31,7 @@ public:
 	friend MyString operator+(const char* strFirst, const MyString& mStrSecond);
 	void operator+=(const MyString& other);
 	bool operator==(const MyString& other) const;
+	bool operator==(const char* other) const;
 	bool operator!=(const MyString& other) const;
 	bool operator<(const MyString& other) const;
 	bool operator<=(const MyString& other) const;
@@ -38,8 +39,12 @@ public:
 	bool operator>=(const MyString& other) const;
 	char operator[](size_t index) const;
 	char& operator[](size_t index);
+	friend std::istream& operator>>(std::istream& is, MyString& str);
+	friend std::ostream& operator<<(std::ostream& os, const MyString& str);
 
 private:
+	void Assign(size_t size, char value = 0);
+
 	size_t m_size;
 	std::unique_ptr<char[]> m_beginPtr;
 };
