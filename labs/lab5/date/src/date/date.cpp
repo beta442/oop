@@ -413,6 +413,11 @@ constexpr auto DELIMETER = '.';
 
 std::ostream& operator<<(std::ostream& os, Date& date)
 {
+	if (os.fail() || os.bad())
+	{
+		return os;
+	}
+
 	if (!date.IsValid())
 	{
 		os << "INVALID";
@@ -462,6 +467,12 @@ Date ParseStringToDate(const std::string& str)
 
 std::istream& operator>>(std::istream& is, Date& date)
 {
+	std::istream::sentry sentry(is);
+	if (!sentry)
+	{
+		return is;
+	}
+
 	std::string str;
 	is >> str;
 
