@@ -9,16 +9,10 @@ public:
 	MyString(const char* pString);
 	MyString(const char* pString, size_t length);
 	MyString(MyString const& other);
-	// перемещающий конструктор (для компиляторов, совместимых с C++11)
-	// реализуется совместно с перемещающим оператором присваивания
 	MyString(MyString&& other);
-	// конструктор, инициализирующий строку данными из
-	// строки стандартной библиотеки C++
 	MyString(std::string const& stlString);
+
 	size_t GetLength() const;
-	// возвращает указатель на массив символов строки.
-	// В конце массива обязательно должен быть завершающий нулевой символ
-	// даже если строка пустая
 	const char* GetStringData() const;
 	MyString SubString(size_t start, size_t length = SIZE_MAX) const;
 	void Clear();
@@ -46,5 +40,5 @@ private:
 	void Assign(size_t size, char value = 0);
 
 	size_t m_size;
-	std::unique_ptr<char[]> m_beginPtr;
+	std::unique_ptr<char[]> m_ptr;
 };

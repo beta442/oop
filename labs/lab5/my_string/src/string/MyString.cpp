@@ -2,31 +2,31 @@
 
 MyString::MyString()
 	: m_size(0)
-	, m_beginPtr(std::make_unique<char[]>(1))
+	, m_ptr(std::make_unique<char[]>(1))
 {
-	m_beginPtr[0] = 0;
+	m_ptr[0] = 0;
 }
 
 MyString::MyString(const char* pString)
 	: m_size(std::strlen(pString))
-	, m_beginPtr(std::make_unique<char[]>((pString[0] == 0) ? 1 : std::strlen(pString)))
+	, m_ptr(std::make_unique<char[]>((pString[0] == 0) ? 1 : std::strlen(pString)))
 {
 	for (size_t i = 0; i < m_size; ++i)
 	{
-		m_beginPtr[i] = pString[i];
+		m_ptr[i] = pString[i];
 	}
-	m_beginPtr[m_size] = 0;
+	m_ptr[m_size] = 0;
 }
 
 MyString::MyString(const char* pString, size_t length)
 	: m_size(length)
-	, m_beginPtr(std::make_unique<char[]>(length))
+	, m_ptr(std::make_unique<char[]>(length))
 {
 	for (size_t i = 0; i < m_size; ++i)
 	{
-		m_beginPtr[i] = pString[i];
+		m_ptr[i] = pString[i];
 	}
-	m_beginPtr[m_size] = 0;
+	m_ptr[m_size] = 0;
 }
 
 MyString::MyString(MyString const& other)
@@ -36,21 +36,21 @@ MyString::MyString(MyString const& other)
 
 MyString::MyString(MyString&& other)
 	: m_size(0)
-	, m_beginPtr(nullptr)
+	, m_ptr(nullptr)
 {
 	std::swap(m_size, other.m_size);
-	std::swap(m_beginPtr, other.m_beginPtr);
+	std::swap(m_ptr, other.m_ptr);
 }
 
 MyString::MyString(std::string const& stlString)
 	: m_size(stlString.size())
-	, m_beginPtr(std::make_unique<char[]>(stlString.size()))
+	, m_ptr(std::make_unique<char[]>(stlString.size()))
 {
 	for (size_t i = 0; i < m_size; ++i)
 	{
-		m_beginPtr[i] = stlString[i];
+		m_ptr[i] = stlString[i];
 	}
-	m_beginPtr[m_size] = 0;
+	m_ptr[m_size] = 0;
 }
 
 size_t MyString::GetLength() const
@@ -60,7 +60,7 @@ size_t MyString::GetLength() const
 
 const char* MyString::GetStringData() const
 {
-	return m_beginPtr.get();
+	return m_ptr.get();
 }
 
 MyString MyString::SubString(size_t start, size_t length) const
@@ -70,24 +70,24 @@ MyString MyString::SubString(size_t start, size_t length) const
 		return MyString();
 	}
 
-	return MyString(m_beginPtr.get() + start, (length > m_size - start) ? m_size - start : length);
+	return MyString(m_ptr.get() + start, (length > m_size - start) ? m_size - start : length);
 }
 
 void MyString::Clear()
 {
-	m_beginPtr.reset();
-	m_beginPtr = std::make_unique<char[]>(1);
+	m_ptr.reset();
+	m_ptr = std::make_unique<char[]>(1);
 	m_size = 0;
 }
 
 void MyString::operator=(const MyString& other)
 {
 	m_size = other.m_size;
-	m_beginPtr.reset();
-	m_beginPtr = std::make_unique<char[]>(m_size);
+	m_ptr.reset();
+	m_ptr = std::make_unique<char[]>(m_size);
 	for (size_t i = 0; i < m_size; ++i)
 	{
-		m_beginPtr[i] = other[i];
+		m_ptr[i] = other[i];
 	}
 }
 
@@ -200,16 +200,16 @@ void MyString::operator+=(const MyString& other)
 
 	MyString temp(this->GetStringData(), thisStrLength);
 	m_size = newStrSize;
-	m_beginPtr.reset();
-	m_beginPtr = std::make_unique<char[]>(m_size);
+	m_ptr.reset();
+	m_ptr = std::make_unique<char[]>(m_size);
 
 	for (size_t i = 0; i < temp.GetLength(); ++i)
 	{
-		m_beginPtr[i] = temp[i];
+		m_ptr[i] = temp[i];
 	}
 	for (size_t i = thisStrLength; i < m_size; ++i)
 	{
-		m_beginPtr[i] = other[i - thisStrLength];
+		m_ptr[i] = other[i - thisStrLength];
 	}
 }
 
@@ -221,7 +221,7 @@ bool MyString::operator==(const MyString& other) const
 	}
 	for (size_t i = 0; i < GetLength(); ++i)
 	{
-		if (m_beginPtr[i] != other[i])
+		if (m_ptr[i] != other[i])
 		{
 			return false;
 		}
@@ -238,7 +238,7 @@ bool MyString::operator==(const char* other) const
 	}
 	for (size_t i = 0; i < thisStrLength; ++i)
 	{
-		if (m_beginPtr[i] != other[i])
+		if (m_ptr[i] != other[i])
 		{
 			return false;
 		}
@@ -257,11 +257,11 @@ bool MyString::operator<(const MyString& other) const
 
 	while (i1 < GetLength())
 	{
-		if (other[i2] < m_beginPtr[i1])
+		if (other[i2] < m_ptr[i1])
 		{
 			return false;
 		}
-		else if (m_beginPtr[i1] < other[i2])
+		else if (m_ptr[i1] < other[i2])
 		{
 			return true;
 		}
@@ -277,11 +277,11 @@ bool MyString::operator>(const MyString& other) const
 
 	while (i1 < GetLength())
 	{
-		if (other[i2] < m_beginPtr[i1])
+		if (other[i2] < m_ptr[i1])
 		{
 			return true;
 		}
-		else if (m_beginPtr[i1] < other[i2])
+		else if (m_ptr[i1] < other[i2])
 		{
 			return false;
 		}
@@ -303,19 +303,19 @@ bool MyString::operator>=(const MyString& other) const
 
 char& MyString::operator[](size_t index)
 {
-	return m_beginPtr[index];
+	return m_ptr[index];
 }
 
 char MyString::operator[](size_t index) const
 {
-	return m_beginPtr[index];
+	return m_ptr[index];
 }
 
 void MyString::Assign(size_t size, char value)
 {
-	m_beginPtr.reset();
+	m_ptr.reset();
 	m_size = size;
-	m_beginPtr = std::make_unique<char[]>(m_size);
+	m_ptr = std::make_unique<char[]>(m_size);
 }
 
 std::istream& operator>>(std::istream& is, MyString& str)
