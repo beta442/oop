@@ -192,7 +192,7 @@ MyString operator+(const char* strFirst, const MyString& mStrSecond)
 	return newStr;
 }
 
-void MyString::operator+=(const MyString& other)
+MyString& MyString::operator+=(const MyString& other)
 {
 	size_t thisStrLength = this->GetLength(), otherStrLength = other.GetLength();
 
@@ -213,6 +213,8 @@ void MyString::operator+=(const MyString& other)
 		m_ptr[i] = other[i - thisStrLength];
 	}
 	m_ptr[newStrSize] = 0;
+
+	return *this;
 }
 
 bool MyString::operator==(const MyString& other) const
@@ -255,42 +257,42 @@ bool MyString::operator!=(const MyString& other) const
 
 bool MyString::operator<(const MyString& other) const
 {
-	size_t i1 = 0, i2 = 0;
+	auto it1 = begin(), end1 = end(), it2 = other.begin(), end2 = other.end();
 
-	while (i1 < GetLength())
+	while (it1 != end1)
 	{
-		if (other[i2] < m_ptr[i1])
+		if (*it2 < *it1)
 		{
 			return false;
 		}
-		else if (m_ptr[i1] < other[i2])
+		else if (*it1 < *it2)
 		{
 			return true;
 		}
-		++i1;
-		++i2;
+		++it1;
+		++it2;
 	}
-	return i2 != other.GetLength();
+	return it2 != end2;
 }
 
 bool MyString::operator>(const MyString& other) const
 {
-	size_t i1 = 0, i2 = 0;
+	auto it1 = begin(), end1 = end(), it2 = other.begin(), end2 = other.end();
 
-	while (i1 < GetLength())
+	while (it1 != end1)
 	{
-		if (other[i2] < m_ptr[i1])
+		if (*it2 < *it1)
 		{
 			return true;
 		}
-		else if (m_ptr[i1] < other[i2])
+		else if (*it1 < *it2)
 		{
 			return false;
 		}
-		++i1;
-		++i2;
+		++it1;
+		++it2;
 	}
-	return i2 == other.GetLength();
+	return it2 == end2;
 }
 
 bool MyString::operator<=(const MyString& other) const
@@ -332,11 +334,12 @@ std::istream& operator>>(std::istream& is, MyString& str)
 	is >> buffer;
 
 	size_t bufferSize = buffer.size();
-	str.Assign(bufferSize);
+	str.Assign(bufferSize + 1);
 	for (size_t i = 0; i < bufferSize; i++)
 	{
 		str[i] = buffer[i];
 	}
+	str[bufferSize] = 0;
 
 	return is;
 }
@@ -353,4 +356,24 @@ std::ostream& operator<<(std::ostream& os, const MyString& str)
 		os << str[i];
 	}
 	return os;
+}
+
+MyStringConstIterator MyString::begin() const
+{
+	return MyStringConstIterator(m_ptr.get());
+}
+
+MyStringIterator MyString::begin()
+{
+	return MyStringIterator(m_ptr.get());
+}
+
+MyStringConstIterator MyString::end() const
+{
+	return MyStringConstIterator(m_ptr.get() + m_size);
+}
+
+MyStringIterator MyString::end()
+{
+	return MyStringIterator(m_ptr.get() + m_size);
 }

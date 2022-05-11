@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include "CMyStringIterator.h"
 
 class MyString
 {
@@ -12,6 +13,10 @@ public:
 	MyString(MyString&& other);
 	MyString(std::string const& stlString);
 
+	MyStringConstIterator begin() const;
+	MyStringIterator begin();
+	MyStringConstIterator end() const;
+	MyStringIterator end();
 	size_t GetLength() const;
 	const char* GetStringData() const;
 	MyString SubString(size_t start, size_t length = SIZE_MAX) const;
@@ -23,7 +28,7 @@ public:
 	friend MyString operator+(const std::string& strFirst, const MyString& mStrSecond);
 	friend MyString operator+(const MyString& mStrFirst, const char* strSecond);
 	friend MyString operator+(const char* strFirst, const MyString& mStrSecond);
-	void operator+=(const MyString& other);
+	MyString& operator+=(const MyString& other);
 	bool operator==(const MyString& other) const;
 	bool operator==(const char* other) const;
 	bool operator!=(const MyString& other) const;
