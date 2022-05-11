@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -160,11 +160,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\labs\lab5\my_string\src\string\MyString.cpp" />
+    <ClCompile Include="..\..\..\labs\lab5\my_string\src\string\MyStringIterator.cpp" />
     <ClCompile Include="MyString.main.test.cpp" />
     <ClCompile Include="MyString.test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\labs\lab5\my_string\headers\string\CMyString.h" />
+    <ClInclude Include="..\..\..\labs\lab5\my_string\headers\string\CMyStringIterator.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
