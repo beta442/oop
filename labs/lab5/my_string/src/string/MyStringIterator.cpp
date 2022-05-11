@@ -4,17 +4,17 @@ MyStringConstIterator::MyStringConstIterator()
 {
 }
 
-MyStringConstIterator::MyStringConstIterator(Pointer ptr)
+MyStringConstIterator::MyStringConstIterator(pointer ptr)
 	: m_ptr(ptr)
 {
 }
 
-MyStringConstIterator::Reference MyStringConstIterator::operator*() const
+MyStringConstIterator::reference MyStringConstIterator::operator*() const
 {
 	return *m_ptr;
 }
 
-MyStringConstIterator::Pointer MyStringConstIterator::operator->() const
+MyStringConstIterator::pointer MyStringConstIterator::operator->() const
 {
 	return m_ptr;
 }
@@ -45,36 +45,36 @@ MyStringConstIterator MyStringConstIterator::operator--(int)
 	return temp;
 }
 
-MyStringConstIterator& MyStringConstIterator::operator+=(const Difference offset)
+MyStringConstIterator& MyStringConstIterator::operator+=(const difference_type offset)
 {
 	m_ptr += offset;
 	return *this;
 }
 
-MyStringConstIterator MyStringConstIterator::operator+(const Difference offset) const
+MyStringConstIterator MyStringConstIterator::operator+(const difference_type offset) const
 {
 	MyStringConstIterator temp = *this;
 	return (temp += offset);
 }
 
-MyStringConstIterator& MyStringConstIterator::operator-=(const Difference offset)
+MyStringConstIterator& MyStringConstIterator::operator-=(const difference_type offset)
 {
 	m_ptr -= offset;
 	return *this;
 }
 
-MyStringConstIterator MyStringConstIterator::operator-(const Difference offset) const
+MyStringConstIterator MyStringConstIterator::operator-(const difference_type offset) const
 {
 	MyStringConstIterator temp = *this;
 	return (temp -= offset);
 }
 
-MyStringConstIterator::Difference MyStringConstIterator::operator-(const MyStringConstIterator& other) const
+MyStringConstIterator::difference_type MyStringConstIterator::operator-(const MyStringConstIterator& other) const
 {
 	return m_ptr - other.m_ptr;
 }
 
-MyStringConstIterator::Reference MyStringConstIterator::operator[](const Difference offset) const
+MyStringConstIterator::reference MyStringConstIterator::operator[](const difference_type offset) const
 {
 	return *(*this + offset);
 }
@@ -115,17 +115,17 @@ MyStringIterator::MyStringIterator()
 {
 }
 
-MyStringIterator::MyStringIterator(Pointer ptr)
+MyStringIterator::MyStringIterator(pointer ptr)
 	: MyStringConstIterator(ptr)
 {
 }
 
-MyStringIterator::Reference MyStringIterator::operator*() const
+MyStringIterator::reference MyStringIterator::operator*() const
 {
 	return MyStringConstIterator::operator*();
 }
 
-MyStringIterator::Pointer MyStringIterator::operator->() const
+MyStringIterator::pointer MyStringIterator::operator->() const
 {
 	return MyStringConstIterator::operator->();
 }
@@ -156,36 +156,36 @@ MyStringIterator MyStringIterator::operator--(int)
 	return temp;
 }
 
-MyStringIterator& MyStringIterator::operator+=(const Difference offset)
+MyStringIterator& MyStringIterator::operator+=(const difference_type offset)
 {
 	*(MyStringConstIterator*)this += offset;
 	return *this;
 }
 
-MyStringIterator MyStringIterator::operator+(const Difference offset) const
+MyStringIterator MyStringIterator::operator+(const difference_type offset) const
 {
 	MyStringIterator temp = *this;
 	return (temp += offset);
 }
 
-MyStringIterator& MyStringIterator::operator-=(const Difference offset)
+MyStringIterator& MyStringIterator::operator-=(const difference_type offset)
 {
 	*(MyStringConstIterator*)this -= offset;
 	return *this;
 }
 
-MyStringIterator MyStringIterator::operator-(const Difference offset) const
+MyStringIterator MyStringIterator::operator-(const difference_type offset) const
 {
 	MyStringIterator temp = *this;
 	return (temp -= offset);
 }
 
-MyStringIterator::Difference MyStringIterator::operator-(const MyStringIterator& other) const
+MyStringIterator::difference_type MyStringIterator::operator-(const MyStringIterator& other) const
 {
 	return (*(MyStringConstIterator*)this - other);
 }
 
-MyStringIterator::Reference MyStringIterator::operator[](const Difference offset) const
+MyStringIterator::reference MyStringIterator::operator[](const difference_type offset) const
 {
 	return *(*this + offset);
 }

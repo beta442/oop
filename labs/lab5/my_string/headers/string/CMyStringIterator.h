@@ -1,31 +1,35 @@
 #pragma once
 
 #include <cstddef>
+#include <iterator>
 
 class MyStringConstIterator
 {
 public:
-	using Difference = ptrdiff_t;
-	using Value = char;
-	using Pointer = Value*;
-	using Reference = Value&;
+	using iterator_category = std::random_access_iterator_tag;
+	using difference_type = ptrdiff_t;
+	using value_type = char;
+	using pointer = value_type*;
+	using reference = value_type&;
+
+	using MyStringConstReverseIterator = std::reverse_iterator<MyStringConstIterator>;
 
 public:
 	MyStringConstIterator();
-	MyStringConstIterator(Pointer ptr);
+	MyStringConstIterator(pointer ptr);
 
-	Reference operator*() const;
-	Pointer operator->() const;
+	reference operator*() const;
+	pointer operator->() const;
 	MyStringConstIterator& operator++();
 	MyStringConstIterator operator++(int);
 	MyStringConstIterator& operator--();
 	MyStringConstIterator operator--(int);
-	MyStringConstIterator& operator+=(const Difference offset);
-	MyStringConstIterator operator+(const Difference offset) const;
-	MyStringConstIterator& operator-=(const Difference offset);
-	MyStringConstIterator operator-(const Difference offset) const;
-	Difference operator-(const MyStringConstIterator& other) const;
-	Reference operator[](const Difference offset) const;
+	MyStringConstIterator& operator+=(const difference_type offset);
+	MyStringConstIterator operator+(const difference_type offset) const;
+	MyStringConstIterator& operator-=(const difference_type offset);
+	MyStringConstIterator operator-(const difference_type offset) const;
+	difference_type operator-(const MyStringConstIterator& other) const;
+	reference operator[](const difference_type offset) const;
 	bool operator==(const MyStringConstIterator& other) const;
 	bool operator!=(const MyStringConstIterator& other) const;
 	bool operator<(const MyStringConstIterator& other) const;
@@ -34,25 +38,27 @@ public:
 	bool operator>=(const MyStringConstIterator& other) const;
 
 private:
-	Pointer m_ptr;
+	pointer m_ptr;
 };
 
 class MyStringIterator : public MyStringConstIterator
 {
 public:
-	MyStringIterator();
-	MyStringIterator(Pointer ptr);
+	using MyStringReverseIterator = std::reverse_iterator<MyStringIterator>;
 
-	Reference operator*() const;
-	Pointer operator->() const;
+	MyStringIterator();
+	MyStringIterator(pointer ptr);
+
+	reference operator*() const;
+	pointer operator->() const;
 	MyStringIterator& operator++();
 	MyStringIterator operator++(int);
 	MyStringIterator& operator--();
 	MyStringIterator operator--(int);
-	MyStringIterator& operator+=(const Difference offset);
-	MyStringIterator operator+(const Difference offset) const;
-	MyStringIterator& operator-=(const Difference offset);
-	MyStringIterator operator-(const Difference offset) const;
-	Difference operator-(const MyStringIterator& other) const;
-	Reference operator[](const Difference offset) const;
+	MyStringIterator& operator+=(const difference_type offset);
+	MyStringIterator operator+(const difference_type offset) const;
+	MyStringIterator& operator-=(const difference_type offset);
+	MyStringIterator operator-(const difference_type offset) const;
+	difference_type operator-(const MyStringIterator& other) const;
+	reference operator[](const difference_type offset) const;
 };
