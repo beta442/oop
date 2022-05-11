@@ -368,6 +368,16 @@ MyStringIterator MyString::begin()
 	return MyStringIterator(m_ptr.get());
 }
 
+MyStringConstIterator::MyStringConstReverseIterator MyString::rbegin() const
+{
+	return std::make_reverse_iterator(end() - 1);
+}
+
+MyStringIterator::MyStringReverseIterator MyString::rbegin()
+{
+	return std::make_reverse_iterator(end() - 1);
+}
+
 MyStringConstIterator MyString::end() const
 {
 	return MyStringConstIterator(m_ptr.get() + m_size);
@@ -376,4 +386,14 @@ MyStringConstIterator MyString::end() const
 MyStringIterator MyString::end()
 {
 	return MyStringIterator(m_ptr.get() + m_size);
+}
+
+MyStringConstIterator::MyStringConstReverseIterator MyString::rend() const
+{
+	return std::make_reverse_iterator(begin());
+}
+
+MyStringIterator::MyStringReverseIterator MyString::rend()
+{
+	return std::make_reverse_iterator(begin());
 }

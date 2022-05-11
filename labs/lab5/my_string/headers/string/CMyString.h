@@ -15,8 +15,12 @@ public:
 
 	MyStringConstIterator begin() const;
 	MyStringIterator begin();
+	MyStringConstIterator::MyStringConstReverseIterator rbegin() const;
+	MyStringIterator::MyStringReverseIterator rbegin();
 	MyStringConstIterator end() const;
 	MyStringIterator end();
+	MyStringConstIterator::MyStringConstReverseIterator rend() const;
+	MyStringIterator::MyStringReverseIterator rend();
 	size_t GetLength() const;
 	const char* GetStringData() const;
 	MyString SubString(size_t start, size_t length = SIZE_MAX) const;
