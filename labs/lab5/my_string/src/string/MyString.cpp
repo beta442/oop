@@ -4,29 +4,26 @@ MyString::MyString()
 	: m_size(0)
 	, m_ptr(std::make_unique<char[]>(1))
 {
-	m_ptr[0] = 0;
 }
 
 MyString::MyString(const char* pString)
 	: m_size(std::strlen(pString))
-	, m_ptr(std::make_unique<char[]>((pString[0] == 0) ? 1 : std::strlen(pString)))
+	, m_ptr(std::make_unique<char[]>((pString[0] == 0) ? 1 : std::strlen(pString) + 1))
 {
 	for (size_t i = 0; i < m_size; ++i)
 	{
 		m_ptr[i] = pString[i];
 	}
-	m_ptr[m_size] = 0;
 }
 
 MyString::MyString(const char* pString, size_t length)
 	: m_size(length)
-	, m_ptr(std::make_unique<char[]>(length))
+	, m_ptr(std::make_unique<char[]>(length + 1))
 {
 	for (size_t i = 0; i < m_size; ++i)
 	{
 		m_ptr[i] = pString[i];
 	}
-	m_ptr[m_size] = 0;
 }
 
 MyString::MyString(MyString const& other)
@@ -44,13 +41,12 @@ MyString::MyString(MyString&& other)
 
 MyString::MyString(std::string const& stlString)
 	: m_size(stlString.size())
-	, m_ptr(std::make_unique<char[]>(stlString.size()))
+	, m_ptr(std::make_unique<char[]>(stlString.size() + 1))
 {
 	for (size_t i = 0; i < m_size; ++i)
 	{
 		m_ptr[i] = stlString[i];
 	}
-	m_ptr[m_size] = 0;
 }
 
 size_t MyString::GetLength() const
@@ -85,7 +81,7 @@ void MyString::operator=(const MyString& other)
 	m_size = other.m_size;
 	m_ptr.reset();
 	m_ptr = std::make_unique<char[]>(m_size);
-	for (size_t i = 0; i < m_size; ++i)
+	for (size_t i = 0; i <= m_size; ++i)
 	{
 		m_ptr[i] = other[i];
 	}
@@ -107,6 +103,7 @@ MyString MyString::operator+(const MyString& other) const
 	{
 		newStr[i] = other[i - otherStrLength];
 	}
+	newStr[newStrSize] = 0;
 
 	return newStr;
 }
@@ -127,6 +124,7 @@ MyString operator+(const MyString& mStrFirst, const std::string& strSecond)
 	{
 		newStr[i] = strSecond[i - secondStrLength];
 	}
+	newStr[newStrSize] = 0;
 
 	return newStr;
 }
@@ -147,6 +145,7 @@ MyString operator+(const std::string& strFirst, const MyString& mStrSecond)
 	{
 		newStr[i] = mStrSecond[i - secondStrLength];
 	}
+	newStr[newStrSize] = 0;
 
 	return newStr;
 }
@@ -167,6 +166,7 @@ MyString operator+(const MyString& mStrFirst, const char* strSecond)
 	{
 		newStr[i] = strSecond[i - secondStrLength];
 	}
+	newStr[newStrSize] = 0;
 
 	return newStr;
 }
@@ -187,6 +187,7 @@ MyString operator+(const char* strFirst, const MyString& mStrSecond)
 	{
 		newStr[i] = mStrSecond[i - secondStrLength];
 	}
+	newStr[newStrSize] = 0;
 
 	return newStr;
 }
@@ -201,7 +202,7 @@ void MyString::operator+=(const MyString& other)
 	MyString temp(this->GetStringData(), thisStrLength);
 	m_size = newStrSize;
 	m_ptr.reset();
-	m_ptr = std::make_unique<char[]>(m_size);
+	m_ptr = std::make_unique<char[]>(m_size + 1);
 
 	for (size_t i = 0; i < temp.GetLength(); ++i)
 	{
@@ -211,6 +212,7 @@ void MyString::operator+=(const MyString& other)
 	{
 		m_ptr[i] = other[i - thisStrLength];
 	}
+	m_ptr[newStrSize] = 0;
 }
 
 bool MyString::operator==(const MyString& other) const
