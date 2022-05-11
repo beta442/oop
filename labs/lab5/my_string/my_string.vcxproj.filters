@@ -30,6 +30,9 @@
     <ClCompile Include="headers\stdafx.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\string\MyStringIterator.cpp">
+      <Filter>Source Files\MyString</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\string\CMyString.h">
@@ -37,6 +40,9 @@
     </ClInclude>
     <ClInclude Include="headers\stdafx.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\string\CMyStringIterator.h">
+      <Filter>Header Files\MyString</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
