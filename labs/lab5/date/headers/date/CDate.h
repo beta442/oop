@@ -50,8 +50,8 @@ public:
 	friend Date operator+(unsigned day, const Date& date);
 	friend Date operator-(const Date& date, unsigned day);
 	friend long operator-(const Date& date1, const Date& date2);
-	void operator+=(unsigned day);
-	void operator-=(unsigned day);
+	Date& operator+=(unsigned day);
+	Date& operator-=(unsigned day);
 	bool operator==(const Date& other) const;
 	bool operator!=(const Date& other) const;
 	bool operator<(const Date& other) const;

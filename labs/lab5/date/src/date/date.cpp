@@ -143,7 +143,7 @@ unsigned ConvertDateInfoToTimeStamp(unsigned day, Date::Month month, unsigned ye
 	bool isProvidedYearLeap = IsYearLeap(year);
 	const std::vector<unsigned>* daysToMonth = isProvidedYearLeap ? &DAYS_TO_MONTH_366 : &DAYS_TO_MONTH_365;
 
-	if (const size_t daysInMonth = (*daysToMonth)[providedMonthIndex] - (*daysToMonth)[providedMonthIndex - 1];
+	if (const size_t daysInMonth = (*daysToMonth)[providedMonthIndex] - (*daysToMonth)[static_cast<size_t>(providedMonthIndex - 1)];
 		year < START_YEAR || year > END_YEAR || providedMonthIndex < START_MONTH_INDEX || providedMonthIndex > END_MONTH_INDEX || day == 0 || day > daysInMonth)
 	{
 		return 0;
@@ -161,7 +161,7 @@ unsigned ConvertDateInfoToTimeStamp(unsigned day, Date::Month month, unsigned ye
 		if (yearPassed == START_YEAR)
 		{
 			counter -= (*daysToMonth)[monthIndex];
-			counter += (*daysToMonth)[providedMonthIndex - 1];
+			counter += (*daysToMonth)[static_cast<size_t>(providedMonthIndex - 1)];
 			counter += isProvidedYearLeap && static_cast<int>(month) == 2 ? day - 2 : day - 1;
 		}
 		--yearPassed;
@@ -174,14 +174,14 @@ bool DateIsValid(unsigned day, Date::Month month, unsigned year)
 {
 	const int monthIndex = static_cast<int>(month);
 	const std::vector<unsigned>* daysToMonth = IsYearLeap(year) ? &DAYS_TO_MONTH_366 : &DAYS_TO_MONTH_365;
-	if (const size_t daysInMonth = (*daysToMonth)[monthIndex] - (*daysToMonth)[monthIndex - 1];
+	if (const size_t daysInMonth = (*daysToMonth)[monthIndex] - (*daysToMonth)[static_cast<size_t>(monthIndex - 1)];
 		day == 0 || day > daysInMonth || year < START_YEAR || year > END_YEAR || monthIndex < START_MONTH_INDEX || monthIndex > END_MONTH_INDEX)
 	{
 		return false;
 	}
 
 
-	if (day > (*daysToMonth)[monthIndex] - (*daysToMonth)[monthIndex - 1])
+	if (day > (*daysToMonth)[monthIndex] - (*daysToMonth)[static_cast<size_t>(monthIndex - 1)])
 	{
 		return false;
 	}
@@ -194,7 +194,7 @@ Date::WeekDay DayOfWeek(unsigned day, Date::Month month, unsigned year)
 {
 	const int monthIndex = static_cast<int>(month);
 	const std::vector<unsigned>* daysToMonth = IsYearLeap(year) ? &DAYS_TO_MONTH_366 : &DAYS_TO_MONTH_365;
-	if (const size_t daysInMonth = (*daysToMonth)[monthIndex] - (*daysToMonth)[monthIndex - 1];
+	if (const size_t daysInMonth = (*daysToMonth)[monthIndex] - (*daysToMonth)[static_cast<size_t>(monthIndex - 1)];
 		day == 0 || day > daysInMonth || monthIndex < START_MONTH_INDEX || monthIndex > END_MONTH_INDEX || year < START_YEAR || year > END_YEAR)
 	{
 		return START_WEEK_DAY;
@@ -205,7 +205,7 @@ Date::WeekDay DayOfWeek(unsigned day, Date::Month month, unsigned year)
 		year -= 1;
 	}
 
-	return Date::WeekDay((year + year / 4 - year / 100 + year / 400 + SAKAMOTO_MONTH_TO_INT[monthIndex - 1] + day) % 7);
+	return Date::WeekDay((year + year / 4 - year / 100 + year / 400 + SAKAMOTO_MONTH_TO_INT[static_cast<size_t>(monthIndex - 1)] + day) % 7);
 }
 
 void Date::CalculateDate() const
@@ -222,7 +222,7 @@ void Date::CalculateDate() const
 
 	short monthIndex = END_MONTH_INDEX;
 	long year = START_YEAR - 1;
-	long mem, day;
+	long mem = 0, day = 0;
 	const std::vector<unsigned>* daysToMonth = &DAYS_TO_MONTH_365;
 	while (counter < m_dayCounter)
 	{
@@ -240,7 +240,7 @@ void Date::CalculateDate() const
 		while (counter > m_dayCounter)
 		{
 			--monthIndex;
-			counter -= (*daysToMonth)[monthIndex + 1] - (*daysToMonth)[monthIndex];
+			counter -= (*daysToMonth)[static_cast<size_t>(monthIndex + 1)] - (*daysToMonth)[monthIndex];
 			if (counter <= m_dayCounter)
 			{
 				mem = counter - 1;
@@ -369,14 +369,16 @@ long operator-(const Date& date1, const Date& date2)
 	return date1.m_dayCounter - date2.m_dayCounter;
 }
 
-void Date::operator+=(unsigned day)
+Date& Date::operator+=(unsigned day)
 {
 	*this = *this + day;
+	return *this;
 }
 
-void Date::operator-=(unsigned day)
+Date& Date::operator-=(unsigned day)
 {
 	*this = *this - day;
+	return *this;
 }
 
 bool Date::operator==(const Date& other) const
