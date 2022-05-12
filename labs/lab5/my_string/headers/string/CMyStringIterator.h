@@ -16,7 +16,6 @@ public:
 	using MyStringConstReverseIterator = std::reverse_iterator<MyStringConstIterator>;
 
 public:
-	MyStringConstIterator();
 	MyStringConstIterator(pointer ptr);
 
 	reference operator*() const;
@@ -52,7 +51,6 @@ public:
 
 	using MyStringReverseIterator = std::reverse_iterator<MyStringIterator>;
 
-	MyStringIterator();
 	MyStringIterator(pointer ptr);
 
 	reference operator*() const;

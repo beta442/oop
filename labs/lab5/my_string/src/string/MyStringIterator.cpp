@@ -1,9 +1,5 @@
 #include "../../headers/string/CMyStringIterator.h"
 
-MyStringConstIterator::MyStringConstIterator()
-{
-}
-
 MyStringConstIterator::MyStringConstIterator(pointer ptr)
 	: m_ptr(ptr)
 {
@@ -110,10 +106,6 @@ bool MyStringConstIterator::operator>=(const MyStringConstIterator& other) const
 }
 
 /*-------------------------------------------------------------------------------------------------------------------*/
-
-MyStringIterator::MyStringIterator()
-{
-}
 
 MyStringIterator::MyStringIterator(pointer ptr)
 	: MyStringConstIterator(ptr)
