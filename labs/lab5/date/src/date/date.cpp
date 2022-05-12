@@ -482,7 +482,7 @@ std::istream& operator>>(std::istream& is, Date& date)
 
 	if (!date.IsValid())
 	{
-		is.setstate(std::ios_base::failbit);
+		is.setstate(std::ios_base::failbit | is.rdstate());
 		return is;
 	}
 
