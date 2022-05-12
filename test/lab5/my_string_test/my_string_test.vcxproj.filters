@@ -27,14 +27,20 @@
     <ClCompile Include="MyString.main.test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MyString.test.cpp">
-      <Filter>Source Files\Unit</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\labs\lab5\my_string\src\string\MyString.cpp">
       <Filter>Source Files\MyString</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\labs\lab5\my_string\src\string\MyStringIterator.cpp">
       <Filter>Source Files\MyString</Filter>
+    </ClCompile>
+    <ClCompile Include="unit\MyStringConstIterator.test.cpp">
+      <Filter>Source Files\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="unit\MyString.test.cpp">
+      <Filter>Source Files\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -43,6 +49,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\labs\lab5\my_string\headers\string\CMyStringIterator.h">
       <Filter>Header Files\MyString</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

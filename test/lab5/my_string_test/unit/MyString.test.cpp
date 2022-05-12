@@ -1,8 +1,6 @@
-#include "../../../catch2/catch.hpp"
+#include "../pch.h"
 
 #include <sstream>
-
-#include "../../../labs/lab5/my_string/headers/string/CMyString.h"
 
 TEST_CASE("MyString constructed with 0 params")
 {
