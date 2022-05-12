@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+
 #include "CMyStringIterator.h"
 
 class MyString
@@ -26,7 +27,8 @@ public:
 	MyString SubString(size_t start, size_t length = SIZE_MAX) const;
 	void Clear();
 
-	void operator=(const MyString& other);
+	MyString& operator=(const MyString& other);
+	MyString& operator=(MyString&& other);
 	MyString operator+(const MyString& other) const;
 	friend MyString operator+(const MyString& mStrFirst, const std::string& strSecond);
 	friend MyString operator+(const std::string& strFirst, const MyString& mStrSecond);
@@ -40,7 +42,7 @@ public:
 	bool operator<=(const MyString& other) const;
 	bool operator>(const MyString& other) const;
 	bool operator>=(const MyString& other) const;
-	char operator[](size_t index) const;
+	const char& operator[](size_t index) const;
 	char& operator[](size_t index);
 	friend std::istream& operator>>(std::istream& is, MyString& str);
 	friend std::ostream& operator<<(std::ostream& os, const MyString& str);

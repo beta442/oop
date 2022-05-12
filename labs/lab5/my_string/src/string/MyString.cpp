@@ -8,7 +8,7 @@ MyString::MyString()
 
 MyString::MyString(const char* pString)
 	: m_size(std::strlen(pString))
-	, m_ptr(std::make_unique<char[]>((pString[0] == 0) ? 1 : std::strlen(pString) + 1))
+	, m_ptr(std::make_unique<char[]>(std::strlen(pString) + 1))
 {
 	for (size_t i = 0; i < m_size; ++i)
 	{
@@ -76,15 +76,27 @@ void MyString::Clear()
 	m_size = 0;
 }
 
-void MyString::operator=(const MyString& other)
+MyString& MyString::operator=(const MyString& other)
 {
-	m_size = other.m_size;
-	m_ptr.reset();
-	m_ptr = std::make_unique<char[]>(m_size);
-	for (size_t i = 0; i <= m_size; ++i)
+	if (std::addressof(other) != this)
 	{
-		m_ptr[i] = other[i];
+		MyString temp(other);
+		std::swap(m_size, temp.m_size);
+		std::swap(m_ptr, temp.m_ptr);
 	}
+	return *this;
+}
+
+MyString& MyString::operator=(MyString&& other)
+{
+	if (&other != this)
+	{
+		m_ptr = nullptr;
+		m_size = 0;
+		std::swap(m_size, other.m_size);
+		std::swap(m_ptr, other.m_ptr);
+	}
+	return *this;
 }
 
 MyString MyString::operator+(const MyString& other) const
@@ -310,7 +322,7 @@ char& MyString::operator[](size_t index)
 	return m_ptr[index];
 }
 
-char MyString::operator[](size_t index) const
+const char& MyString::operator[](size_t index) const
 {
 	return m_ptr[index];
 }
