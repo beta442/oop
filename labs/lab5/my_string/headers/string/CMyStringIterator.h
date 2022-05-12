@@ -7,8 +7,9 @@ class MyStringConstIterator
 {
 public:
 	using iterator_category = std::random_access_iterator_tag;
+
 	using difference_type = ptrdiff_t;
-	using value_type = char;
+	using value_type = const char;
 	using pointer = value_type*;
 	using reference = value_type&;
 
@@ -44,6 +45,11 @@ private:
 class MyStringIterator : public MyStringConstIterator
 {
 public:
+	using difference_type = ptrdiff_t;
+	using value_type = char;
+	using pointer = value_type*;
+	using reference = value_type&;
+
 	using MyStringReverseIterator = std::reverse_iterator<MyStringIterator>;
 
 	MyStringIterator();

@@ -122,12 +122,12 @@ MyStringIterator::MyStringIterator(pointer ptr)
 
 MyStringIterator::reference MyStringIterator::operator*() const
 {
-	return MyStringConstIterator::operator*();
+	return const_cast<reference>(MyStringConstIterator::operator*());
 }
 
 MyStringIterator::pointer MyStringIterator::operator->() const
 {
-	return MyStringConstIterator::operator->();
+	return const_cast<pointer>(MyStringConstIterator::operator->());
 }
 
 MyStringIterator& MyStringIterator::operator++()
