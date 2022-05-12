@@ -370,12 +370,12 @@ MyStringIterator MyString::begin()
 
 MyStringConstIterator::MyStringConstReverseIterator MyString::rbegin() const
 {
-	return std::make_reverse_iterator(end() - 1);
+	return std::make_reverse_iterator(end());
 }
 
 MyStringIterator::MyStringReverseIterator MyString::rbegin()
 {
-	return std::make_reverse_iterator(end() - 1);
+	return std::make_reverse_iterator(end());
 }
 
 MyStringConstIterator MyString::end() const
