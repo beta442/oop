@@ -66,12 +66,6 @@ TEST_CASE("MyStringConstIterator test")
 		REQUIRE(end >= beg);
 		REQUIRE(end >= end);
 	}
-
-	{
-		REQUIRE(beg[5] == '5');
-		beg[5] = '0';
-		REQUIRE(beg[5] == '0');
-	}
 }
 
 TEST_CASE("MyStringIterator test")
@@ -195,12 +189,6 @@ TEST_CASE("MyStringConstReverseIterator test")
 		REQUIRE(end > beg);
 		REQUIRE(end >= beg);
 		REQUIRE(end >= end);
-	}
-
-	{
-		REQUIRE(beg[3] == '6');
-		beg[3] = '0';
-		REQUIRE(beg[3] == '0');
 	}
 }
 
