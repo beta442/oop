@@ -177,7 +177,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="unit\MyString.test.cpp" />
-    <ClCompile Include="unit\MyStringConstIterator.test.cpp" />
+    <ClCompile Include="unit\MyStringIterator.test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\labs\lab5\my_string\headers\string\CMyString.h" />
