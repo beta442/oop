@@ -32,9 +32,6 @@ public:
 	*/
 	HttpUrl(std::string const& domain, std::string const& document, Protocol protocol, unsigned short port);
 
-	// возвращает строковое представление URL-а. Порт, являющийся стандартным для
-	// выбранного протокола (80 для http и 443 для https) в эту строку
-	// не должен включаться
 	std::string GetURL() const;
 	std::string GetDomain() const;
 	std::string GetDocument() const;

@@ -62,9 +62,18 @@ HttpUrl::HttpUrl(std::string const& domain,
 {
 }
 
+const std::string HTTP_STRING = "http";
+const std::string HTTPS_STRING = "https";
+
 std::string HttpUrl::GetURL() const
 {
-	return std::string();
+	std::string result{};
+	result += m_protocol == Protocol::HTTP ? HTTPS_STRING : HTTPS_STRING;
+	result += "://";
+	result += m_domain;
+	result += m_document;
+
+	return result;
 }
 
 std::string HttpUrl::GetDomain() const
