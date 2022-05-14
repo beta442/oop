@@ -15,19 +15,7 @@ public:
 
 public:
 	HttpUrl(std::string const& url);
-
-	/* инициализирует URL на основе переданных параметров.
-		ѕри недопустимости входных параметров выбрасывает исключение
-		std::invalid_argument
-		≈сли им€ документа не начинаетс€ с символа /, то добавл€ет / к имени документа
-	*/
 	HttpUrl(std::string const& domain, std::string const& document, Protocol protocol = Protocol::HTTP);
-
-	/* инициализирует URL на основе переданных параметров.
-		ѕри недопустимости входных параметров выбрасывает исключение
-		std::invalid_argument
-		≈сли им€ документа не начинаетс€ с символа /, то добавл€ет / к имени документа
-	*/
 	HttpUrl(std::string const& domain, std::string const& document, Protocol protocol, unsigned short port);
 
 	std::string GetURL() const;
