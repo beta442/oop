@@ -126,3 +126,17 @@ TEST_CASE("HttpUrl constructed with string. Url is correct. GetPort() test")
 		REQUIRE(HttpUrl("https://vk.com:4321/im?sel=1").GetPort() == 4321);
 	}
 }
+
+TEST_CASE("HttpUrl constructed with string. Url is correct. GetDocument() test")
+{
+	WHEN("Document wasn't provided")
+	{
+		REQUIRE(HttpUrl("http://vk.com:1234").GetDocument() == "/");
+		REQUIRE(HttpUrl("http://vk.com:1234/").GetDocument() == "/");
+	}
+
+	WHEN("Document provided")
+	{
+		REQUIRE(HttpUrl("https://vk.com/photo-1231538_45123118?tag=2441#&2389").GetDocument() == "/photo-1231538_45123118?tag=2441#&2389");
+	}
+}
