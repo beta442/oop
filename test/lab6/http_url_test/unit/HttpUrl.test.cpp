@@ -64,6 +64,19 @@ TEST_CASE("HttpUrl constructed with string. Url is not correct")
 	{
 		REQUIRE_THROWS_AS(HttpUrl("document1.html?page=30&lang=en#title//docs//www.mysite.com///:http"), UrlParsingError);
 	}
+
+	SECTION("Port is not valid")
+	{
+		WHEN("Port is too big")
+		{
+			REQUIRE_THROWS_AS(HttpUrl("https://vk.com:432121/im?sel=1"), UrlParsingError);
+		}
+		
+		REQUIRE_THROWS_AS(HttpUrl("https://vk.com:A3212/im?sel=1"), UrlParsingError);
+		REQUIRE_THROWS_AS(HttpUrl("https://vk.com:4321a/im?sel=1"), UrlParsingError);
+		REQUIRE_THROWS_AS(HttpUrl("https://vk.com:432a11/im?sel=1"), UrlParsingError);
+		REQUIRE_THROWS_AS(HttpUrl("https://vk.com:a/im?sel=1"), UrlParsingError);
+	}
 }
 
 TEST_CASE("HttpUrl constructed with string. Url is correct. GetProtocol() test")
@@ -96,5 +109,20 @@ TEST_CASE("HttpUrl constructed with string. Url is correct. GetDomain() test")
 	WHEN("Domain contains two '.'")
 	{
 		REQUIRE(HttpUrl("http://www.vk.com/im?sel=1").GetDomain() == "www.vk.com");
+	}
+}
+
+TEST_CASE("HttpUrl constructed with string. Url is correct. GetPort() test")
+{
+	WHEN("Port wasn't provided")
+	{
+		REQUIRE(HttpUrl("http://vk.com/im?sel=1").GetPort() == 80);
+		REQUIRE(HttpUrl("https://vk.com/im?sel=1").GetPort() == 443);
+	}
+
+	WHEN("Port was provided")
+	{
+		REQUIRE(HttpUrl("http://vk.com:1234/im?sel=1").GetPort() == 1234);
+		REQUIRE(HttpUrl("https://vk.com:4321/im?sel=1").GetPort() == 4321);
 	}
 }
