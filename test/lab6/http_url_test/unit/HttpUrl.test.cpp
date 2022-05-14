@@ -202,3 +202,49 @@ TEST_CASE("HttpUrl constructed with protocol, domain, document arguments")
 		}
 	}
 }
+
+TEST_CASE("HttpUrl constructed with protocol, domain, document, port arguments")
+{
+	WHEN("Domain is incorrect")
+	{
+		THEN("Contructor throws invalid_argument")
+		{
+			REQUIRE_THROWS_AS(HttpUrl("123", ""), std::invalid_argument);
+			REQUIRE_THROWS_AS(HttpUrl("123.", ""), std::invalid_argument);
+			REQUIRE_THROWS_AS(HttpUrl(".123", ""), std::invalid_argument);
+			REQUIRE_THROWS_AS(HttpUrl(".123.", ""), std::invalid_argument);
+			REQUIRE_THROWS_AS(HttpUrl("1..23", ""), std::invalid_argument);
+			REQUIRE_THROWS_AS(HttpUrl("12..3", ""), std::invalid_argument);
+			REQUIRE_THROWS_AS(HttpUrl("1..2..3", ""), std::invalid_argument);
+		}
+	}
+
+	WHEN("Document is incorrect")
+	{
+		THEN("Contructor throws invalid_argument")
+		{
+			REQUIRE_THROWS_AS(HttpUrl("www.wiki.com", "`"), std::invalid_argument);
+			REQUIRE_THROWS_AS(HttpUrl("www.wiki.com", "/`"), std::invalid_argument);
+			REQUIRE_THROWS_AS(HttpUrl("www.wiki.com", "///`"), std::invalid_argument);
+			REQUIRE_THROWS_AS(HttpUrl("www.wiki.com", "/123ASD#?=&`"), std::invalid_argument);
+		}
+	}
+
+	WHEN("All arguments are correct")
+	{
+		using Protocol = HttpUrl::Protocol;
+		const std::string expectedDomain = "www.wiki.com";
+		const std::string expectedDocument = "/123ASD#?=&";
+		const Protocol expectedProtocol = Protocol::HTTP;
+		const unsigned short expectedPort = 150;
+		const HttpUrl url(expectedDomain, expectedDocument, expectedProtocol, expectedPort);
+
+		THEN("Getters works correctly")
+		{
+			REQUIRE(url.GetDocument() == expectedDocument);
+			REQUIRE(url.GetDomain() == expectedDomain);
+			REQUIRE(url.GetPort() == expectedPort);
+			REQUIRE(url.GetProtocol() == expectedProtocol);
+		}
+	}
+}
