@@ -26,6 +26,8 @@ constexpr auto HTTPS_PORT = 443;
 Protocol StringToProtocol(const std::string& src);
 unsigned short StringToPort(const std::string& src);
 
+#include <iostream>
+
 HttpUrl::HttpUrl(std::string const& url)
 	: m_document()
 	, m_domain()
@@ -41,11 +43,12 @@ HttpUrl::HttpUrl(std::string const& url)
 	m_protocol = StringToProtocol(matches[MATCHES_PROTOCOL_INDEX]);
 	m_domain = matches[MATCHES_DOMAIN_INDEX];
 
-	m_port = (matches[MATCHES_PORT_INDEX].str().size() == 0 || matches[MATCHES_PORT_INDEX].str().size() == 1)
+	m_port = (matches[MATCHES_PORT_INDEX].str().size() <= 1)
 		? (m_protocol == Protocol::HTTP ? HTTP_PORT : HTTPS_PORT)
 		: StringToPort(matches[MATCHES_PORT_INDEX].str().substr(1));
 
-	m_document = matches[MATCHES_DOCUMENT_INDEX].str().size() == 0 ? "/" : matches[MATCHES_DOCUMENT_INDEX].str();
+	const std::string document = std::regex_replace(matches[MATCHES_DOCUMENT_INDEX].str(), std::regex("\\/+"), "/");
+	m_document = document.size() != 0 && document[0] == '/' ? document : "/" + document;
 }
 
 HttpUrl::HttpUrl(std::string const& domain,
@@ -68,7 +71,9 @@ HttpUrl::HttpUrl(std::string const& domain,
 
 	m_domain = domain;
 	m_port = m_protocol == Protocol::HTTP ? HTTP_PORT : HTTPS_PORT;
-	m_document = document;
+
+	const std::string doc = std::regex_replace(document, std::regex("\\/+"), "/");
+	m_document = doc.size() != 0 && doc[0] == '/' ? doc : "/" + doc;
 }
 
 HttpUrl::HttpUrl(std::string const& domain,
