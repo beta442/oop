@@ -65,3 +65,24 @@ TEST_CASE("HttpUrl constructed with string. Url is not correct")
 		REQUIRE_THROWS_AS(HttpUrl("document1.html?page=30&lang=en#title//docs//www.mysite.com///:http"), UrlParsingError);
 	}
 }
+
+TEST_CASE("HttpUrl constructed with string. Url is correct. GetProtocol() test")
+{
+	using Protocol = HttpUrl::Protocol;
+	const auto http = Protocol::HTTP;
+	const auto https = Protocol::HTTPS;
+
+	WHEN("Protocol is http")
+	{
+		REQUIRE(HttpUrl("http://vk.com/im?sel=1").GetProtocol() == http);
+	}
+	WHEN("Protocol is https")
+	{
+		REQUIRE(HttpUrl("https://vk.com/im?sel=1").GetProtocol() == https);
+	}
+	WHEN("Protocol typed in upper case")
+	{
+		REQUIRE(HttpUrl("HtTp://vk.com/im?sel=1").GetProtocol() == http);
+		REQUIRE(HttpUrl("hTtPS://vk.com/im?sel=1").GetProtocol() == https);
+	}
+}
