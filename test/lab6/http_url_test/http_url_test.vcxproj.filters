@@ -36,12 +36,18 @@
     <ClCompile Include="..\..\..\labs\lab6\http_url\src\HttpUrl\HttpUrl.cpp">
       <Filter>Source Files\HttpUrl</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\labs\lab6\http_url\src\HttpUrl\UrlParsingError.cpp">
+      <Filter>Source Files\HttpUrl</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\labs\lab6\http_url\headers\HttpUrl\CHttpUrl.h">
+      <Filter>Header Files\HttpUrl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\labs\lab6\http_url\headers\HttpUrl\CUrlParsingError.h">
       <Filter>Header Files\HttpUrl</Filter>
     </ClInclude>
   </ItemGroup>
