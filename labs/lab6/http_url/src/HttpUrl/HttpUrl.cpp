@@ -1,8 +1,5 @@
 #include "../../headers/HttpUrl/CHttpUrl.h"
 
-#include <iostream>
-
-#include <algorithm>
 #include <regex>
 
 using Protocol = HttpUrl::Protocol;
@@ -32,12 +29,7 @@ HttpUrl::HttpUrl(std::string const& url)
 	m_url = url;
 
 	m_protocol = StringToProtocol(matches[MATCHES_PROTOCOL_INDEX]);
-
-	size_t i = 0;
-	for (auto it = std::begin(matches), end = std::end(matches); it != end; ++it, ++i)
-	{
-		std::cout << "i=" << i << "<->" << *it << std::endl;
-	}
+	m_domain = matches[MATCHES_DOMAIN_INDEX];
 }
 
 HttpUrl::HttpUrl(std::string const& domain,
