@@ -85,6 +85,21 @@ HttpUrl::HttpUrl(std::string const& domain,
 	, m_port(0)
 	, m_protocol(protocol)
 {
+	if (!std::regex_match(domain, DOMAIN_REGEX))
+	{
+		throw std::invalid_argument("Invalid domain argument");
+	}
+
+	if (!std::regex_match(document, DOCUMENT_REGEX))
+	{
+		throw std::invalid_argument("Invalid document argument");
+	}
+
+	m_domain = domain;
+	m_port = port;
+
+	const std::string doc = std::regex_replace(document, std::regex("\\/+"), "/");
+	m_document = doc.size() != 0 && doc[0] == '/' ? doc : "/" + doc;
 }
 
 const std::string BETWEEN_PROTOCOL_AND_DOMAIN_STRING = "://";
