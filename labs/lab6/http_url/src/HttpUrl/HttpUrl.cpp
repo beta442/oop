@@ -5,7 +5,14 @@
 
 using Protocol = HttpUrl::Protocol;
 
-const std::regex URL_REGEX = std::regex("([hH][tT]{2}[pP][sS]?):\\/{2,}(\\w+\\.\\w+\\.\\w+|\\w+\\.\\w+)([:\\d]{2,5})?(\\/[\\w\\/\\.?=\\-&#]*)?");
+const std::string PROTOCOL_REGEX_STRING = "([hH][tT]{2}[pP][sS]?):\\/{2,}";
+const std::string DOMAIN_REGEX_STRING = "(\\w+\\.\\w+\\.\\w+|\\w+\\.\\w+)";
+const std::string PORT_REGEX_STRING = "([:\\d]{2,5})?";
+const std::string DOCUMENT_REGEX_STRING = "(\\/+[\\w\\/\\.?=\\-&#]*)?";
+
+const std::regex URL_REGEX = std::regex(PROTOCOL_REGEX_STRING + DOMAIN_REGEX_STRING + PORT_REGEX_STRING + DOCUMENT_REGEX_STRING);
+const std::regex DOMAIN_REGEX = std::regex(DOMAIN_REGEX_STRING);
+const std::regex DOCUMENT_REGEX = std::regex(DOCUMENT_REGEX_STRING);
 
 constexpr auto MATCHES_URL_INDEX = 0;
 constexpr auto MATCHES_PROTOCOL_INDEX = 1;
@@ -49,6 +56,19 @@ HttpUrl::HttpUrl(std::string const& domain,
 	, m_port(0)
 	, m_protocol(protocol)
 {
+	if (!std::regex_match(domain, DOMAIN_REGEX))
+	{
+		throw std::invalid_argument("Invalid domain argument");
+	}
+
+	if (!std::regex_match(document, DOCUMENT_REGEX))
+	{
+		throw std::invalid_argument("Invalid document argument");
+	}
+
+	m_domain = domain;
+	m_port = m_protocol == Protocol::HTTP ? HTTP_PORT : HTTPS_PORT;
+	m_document = document;
 }
 
 HttpUrl::HttpUrl(std::string const& domain,
@@ -58,10 +78,11 @@ HttpUrl::HttpUrl(std::string const& domain,
 	: m_document()
 	, m_domain()
 	, m_port(0)
-	, m_protocol(Protocol(0))
+	, m_protocol(protocol)
 {
 }
 
+const std::string BETWEEN_PROTOCOL_AND_DOMAIN_STRING = "://";
 const std::string HTTP_STRING = "http";
 const std::string HTTPS_STRING = "https";
 
@@ -69,7 +90,7 @@ std::string HttpUrl::GetURL() const
 {
 	std::string result{};
 	result += m_protocol == Protocol::HTTP ? HTTPS_STRING : HTTPS_STRING;
-	result += "://";
+	result += BETWEEN_PROTOCOL_AND_DOMAIN_STRING;
 	result += m_domain;
 	result += m_document;
 
