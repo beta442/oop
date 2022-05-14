@@ -30,12 +30,18 @@
     <ClCompile Include="src\HttpUrl\HttpUrl.cpp">
       <Filter>Source Files\HttpUrl</Filter>
     </ClCompile>
+    <ClCompile Include="src\HttpUrl\UrlParsingError.cpp">
+      <Filter>Source Files\HttpUrl</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="headers\HttpUrl\CHttpUrl.h">
+      <Filter>Header Files\HttpUrl</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\HttpUrl\CUrlParsingError.h">
       <Filter>Header Files\HttpUrl</Filter>
     </ClInclude>
   </ItemGroup>

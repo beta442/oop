@@ -150,9 +150,11 @@
     <ClCompile Include="headers\pch.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\HttpUrl\HttpUrl.cpp" />
+    <ClCompile Include="src\HttpUrl\UrlParsingError.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\HttpUrl\CHttpUrl.h" />
+    <ClInclude Include="headers\HttpUrl\CUrlParsingError.h" />
     <ClInclude Include="headers\pch.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
