@@ -86,3 +86,15 @@ TEST_CASE("HttpUrl constructed with string. Url is correct. GetProtocol() test")
 		REQUIRE(HttpUrl("hTtPS://vk.com/im?sel=1").GetProtocol() == https);
 	}
 }
+
+TEST_CASE("HttpUrl constructed with string. Url is correct. GetDomain() test")
+{
+	WHEN("Domain contains one '.'")
+	{
+		REQUIRE(HttpUrl("http://vk.com/im?sel=1").GetDomain() == "vk.com");
+	}
+	WHEN("Domain contains two '.'")
+	{
+		REQUIRE(HttpUrl("http://www.vk.com/im?sel=1").GetDomain() == "www.vk.com");
+	}
+}
