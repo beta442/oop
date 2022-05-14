@@ -5,7 +5,7 @@
 
 using Protocol = HttpUrl::Protocol;
 
-const std::regex URL_REGEX = std::regex("([hH][tT]{2}[pP][sS]?):\\/{2,}(\\w+\\.\\w+\\.\\w+|\\w+\\.\\w+)([:\\d]{2,5})?\\/([\\w\\/\\.?=&#]*)?");
+const std::regex URL_REGEX = std::regex("([hH][tT]{2}[pP][sS]?):\\/{2,}(\\w+\\.\\w+\\.\\w+|\\w+\\.\\w+)([:\\d]{2,5})?(\\/[\\w\\/\\.?=\\-&#]*)?");
 
 constexpr auto MATCHES_URL_INDEX = 0;
 constexpr auto MATCHES_PROTOCOL_INDEX = 1;
@@ -24,14 +24,12 @@ HttpUrl::HttpUrl(std::string const& url)
 	, m_domain()
 	, m_port(HTTP_PORT)
 	, m_protocol(Protocol(0))
-	, m_url()
 {
 	std::smatch matches;
 	if (!std::regex_match(url, matches, URL_REGEX))
 	{
 		throw UrlParsingError("Failed to parse Url");
 	}
-	m_url = url;
 
 	m_protocol = StringToProtocol(matches[MATCHES_PROTOCOL_INDEX]);
 	m_domain = matches[MATCHES_DOMAIN_INDEX];
@@ -40,6 +38,7 @@ HttpUrl::HttpUrl(std::string const& url)
 		? (m_protocol == Protocol::HTTP ? HTTP_PORT : HTTPS_PORT)
 		: StringToPort(matches[MATCHES_PORT_INDEX].str().substr(1));
 
+	m_document = matches[MATCHES_DOCUMENT_INDEX].str().size() == 0 ? "/" : matches[MATCHES_DOCUMENT_INDEX].str();
 }
 
 HttpUrl::HttpUrl(std::string const& domain,
@@ -49,7 +48,6 @@ HttpUrl::HttpUrl(std::string const& domain,
 	, m_domain()
 	, m_port(0)
 	, m_protocol(protocol)
-	, m_url()
 {
 }
 
@@ -61,13 +59,12 @@ HttpUrl::HttpUrl(std::string const& domain,
 	, m_domain()
 	, m_port(0)
 	, m_protocol(Protocol(0))
-	, m_url()
 {
 }
 
 std::string HttpUrl::GetURL() const
 {
-	return m_url;
+	return std::string();
 }
 
 std::string HttpUrl::GetDomain() const

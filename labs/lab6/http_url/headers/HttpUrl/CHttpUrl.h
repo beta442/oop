@@ -36,20 +36,9 @@ public:
 	// выбранного протокола (80 дл€ http и 443 дл€ https) в эту строку
 	// не должен включатьс€
 	std::string GetURL() const;
-
-	// возвращает доменное им€
 	std::string GetDomain() const;
-
-	/*
-		¬озвращает им€ документа. ѕримеры:
-			/
-			/index.html
-			/images/photo.jpg
-	*/
 	std::string GetDocument() const;
-
 	Protocol GetProtocol() const;
-
 	unsigned short GetPort() const;
 
 private:
@@ -57,5 +46,4 @@ private:
 	Protocol m_protocol;
 	std::string m_document;
 	std::string m_domain;
-	std::string m_url;
 };
