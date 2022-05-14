@@ -151,11 +151,13 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\HttpUrl\HttpUrl.cpp" />
     <ClCompile Include="src\HttpUrl\UrlParsingError.cpp" />
+    <ClCompile Include="src\TaskUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\HttpUrl\CHttpUrl.h" />
     <ClInclude Include="headers\HttpUrl\CUrlParsingError.h" />
     <ClInclude Include="headers\pch.h" />
+    <ClInclude Include="headers\TaskUtil.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

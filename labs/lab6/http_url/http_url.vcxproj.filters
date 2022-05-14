@@ -33,6 +33,9 @@
     <ClCompile Include="src\HttpUrl\UrlParsingError.cpp">
       <Filter>Source Files\HttpUrl</Filter>
     </ClCompile>
+    <ClCompile Include="src\TaskUtil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\pch.h">
@@ -43,6 +46,9 @@
     </ClInclude>
     <ClInclude Include="headers\HttpUrl\CUrlParsingError.h">
       <Filter>Header Files\HttpUrl</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\TaskUtil.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
