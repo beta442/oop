@@ -1,6 +1,7 @@
 #include "../../headers/HttpUrl/CHttpUrl.h"
 
 #include <regex>
+#include <sstream>
 
 using Protocol = HttpUrl::Protocol;
 
@@ -12,12 +13,16 @@ constexpr auto MATCHES_DOMAIN_INDEX = 2;
 constexpr auto MATCHES_PORT_INDEX = 3;
 constexpr auto MATCHES_DOCUMENT_INDEX = 4;
 
+constexpr auto HTTP_PORT = 80;
+constexpr auto HTTPS_PORT = 443;
+
 Protocol StringToProtocol(const std::string& src);
+unsigned short StringToPort(const std::string& src);
 
 HttpUrl::HttpUrl(std::string const& url)
 	: m_document()
 	, m_domain()
-	, m_port(0)
+	, m_port(HTTP_PORT)
 	, m_protocol(Protocol(0))
 	, m_url()
 {
@@ -30,6 +35,11 @@ HttpUrl::HttpUrl(std::string const& url)
 
 	m_protocol = StringToProtocol(matches[MATCHES_PROTOCOL_INDEX]);
 	m_domain = matches[MATCHES_DOMAIN_INDEX];
+
+	m_port = (matches[MATCHES_PORT_INDEX].str().size() == 0 || matches[MATCHES_PORT_INDEX].str().size() == 1)
+		? (m_protocol == Protocol::HTTP ? HTTP_PORT : HTTPS_PORT)
+		: StringToPort(matches[MATCHES_PORT_INDEX].str().substr(1));
+
 }
 
 HttpUrl::HttpUrl(std::string const& domain,
@@ -100,4 +110,16 @@ Protocol StringToProtocol(const std::string& src)
 		return Protocol::HTTPS;
 	}
 	return Protocol::HTTP;
+}
+
+unsigned short StringToPort(const std::string& src)
+{
+	std::stringstream ss{ src };
+	unsigned short result = 0;
+	if (!(ss >> result))
+	{
+		throw UrlParsingError("Failed to parse Url. Invalid port");
+	}
+
+	return result;
 }
