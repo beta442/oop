@@ -57,4 +57,5 @@ private:
 	Protocol m_protocol;
 	std::string m_document;
 	std::string m_domain;
+	std::string m_url;
 };
