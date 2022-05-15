@@ -370,42 +370,47 @@ std::ostream& operator<<(std::ostream& os, const MyString& str)
 	return os;
 }
 
-MyStringConstIterator MyString::begin() const
+using ConstIterator = MyString::ConstIterator;
+using Iterator = MyString::Iterator;
+using ConstReverseIterator = MyString::ConstReverseIterator;
+using ReverseIterator = MyString::ReverseIterator;
+
+ConstIterator MyString::begin() const
 {
-	return MyStringConstIterator(m_ptr.get());
+	return ConstIterator(m_ptr.get());
 }
 
-MyStringIterator MyString::begin()
+Iterator MyString::begin()
 {
-	return MyStringIterator(m_ptr.get());
+	return Iterator(m_ptr.get());
 }
 
-MyStringConstIterator::MyStringConstReverseIterator MyString::rbegin() const
+ConstReverseIterator MyString::rbegin() const
 {
 	return std::make_reverse_iterator(end());
 }
 
-MyStringIterator::MyStringReverseIterator MyString::rbegin()
+ReverseIterator MyString::rbegin()
 {
 	return std::make_reverse_iterator(end());
 }
 
-MyStringConstIterator MyString::end() const
+ConstIterator MyString::end() const
 {
-	return MyStringConstIterator(m_ptr.get() + m_size);
+	return ConstIterator(m_ptr.get() + m_size);
 }
 
-MyStringIterator MyString::end()
+Iterator MyString::end()
 {
-	return MyStringIterator(m_ptr.get() + m_size);
+	return Iterator(m_ptr.get() + m_size);
 }
 
-MyStringConstIterator::MyStringConstReverseIterator MyString::rend() const
+ConstReverseIterator MyString::rend() const
 {
 	return std::make_reverse_iterator(begin());
 }
 
-MyStringIterator::MyStringReverseIterator MyString::rend()
+ReverseIterator MyString::rend()
 {
 	return std::make_reverse_iterator(begin());
 }

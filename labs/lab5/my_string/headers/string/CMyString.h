@@ -7,6 +7,12 @@
 class MyString
 {
 public:
+	using ConstIterator = MyStringConstIterator;
+	using Iterator = MyStringIterator;
+	using ConstReverseIterator = ConstIterator::MyStringConstReverseIterator;
+	using ReverseIterator = Iterator::MyStringReverseIterator;
+
+public:
 	MyString();
 	MyString(const char* pString);
 	MyString(const char* pString, size_t length);
@@ -14,14 +20,14 @@ public:
 	MyString(MyString&& other);
 	MyString(std::string const& stlString);
 
-	MyStringConstIterator begin() const;
-	MyStringIterator begin();
-	MyStringConstIterator::MyStringConstReverseIterator rbegin() const;
-	MyStringIterator::MyStringReverseIterator rbegin();
-	MyStringConstIterator end() const;
-	MyStringIterator end();
-	MyStringConstIterator::MyStringConstReverseIterator rend() const;
-	MyStringIterator::MyStringReverseIterator rend();
+	ConstIterator begin() const;
+	Iterator begin();
+	ConstReverseIterator rbegin() const;
+	ReverseIterator rbegin();
+	ConstIterator end() const;
+	Iterator end();
+	ConstReverseIterator rend() const;
+	ReverseIterator rend();
 	size_t GetLength() const;
 	const char* GetStringData() const;
 	MyString SubString(size_t start, size_t length = SIZE_MAX) const;
