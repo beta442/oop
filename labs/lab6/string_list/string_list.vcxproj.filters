@@ -30,12 +30,18 @@
     <ClCompile Include="src\StringList\StringList.cpp">
       <Filter>Source Files\StringList</Filter>
     </ClCompile>
+    <ClCompile Include="src\StringList\StringListNode.cpp">
+      <Filter>Source Files\StringList</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="headers\StringList\CStringList.h">
+      <Filter>Header Files\StringList</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\StringList\CStringListNode.h">
       <Filter>Header Files\StringList</Filter>
     </ClInclude>
   </ItemGroup>
