@@ -231,35 +231,12 @@ MyString& MyString::operator+=(const MyString& other)
 
 bool MyString::operator==(const MyString& other) const
 {
-	if (GetLength() != other.GetLength())
-	{
-		return false;
-	}
-	for (size_t i = 0; i < GetLength(); ++i)
-	{
-		if (m_ptr[i] != other[i])
-		{
-			return false;
-		}
-	}
-	return true;
+	return std::equal(begin(), end(), other.begin(), other.end());
 }
 
 bool MyString::operator==(const char* other) const
 {
-	const size_t thisStrLength = GetLength();
-	if (thisStrLength < std::strlen(other))
-	{
-		return false;
-	}
-	for (size_t i = 0; i < thisStrLength; ++i)
-	{
-		if (m_ptr[i] != other[i])
-		{
-			return false;
-		}
-	}
-	return true;
+	return std::equal(begin(), end(), other, other + GetLength());
 }
 
 bool MyString::operator!=(const MyString& other) const
@@ -267,44 +244,19 @@ bool MyString::operator!=(const MyString& other) const
 	return !(*this == other);
 }
 
+bool MyString::operator!=(const char* other) const
+{
+	return !(*this == other);
+}
+
 bool MyString::operator<(const MyString& other) const
 {
-	auto it1 = begin(), end1 = end(), it2 = other.begin(), end2 = other.end();
-
-	while (it1 != end1)
-	{
-		if (*it2 < *it1)
-		{
-			return false;
-		}
-		else if (*it1 < *it2)
-		{
-			return true;
-		}
-		++it1;
-		++it2;
-	}
-	return it2 != end2;
+	return std::lexicographical_compare(begin(), end(), other.begin(), other.end());
 }
 
 bool MyString::operator>(const MyString& other) const
 {
-	auto it1 = begin(), end1 = end(), it2 = other.begin(), end2 = other.end();
-
-	while (it1 != end1)
-	{
-		if (*it2 < *it1)
-		{
-			return true;
-		}
-		else if (*it1 < *it2)
-		{
-			return false;
-		}
-		++it1;
-		++it2;
-	}
-	return it2 == end2;
+	return other < *this;
 }
 
 bool MyString::operator<=(const MyString& other) const
