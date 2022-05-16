@@ -6,16 +6,26 @@ class StringList
 {
 public:
 	using Data = std::string;
-	using Pointer = ListNode<Data>::Pointer;
+	using Node = ListNode<Data>;
+	using Pointer = Node::Pointer;
 
 public:
 	StringList();
+	~StringList();
 
 	void Clear();
-	void PushFront(Data&& str);
-	void PushFront(const Data& str);
-	void PushBack(Data&& str);
-	void PushBack(const Data& str);
+	template <class Data>
+	inline void PushFront(Data&& str)
+	{
+		Insert(m_beg->m_next, std::move(str));
+	}
+
+	template <class Data>
+	void PushBack(Data&& str)
+	{
+		Insert(m_end, std::move(str));
+	}
+
 	bool Empty() const;
 	size_t Size() const;
 

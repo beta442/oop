@@ -4,20 +4,29 @@
 #include <string>
 
 StringList::StringList()
-	: m_beg(std::make_shared<ListNode<Data>>("").get())
-	, m_end(std::make_shared<ListNode<Data>>("").get())
+	: m_beg(std::make_shared<ListNode<Data>>(""))
+	, m_end(std::make_shared<ListNode<Data>>(""))
 	, m_size(0)
 {
 	m_beg->m_next = m_end;
 	m_end->m_prev = m_beg;
 }
 
-using Pointer = StringList::Pointer;
+StringList::~StringList()
+{
+	m_beg->m_next = nullptr;
+	m_end->m_prev = nullptr;
+	m_beg.reset();
+	m_end.reset();
+}
 
-template <class Data>
+using Pointer = StringList::Pointer;
+using Data = StringList::Data;
+using Node = StringList::Node;
+
 Pointer BuyNode(Pointer prev, Pointer next, Data&& data)
 {
-	return std::make_shared<ListNode<Data>>(std::move(data), prev, next);
+	return std::make_shared<Node>(std::move(data), prev, next);
 }
 
 void StringList::Insert(const Pointer ptr, Data&& data)
@@ -25,7 +34,7 @@ void StringList::Insert(const Pointer ptr, Data&& data)
 	const Pointer nextNode = ptr;
 	const Pointer prevNode = nextNode->m_prev;
 
-	const auto newNode = BuyNode(prevNode, nextNode, std::move(data));
+	const Pointer newNode = BuyNode(prevNode, nextNode, std::move(data));
 	m_size += 1;
 	nextNode->m_prev = newNode;
 	prevNode->m_next = newNode;
@@ -33,38 +42,16 @@ void StringList::Insert(const Pointer ptr, Data&& data)
 
 void StringList::Clear()
 {
-	auto& ptr = m_beg->m_next;
-	auto& tempPtr = ptr;
-	/*for (size_t i = 0, size = Size(); i < size; ++i)
+	Pointer ptr = m_beg, tempPtr = m_beg->m_next;
+	m_beg->m_next = m_end;
+	m_end->m_prev = m_beg;
+	while (ptr != m_end && tempPtr != m_end)
 	{
-		if (ptr != nullptr)
-		{
-			ptr = ptr->m_next;
-			tempPtr->m_prev = nullptr;
-			tempPtr->m_next = nullptr;
-			tempPtr
-		}
-	}*/
-}
-
-void StringList::PushFront(Data&& str)
-{
-	Insert(m_beg->m_next, std::move(str));
-}
-
-void StringList::PushFront(const Data& str)
-{
-	//Insert(m_beg->m_next, str);
-}
-
-void StringList::PushBack(Data&& str)
-{
-	Insert(m_end, std::move(str));
-}
-
-void StringList::PushBack(const Data& str)
-{
-	//Insert(m_end, str);
+		ptr = tempPtr->m_next;
+		tempPtr.reset();
+		tempPtr = ptr;
+	}
+	m_size = 0;
 }
 
 bool StringList::Empty() const
