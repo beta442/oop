@@ -29,7 +29,7 @@ public:
 
 	_NODISCARD pointer operator->() const
 	{
-		return *this;
+		return &m_ptr->m_data;
 	}
 
 	ListConstIterator& operator++()

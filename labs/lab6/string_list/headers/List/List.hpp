@@ -43,15 +43,16 @@ public:
 	
 	void Clear()
 	{
-		NodePointer ptr = m_beg, tempPtr = m_beg->m_next;
+		Iterator it = begin(), itTemp = begin();
 		m_beg->m_next = m_end;
 		m_end->m_prev = m_beg;
-		while (ptr != m_end && tempPtr != m_end)
+		const Iterator endIt = end();
+		while (it != endIt && itTemp != endIt)
 		{
-			ptr = tempPtr->m_next;
-			ptr->m_prev = nullptr;
-			tempPtr.reset();
-			tempPtr = ptr;
+			++it;
+			it.m_ptr->m_prev = nullptr;
+			itTemp.m_ptr.reset();
+			itTemp = it;
 		}
 		m_size = 0;
 	}
@@ -61,29 +62,36 @@ public:
 		return m_size == 0;
 	}
 
+	template <class T>
+	Iterator Emplace(ConstIterator it, T&& val)
+	{
+		Insert(it, val);
+		return MakeIter(--it);
+	}
+
 	size_t Size() const
 	{
 		return m_size;
 	}
 
-	inline void PushFront(T&& str)
+	inline void PushFront(T&& val)
 	{
-		Insert(m_beg->m_next, str);
+		Insert(begin(), val);
 	}
 
-	inline void PushBack(T&& str)
+	inline void PushBack(T&& val)
 	{
-		Insert(m_end, str);
+		Insert(end(), val);
 	}
 
-	inline void PushFront(const T& str)
+	inline void PushFront(const T& val)
 	{
-		Insert(m_beg->m_next, str);
+		Insert(begin(), val);
 	}
 
-	inline void PushBack(const T& str)
+	inline void PushBack(const T& val)
 	{
-		Insert(m_end, str);
+		Insert(end(), val);
 	}
 
 	_NODISCARD inline Iterator begin() noexcept
@@ -154,15 +162,20 @@ private:
 	}
 
 	template <class T>
-	inline void Insert(const NodePointer ptr, T&& data)
+	inline void Insert(ConstIterator it, T&& data)
 	{
-		const NodePointer nextNode = ptr;
+		const NodePointer nextNode = it.m_ptr;
 		const NodePointer prevNode = nextNode->m_prev;
 
 		const NodePointer newNode = BuyNode(prevNode, nextNode, std::forward<T>(data));
 		m_size += 1;
 		nextNode->m_prev = newNode;
 		prevNode->m_next = newNode;
+	}
+
+	inline Iterator MakeIter(ConstIterator it) const noexcept
+	{
+		return Iterator(it.m_ptr);
 	}
 
 	size_t m_size;
