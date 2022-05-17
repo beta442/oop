@@ -18,8 +18,6 @@ public:
 
 	using Iterator = ListIterator<List<T>>;
 	using ConstIterator = ListConstIterator<List<T>>;
-	using _UncheckedIterator = ListUncheckedIterator<List<T>>;
-	using _UncheckedConstIterator = ListUncheckedConstIterator<List<T>>;
 
 	using ReverseIterator = std::reverse_iterator<Iterator>;
 	using ConstReverseIterator = std::reverse_iterator<ConstIterator>;
@@ -106,26 +104,6 @@ public:
 	_NODISCARD inline ConstIterator end() const noexcept
 	{
 		return ConstIterator(m_end);
-	}
-
-	_NODISCARD inline _UncheckedIterator _UncheckedBegin()
-	{
-		return _UncheckedIterator(m_beg->m_next);
-	}
-
-	_NODISCARD inline _UncheckedConstIterator _UncheckedBegin() const
-	{
-		return _UncheckedConstIterator(m_beg->m_next);
-	}
-
-	_NODISCARD inline _UncheckedIterator _UncheckedEnd()
-	{
-		return _UncheckedIterator(m_end);
-	}
-
-	_NODISCARD inline _UncheckedConstIterator _UncheckedEnd() const
-	{
-		return _UncheckedConstIterator(m_end);
 	}
 
 	_NODISCARD inline ReverseIterator rbegin() noexcept
