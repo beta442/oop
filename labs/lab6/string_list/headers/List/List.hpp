@@ -69,6 +69,13 @@ public:
 		return MakeIter(--it);
 	}
 
+	Iterator Erase(ConstIterator it)
+	{
+		NodePointer ptr = UnlinkNode(it++);
+		ptr.reset();
+		return MakeIter(it);
+	}
+
 	size_t Size() const
 	{
 		return m_size;
@@ -176,6 +183,17 @@ private:
 	inline Iterator MakeIter(ConstIterator it) const noexcept
 	{
 		return Iterator(it.m_ptr);
+	}
+
+	inline NodePointer UnlinkNode(ConstIterator it)
+	{
+		NodePointer ptr = it.m_ptr;
+
+		ptr->m_prev->m_next = ptr->m_next;
+		ptr->m_next->m_prev = ptr->m_prev;
+
+		--m_size;
+		return ptr;
 	}
 
 	size_t m_size;
