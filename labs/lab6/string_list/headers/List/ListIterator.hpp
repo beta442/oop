@@ -23,7 +23,7 @@ public:
 	}
 
 	_NODISCARD reference operator*() const
-	{
+	{ //todo: expection out_of_range
 		return m_ptr->m_data;
 	}
 
@@ -33,7 +33,7 @@ public:
 	}
 
 	ListConstIterator& operator++()
-	{
+	{ //todo: expection out_of_range
 		m_ptr = m_ptr->m_next;
 		return *this;
 	}
@@ -46,7 +46,7 @@ public:
 	}
 
 	ListConstIterator& operator--()
-	{
+	{ //todo: expection out_of_range
 		m_ptr = m_ptr->m_prev;
 		return *this;
 	}

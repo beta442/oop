@@ -41,7 +41,7 @@ public:
 		m_end.reset();
 	}
 	
-	void Clear()
+	void Clear() noexcept
 	{
 		Iterator it = begin(), itTemp = begin();
 		m_beg->m_next = m_end;
@@ -57,14 +57,14 @@ public:
 		m_size = 0;
 	}
 
-	bool Empty() const
+	_NODISCARD bool Empty() const noexcept
 	{
 		return m_size == 0;
 	}
 
 	template <class T>
 	Iterator Emplace(ConstIterator it, T&& val)
-	{
+	{ //todo: exception out_of_range
 		Insert(it, val);
 		return MakeIter(--it);
 	}
@@ -76,7 +76,7 @@ public:
 		return MakeIter(it);
 	}
 
-	size_t Size() const
+	_NODISCARD size_t Size() const noexcept
 	{
 		return m_size;
 	}
@@ -186,7 +186,7 @@ private:
 	}
 
 	inline NodePointer UnlinkNode(ConstIterator it)
-	{
+	{ //todo: exception out_of_range
 		NodePointer ptr = it.m_ptr;
 
 		ptr->m_prev->m_next = ptr->m_next;
