@@ -149,13 +149,13 @@
   <ItemGroup>
     <ClCompile Include="headers\pch.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\StringList\StringList.cpp" />
-    <ClCompile Include="src\StringList\StringListNode.cpp" />
+    <ClCompile Include="src\List\ListIterator.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="headers\List\List.hpp" />
+    <ClInclude Include="headers\List\ListIterator.h" />
+    <ClInclude Include="headers\List\ListNode.hpp" />
     <ClInclude Include="headers\pch.h" />
-    <ClInclude Include="headers\StringList\CStringList.h" />
-    <ClInclude Include="headers\StringList\CStringListNode.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

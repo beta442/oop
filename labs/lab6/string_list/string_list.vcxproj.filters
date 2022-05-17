@@ -13,11 +13,11 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\StringList">
-      <UniqueIdentifier>{e0f51451-1467-4a75-bd38-de6fec1f1ce6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\StringList">
+    <Filter Include="Source Files\List">
       <UniqueIdentifier>{6dcfcef4-cab0-4437-ba20-1ae1478b2b8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\List">
+      <UniqueIdentifier>{5db55b8e-4d28-4e61-8445-a03877eb126f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -27,22 +27,22 @@
     <ClCompile Include="headers\pch.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\StringList\StringList.cpp">
-      <Filter>Source Files\StringList</Filter>
-    </ClCompile>
-    <ClCompile Include="src\StringList\StringListNode.cpp">
-      <Filter>Source Files\StringList</Filter>
+    <ClCompile Include="src\List\ListIterator.cpp">
+      <Filter>Source Files\List</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\StringList\CStringList.h">
-      <Filter>Header Files\StringList</Filter>
+    <ClInclude Include="headers\List\List.hpp">
+      <Filter>Header Files\List</Filter>
     </ClInclude>
-    <ClInclude Include="headers\StringList\CStringListNode.h">
-      <Filter>Header Files\StringList</Filter>
+    <ClInclude Include="headers\List\ListIterator.h">
+      <Filter>Header Files\List</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\List\ListNode.hpp">
+      <Filter>Header Files\List</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
