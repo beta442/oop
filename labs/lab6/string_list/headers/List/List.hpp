@@ -8,7 +8,12 @@ class List
 {
 public:
 	using Node = ListNode<T>;
-	using Pointer = std::shared_ptr<ListNode<T>>;
+	using ValueType = typename Node::ValueType;
+	using NodePointer = typename Node::NodePointer;
+	using Pointer = typename Node::Pointer;
+	using ConstPointer = typename Node::ConstPointer;
+	using Reference = typename Node::Reference;
+	using ConstReference = typename Node::ConstReference;
 
 public:
 	List()
@@ -31,7 +36,7 @@ public:
 	
 	void Clear()
 	{
-		Pointer ptr = m_beg, tempPtr = m_beg->m_next;
+		NodePointer ptr = m_beg, tempPtr = m_beg->m_next;
 		m_beg->m_next = m_end;
 		m_end->m_prev = m_beg;
 		while (ptr != m_end && tempPtr != m_end)
@@ -76,23 +81,23 @@ public:
 
 private:
 	template <class T>
-	inline Pointer BuyNode(Pointer prev, Pointer next, T&& data)
+	inline NodePointer BuyNode(NodePointer prev, NodePointer next, T&& data)
 	{
 		return std::make_shared<Node>(std::forward<T>(data), prev, next);
 	}
 
 	template <class T>
-	inline void Insert(const Pointer ptr, T&& data)
+	inline void Insert(const NodePointer ptr, T&& data)
 	{
-		const Pointer nextNode = ptr;
-		const Pointer prevNode = nextNode->m_prev;
+		const NodePointer nextNode = ptr;
+		const NodePointer prevNode = nextNode->m_prev;
 
-		const Pointer newNode = BuyNode(prevNode, nextNode, std::forward<T>(data));
+		const NodePointer newNode = BuyNode(prevNode, nextNode, std::forward<T>(data));
 		m_size += 1;
 		nextNode->m_prev = newNode;
 		prevNode->m_next = newNode;
 	}
 
 	size_t m_size;
-	Pointer m_beg, m_end;
+	NodePointer m_beg, m_end;
 };

@@ -6,7 +6,12 @@ template <class T>
 class ListNode
 {
 public:
-	using Pointer = std::shared_ptr<ListNode>;
+	using NodePointer = std::shared_ptr<ListNode>;
+	using ValueType = T;
+	using Pointer = ValueType*;
+	using ConstPointer = const ValueType*;
+	using Reference = ValueType&;
+	using ConstReference = const ValueType&;
 
 public:
 	inline ListNode()
@@ -17,7 +22,7 @@ public:
 	}
 
 	template <class T>
-	inline ListNode(T&& data, Pointer const prev = nullptr, Pointer const next = nullptr)
+	inline ListNode(T&& data, NodePointer const prev = nullptr, NodePointer const next = nullptr)
 		: m_data(std::forward<T>(data))
 		, m_prev(prev)
 		, m_next(next)
@@ -25,5 +30,5 @@ public:
 	}
 
 	T m_data;
-	Pointer m_prev, m_next;
+	NodePointer m_prev, m_next;
 };
