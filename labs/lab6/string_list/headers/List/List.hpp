@@ -8,12 +8,21 @@ class List
 {
 public:
 	using Node = ListNode<T>;
-	using ValueType = typename Node::ValueType;
 	using NodePointer = typename Node::NodePointer;
+
+	using ValueType = typename Node::ValueType;
 	using Pointer = typename Node::Pointer;
 	using ConstPointer = typename Node::ConstPointer;
 	using Reference = typename Node::Reference;
 	using ConstReference = typename Node::ConstReference;
+
+	using Iterator = ListIterator<List<T>>;
+	using ConstIterator = ListConstIterator<List<T>>;
+	using _UncheckedIterator = ListUncheckedIterator<List<T>>;
+	using _UncheckedConstIterator = ListUncheckedConstIterator<List<T>>;
+
+	using ReverseIterator = std::reverse_iterator<Iterator>;
+	using ConstReverseIterator = std::reverse_iterator<ConstIterator>;
 
 public:
 	List()
@@ -77,6 +86,86 @@ public:
 	inline void PushBack(const T& str)
 	{
 		Insert(m_end, str);
+	}
+
+	_NODISCARD inline Iterator begin() noexcept
+	{
+		return Iterator(m_beg->m_next);
+	}
+
+	_NODISCARD inline ConstIterator begin() const noexcept
+	{
+		return ConstIterator(m_beg->m_next);
+	}
+
+	_NODISCARD inline Iterator end() noexcept
+	{
+		return Iterator(m_end);
+	}
+
+	_NODISCARD inline ConstIterator end() const noexcept
+	{
+		return ConstIterator(m_end);
+	}
+
+	_NODISCARD inline _UncheckedIterator _UncheckedBegin()
+	{
+		return _UncheckedIterator(m_beg->m_next);
+	}
+
+	_NODISCARD inline _UncheckedConstIterator _UncheckedBegin() const
+	{
+		return _UncheckedConstIterator(m_beg->m_next);
+	}
+
+	_NODISCARD inline _UncheckedIterator _UncheckedEnd()
+	{
+		return _UncheckedIterator(m_end);
+	}
+
+	_NODISCARD inline _UncheckedConstIterator _UncheckedEnd() const
+	{
+		return _UncheckedConstIterator(m_end);
+	}
+
+	_NODISCARD inline ReverseIterator rbegin() noexcept
+	{
+		return ReverseIterator(end());
+	}
+
+	_NODISCARD inline ConstReverseIterator rbegin() const noexcept
+	{
+		return ConstReverseIterator(end());
+	}
+
+	_NODISCARD inline ReverseIterator rend() noexcept
+	{
+		return ReverseIterator(begin());
+	}
+
+	_NODISCARD inline ConstReverseIterator rend() const noexcept
+	{
+		return ConstReverseIterator(begin());
+	}
+
+	_NODISCARD inline ConstIterator cbegin() const noexcept
+	{
+		return begin();
+	}
+
+	_NODISCARD inline ConstIterator cend() const noexcept
+	{
+		return end();
+	}
+
+	_NODISCARD inline ConstReverseIterator crbegin() const noexcept
+	{
+		return rbegin();
+	}
+
+	_NODISCARD inline ConstReverseIterator crend() const noexcept
+	{
+		return rend();
 	}
 
 private:
