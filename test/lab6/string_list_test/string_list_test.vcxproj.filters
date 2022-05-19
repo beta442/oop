@@ -16,11 +16,8 @@
     <Filter Include="Source Files\Unit">
       <UniqueIdentifier>{5f5fa9aa-2a9f-453f-b3f1-c9723079167e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\StringList">
-      <UniqueIdentifier>{0878416b-774f-47f0-ad41-35fd13f3f403}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\StringList">
-      <UniqueIdentifier>{e1e1ac87-19d4-4261-8aa6-43387dc2e9e6}</UniqueIdentifier>
+    <Filter Include="Header Files\List">
+      <UniqueIdentifier>{dc109f90-9a06-4b0a-85a7-a6ac56588bae}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -30,9 +27,6 @@
     <ClCompile Include="pch.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\labs\lab6\string_list\src\StringList\StringList.cpp">
-      <Filter>Source Files\StringList</Filter>
-    </ClCompile>
     <ClCompile Include="unit\StringList.test.cpp">
       <Filter>Source Files\Unit</Filter>
     </ClCompile>
@@ -41,8 +35,17 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\labs\lab6\string_list\headers\StringList\CStringList.h">
-      <Filter>Header Files\StringList</Filter>
+    <ClInclude Include="..\..\..\labs\lab6\string_list\headers\List\List.hpp">
+      <Filter>Header Files\List</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\labs\lab6\string_list\headers\List\ListIterator.hpp">
+      <Filter>Header Files\List</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\labs\lab6\string_list\headers\List\ListNode.hpp">
+      <Filter>Header Files\List</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>
