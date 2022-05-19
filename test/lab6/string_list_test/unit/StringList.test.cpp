@@ -120,3 +120,18 @@ TEST_CASE("List. Emplacing element with iterator test")
 	REQUIRE(*(--it) == emplacingEl);
 	REQUIRE(*(--it) == "2");
 }
+
+TEST_CASE("List. Exceptions test")
+{
+	List<Data> list;
+
+	const size_t listSize = 100;
+	for (size_t i = 0; i < listSize; ++i)
+	{
+		list.PushBack(std::to_string(i));
+	}
+
+	REQUIRE_THROWS_AS(list.Emplace(--std::begin(list), "1"), std::out_of_range);
+	REQUIRE_THROWS_AS(list.Erase(--std::begin(list)), std::out_of_range);
+	REQUIRE_THROWS_AS(list.Erase(std::end(list)), std::out_of_range);
+}
