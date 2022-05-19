@@ -9,6 +9,7 @@ TEST_CASE("List. PushBack() test")
 	List<Data> list;
 
 	REQUIRE(list.Size() == 0);
+	REQUIRE(list.Empty());
 
 	list.PushBack("1");
 	Data s = "2";
@@ -17,6 +18,7 @@ TEST_CASE("List. PushBack() test")
 	list.PushBack(cs);
 
 	REQUIRE(list.Size() == 3);
+	REQUIRE_FALSE(list.Empty());
 
 	const ListIterator it1 = list.begin(),
 					   it2 = ++list.begin(),
@@ -32,6 +34,7 @@ TEST_CASE("List. PushFront() test")
 	List<Data> list;
 
 	REQUIRE(list.Size() == 0);
+	REQUIRE(list.Empty());
 
 	list.PushFront("3");
 	Data s = "2";
@@ -40,6 +43,7 @@ TEST_CASE("List. PushFront() test")
 	list.PushFront(cs);
 
 	REQUIRE(list.Size() == 3);
+	REQUIRE_FALSE(list.Empty());
 
 	const ListIterator it1 = list.begin(),
 					   it2 = ++list.begin(),
