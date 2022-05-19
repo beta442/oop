@@ -40,6 +40,9 @@ public:
 		m_beg.reset();
 		m_end.reset();
 	}
+
+	List(const List<T>& other) = delete;
+	List(List<T>&& other) = delete;
 	
 	void Clear() noexcept
 	{
@@ -160,6 +163,11 @@ public:
 	{
 		return rend();
 	}
+
+public:
+	List<T> operator=(const List<T>& other) = delete;
+	List<T> operator=(List<T>&& other) = delete;
+
 
 private:
 	template <class T>
