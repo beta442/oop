@@ -109,7 +109,7 @@ public:
 
 	ListIterator operator++(int)
 	{
-		ListConstIterator temp = *this;
+		ListIterator temp = *this;
 		++*this;
 		return temp;
 	}
@@ -122,7 +122,7 @@ public:
 
 	ListIterator operator--(int)
 	{
-		ListConstIterator temp = *this;
+		ListIterator temp = *this;
 		--*this;
 		return temp;
 	}
