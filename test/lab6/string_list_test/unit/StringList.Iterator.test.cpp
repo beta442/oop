@@ -48,7 +48,7 @@ TEST_CASE("ListIterator exception tests")
 	REQUIRE_THROWS_AS((--list.begin()).operator->(), std::out_of_range);
 	REQUIRE_THROWS_AS(list.end().operator->(), std::out_of_range);
 
-	auto headIt = --std::begin(list);
+	ListIterator headIt = --std::begin(list);
 	REQUIRE_THROWS_AS(--(headIt), std::out_of_range);
 	REQUIRE_THROWS_AS(++list.end(), std::out_of_range);
 }
