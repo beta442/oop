@@ -67,13 +67,21 @@ public:
 
 	template <class T>
 	Iterator Emplace(ConstIterator it, T&& val)
-	{ //todo: exception out_of_range
+	{
+		if (it.m_ptr == m_beg)
+		{
+			throw std::out_of_range("List erase iterator outside of range");
+		}
 		Insert(it, val);
 		return MakeIter(--it);
 	}
 
 	Iterator Erase(ConstIterator it)
 	{
+		if (it.m_ptr == m_beg || it.m_ptr == m_end)
+		{
+			throw std::out_of_range("List erase iterator outside of range");
+		}
 		NodePointer ptr = UnlinkNode(it++);
 		ptr.reset();
 		return MakeIter(it);
@@ -168,7 +176,6 @@ public:
 	List<T> operator=(const List<T>& other) = delete;
 	List<T> operator=(List<T>&& other) = delete;
 
-
 private:
 	template <class T>
 	inline NodePointer BuyNode(NodePointer prev, NodePointer next, T&& data)
@@ -194,7 +201,7 @@ private:
 	}
 
 	inline NodePointer UnlinkNode(ConstIterator it)
-	{ //todo: exception out_of_range
+	{
 		NodePointer ptr = it.m_ptr;
 
 		ptr->m_prev->m_next = ptr->m_next;

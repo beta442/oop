@@ -23,17 +23,29 @@ public:
 	}
 
 	_NODISCARD reference operator*() const
-	{ //todo: expection out_of_range
+	{
+		if (m_ptr->m_next == nullptr || m_ptr->m_prev == nullptr)
+		{
+			throw std::out_of_range("Cannot dereference end list iterator");
+		}
 		return m_ptr->m_data;
 	}
 
-	_NODISCARD pointer operator->() const
+	_NODISCARD NodePointer operator->() const
 	{
-		return &m_ptr->m_data;
+		if (m_ptr->m_next == nullptr || m_ptr->m_prev == nullptr)
+		{
+			throw std::out_of_range("Cannot get pointer of end list iterator");
+		}
+		return m_ptr;
 	}
 
 	ListConstIterator& operator++()
-	{ //todo: expection out_of_range
+	{
+		if (m_ptr->m_next == nullptr)
+		{
+			throw std::out_of_range("Cannot increment end list iterator");
+		}
 		m_ptr = m_ptr->m_next;
 		return *this;
 	}
@@ -46,7 +58,11 @@ public:
 	}
 
 	ListConstIterator& operator--()
-	{ //todo: expection out_of_range
+	{
+		if (m_ptr->m_prev == nullptr)
+		{
+			throw std::out_of_range("Cannot dereference end list iterator");
+		}
 		m_ptr = m_ptr->m_prev;
 		return *this;
 	}
@@ -96,9 +112,9 @@ public:
 		return static_cast<reference>(MyBase::operator*());
 	}
 
-	_NODISCARD pointer operator->() const
+	_NODISCARD NodePointer operator->() const
 	{
-		return static_cast<pointer>(MyBase::operator->());
+		return static_cast<NodePointer>(MyBase::operator->());
 	}
 
 	ListIterator& operator++()
