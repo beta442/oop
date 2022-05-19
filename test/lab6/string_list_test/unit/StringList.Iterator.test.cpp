@@ -32,3 +32,23 @@ TEST_CASE("ListIterator tests")
 		REQUIRE(s == std::to_string(i++));
 	}
 }
+
+TEST_CASE("ListIterator exception tests")
+{
+	List<Data> list;
+
+	const size_t listSize = 100;
+	for (size_t i = 0; i < listSize; ++i)
+	{
+		list.PushBack(std::to_string(i));
+	}
+
+	REQUIRE_THROWS_AS(*(--list.begin()), std::out_of_range);
+	REQUIRE_THROWS_AS(*list.end(), std::out_of_range);
+	REQUIRE_THROWS_AS((--list.begin()).operator->(), std::out_of_range);
+	REQUIRE_THROWS_AS(list.end().operator->(), std::out_of_range);
+
+	auto headIt = --std::begin(list);
+	REQUIRE_THROWS_AS(--(headIt), std::out_of_range);
+	REQUIRE_THROWS_AS(++list.end(), std::out_of_range);
+}
