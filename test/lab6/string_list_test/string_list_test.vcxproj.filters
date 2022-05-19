@@ -30,6 +30,9 @@
     <ClCompile Include="unit\StringList.test.cpp">
       <Filter>Source Files\Unit</Filter>
     </ClCompile>
+    <ClCompile Include="unit\StringList.Iterator.test.cpp">
+      <Filter>Source Files\Unit</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">

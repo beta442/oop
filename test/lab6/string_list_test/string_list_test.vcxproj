@@ -161,6 +161,7 @@
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="StringList.main.test.cpp" />
+    <ClCompile Include="unit\StringList.Iterator.test.cpp" />
     <ClCompile Include="unit\StringList.test.cpp" />
   </ItemGroup>
   <ItemGroup>

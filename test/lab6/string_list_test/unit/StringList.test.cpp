@@ -1,6 +1,7 @@
 #include "../pch.h"
 
 #include "../../../../labs/lab6/string_list/headers/List/List.hpp"
+#include <list>
 
 using Data = std::string;
 
