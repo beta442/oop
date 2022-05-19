@@ -53,3 +53,47 @@ TEST_CASE("List. PushFront() test")
 	REQUIRE(*it2 == s);
 	REQUIRE(*it3 == "3");
 }
+
+TEST_CASE("List. Clear() test")
+{
+	List<Data> list;
+
+	const size_t listSize = 1000000;
+	for (size_t i = 0; i < listSize; ++i)
+	{
+		list.PushBack("0");
+	}
+
+	REQUIRE_FALSE(list.Empty());
+	REQUIRE(list.Size() == listSize); 
+
+	list.Clear();
+
+	REQUIRE(list.Empty());
+	REQUIRE(list.Size() == 0);
+}
+
+TEST_CASE("List. Removing element with iterator test")
+{
+	List<Data> list;
+
+	const Data erasingEl = "3";
+	list.PushBack("1");
+	list.PushBack("2");
+	list.PushBack(erasingEl);
+	list.PushBack("4");
+	list.PushBack("5");
+
+	const ListIterator it3 = ++(++(list.begin()));
+
+	REQUIRE(list.Size() == 5);
+	const auto it = list.Erase(it3);
+	REQUIRE(list.Size() == 4);
+
+	for (auto it = std::begin(list), end = std::end(list); it != end; ++it)
+	{
+		REQUIRE_FALSE(*it == erasingEl);
+	}
+
+	REQUIRE(*it == "4");
+}
