@@ -97,3 +97,25 @@ TEST_CASE("List. Removing element with iterator test")
 
 	REQUIRE(*it == "4");
 }
+
+TEST_CASE("List. Emplacing element with iterator test")
+{
+	List<Data> list;
+
+	const Data emplacingEl = "0";
+	list.PushBack("1");
+	list.PushBack("2");
+	list.PushBack("3");
+	list.PushBack("4");
+	list.PushBack("5");
+
+	const ListIterator it3 = ++(++(list.begin()));
+
+	REQUIRE(list.Size() == 5);
+	auto it = list.Emplace(it3, emplacingEl);
+	REQUIRE(list.Size() == 6);
+
+	REQUIRE(*(++it) == "3");
+	REQUIRE(*(--it) == emplacingEl);
+	REQUIRE(*(--it) == "2");
+}
