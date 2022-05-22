@@ -40,13 +40,8 @@ MyString::MyString(MyString&& other)
 }
 
 MyString::MyString(std::string const& stlString)
-	: m_size(stlString.size())
-	, m_ptr(std::make_unique<char[]>(stlString.size() + 1))
+	: MyString(stlString.c_str(), stlString.size())
 {
-	for (size_t i = 0; i < m_size; ++i)
-	{
-		m_ptr[i] = stlString[i];
-	}
 }
 
 size_t MyString::GetLength() const
