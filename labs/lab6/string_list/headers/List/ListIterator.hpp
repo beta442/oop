@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <iterator>
+#include <variant>
 
 template <class MyList, class Base = std::_Iterator_base0>
 class ListConstIterator : public Base
@@ -14,7 +15,7 @@ public:
 	using value_type = typename MyList::ValueType;
 	using difference_type = ptrdiff_t;
 	using pointer = typename MyList::ConstPointer;
-	using reference = typename MyList::ConstReference;
+	using reference = const value_type&;
 
 public:
 	ListConstIterator(NodePointer ptr)
@@ -28,7 +29,7 @@ public:
 		{
 			throw std::out_of_range("Cannot dereference end list iterator");
 		}
-		return m_ptr->m_data;
+		return std::get<value_type>(m_ptr->m_data);
 	}
 
 	_NODISCARD NodePointer operator->() const
@@ -98,8 +99,8 @@ public:
 
 	using value_type = typename MyList::ValueType;
 	using difference_type = ptrdiff_t;
-	using pointer = typename MyList::ConstPointer;
-	using reference = typename MyList::ConstReference;
+	using pointer = typename MyList::Pointer;
+	using reference = value_type&;
 
 public:
 	ListIterator(NodePointer ptr)
@@ -109,7 +110,7 @@ public:
 
 	_NODISCARD reference operator*() const
 	{
-		return static_cast<reference>(MyBase::operator*());
+		return (reference)(MyBase::operator*());
 	}
 
 	_NODISCARD NodePointer operator->() const

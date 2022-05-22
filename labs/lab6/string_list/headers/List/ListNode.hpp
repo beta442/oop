@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <variant>
 
 template <class T>
 class ListNode
@@ -15,7 +16,7 @@ public:
 
 public:
 	inline ListNode()
-		: m_data()
+		: m_data(nullptr)
 		, m_prev(nullptr)
 		, m_next(nullptr)
 	{
@@ -29,6 +30,6 @@ public:
 	{
 	}
 
-	T m_data;
+	std::variant<T, Pointer> m_data;
 	NodePointer m_prev, m_next;
 };
