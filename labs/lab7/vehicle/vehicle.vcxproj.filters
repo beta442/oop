@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Person">
+      <UniqueIdentifier>{4d660ea8-605e-446f-a3e4-b80059252555}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Vehicle">
+      <UniqueIdentifier>{33837022-55c0-4a8a-9f24-8f9249873d07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Person">
+      <UniqueIdentifier>{6309e7a0-8e02-4b7e-a6fc-fd58befb0a50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Person\Interface">
+      <UniqueIdentifier>{01d79f66-31ce-4999-a145-48387c6ca95b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Person\Implementation">
+      <UniqueIdentifier>{c46caddb-b8df-49b0-95a9-9b58e9b89813}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Vehicle\Interface">
+      <UniqueIdentifier>{e0172f5e-ffec-404d-a6b7-bb94945d2e32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Vehicle\Implementation">
+      <UniqueIdentifier>{37584490-59a3-41d1-905f-f3b5f515958d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Vehicle">
+      <UniqueIdentifier>{85d552eb-8f43-4565-8ca7-2437a2aa07b5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="headers\pch.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Person\PoliceMan.cpp">
+      <Filter>Source Files\Person</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\Person\Racer.cpp">
+      <Filter>Source Files\Person</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Person\Person.cpp">
+      <Filter>Source Files\Person</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Vehicle\Taxi.cpp">
+      <Filter>Source Files\Vehicle</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="headers\pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Person\PoliceMan.h">
+      <Filter>Header Files\Person</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Person\Racer.h">
+      <Filter>Header Files\Person</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Person\Person.h">
+      <Filter>Header Files\Person</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Person\IPerson.h">
+      <Filter>Header Files\Person\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Person\IPoliceMan.h">
+      <Filter>Header Files\Person\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Person\IRacer.h">
+      <Filter>Header Files\Person\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Person\PersonImpl.hpp">
+      <Filter>Header Files\Person\Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Vehicle\IVehicle.h">
+      <Filter>Header Files\Vehicle\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Vehicle\IBasicVehicle.h">
+      <Filter>Header Files\Vehicle\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Vehicle\ICar.h">
+      <Filter>Header Files\Vehicle\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Vehicle\ITaxi.h">
+      <Filter>Header Files\Vehicle\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Vehicle\VehicleImpl.hpp">
+      <Filter>Header Files\Vehicle\Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Vehicle\CarImpl.hpp">
+      <Filter>Header Files\Vehicle\Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Vehicle\Taxi.h">
+      <Filter>Header Files\Vehicle</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
