@@ -162,7 +162,7 @@ unsigned ConvertDateInfoToTimeStamp(unsigned day, Date::Month month, unsigned ye
 		{
 			counter -= (*daysToMonth)[monthIndex];
 			counter += (*daysToMonth)[static_cast<size_t>(providedMonthIndex - 1)];
-			counter += isProvidedYearLeap && static_cast<int>(month) == 2 ? day - 2 : day - 1;
+			counter += isProvidedYearLeap && static_cast<int>(month) <= 2  ? day - 2 : day - 1;
 		}
 		--yearPassed;
 	}
