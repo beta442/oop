@@ -46,7 +46,7 @@ public:
 	
 	void Clear() noexcept
 	{
-		Iterator it = begin(), itTemp = begin();
+		Iterator it = begin(), itTemp = begin();//TODO: rename itTemp
 		m_beg->m_next = m_end;
 		m_end->m_prev = m_beg;
 		const Iterator endIt = end();
