@@ -288,6 +288,9 @@ TEST_CASE("Read operator[] test")
 	REQUIRE(str[3] == '4');
 	REQUIRE(str[5] == '6');
 	REQUIRE(str[6] == 0);
+
+	REQUIRE_THROWS_AS(str[7], std::out_of_range);
+	REQUIRE_THROWS_AS(str[100], std::out_of_range);
 }
 
 TEST_CASE("Write operator[] test.")
@@ -297,6 +300,9 @@ TEST_CASE("Write operator[] test.")
 	REQUIRE_FALSE(str[0] == str[2]);
 	str[0] = str[2];
 	REQUIRE(str[0] == str[2]);
+
+	REQUIRE_THROWS_AS(str[8], std::out_of_range);
+	REQUIRE_THROWS_AS(str[100], std::out_of_range);
 }
 
 TEST_CASE("Operator<< test")
