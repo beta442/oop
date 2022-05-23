@@ -1,5 +1,7 @@
 #pragma once
 
+#include <algorithm>
+
 #include "MyListIterator.hpp"
 #include "MyListNode.hpp"
 
@@ -41,8 +43,16 @@ public:
 		m_end.reset();
 	}
 
-	MyList(const MyList<T>& other) = delete;
-	MyList(MyList<T>&& other) = delete;
+	MyList(const MyList<T>& other)
+		: MyList()
+	{
+		*this = other;
+	}
+
+	MyList(MyList<T>&& other)
+	{
+		*this = other;
+	}
 
 	void Clear() noexcept
 	{
@@ -173,8 +183,33 @@ public:
 	}
 
 public:
-	MyList<T> operator=(const MyList<T>& other) = delete;
-	MyList<T> operator=(MyList<T>&& other) = delete;
+	MyList<T>& operator=(const MyList<T>& other)
+	{
+		if (std::addressof(other) != this)
+		{
+			for (auto it = other.begin(), endIt = other.end(); it != endIt; ++it)
+			{
+				PushBack(*it);
+			}
+		}
+
+		return *this;
+	}
+
+	MyList<T>& operator=(MyList<T>&& other)
+	{
+		if (std::addressof(other) != this)
+		{
+			m_size = 0;
+			m_beg = nullptr;
+			m_end = nullptr;
+			std::swap(m_size, other.m_size);
+			std::swap(m_beg, other.m_beg);
+			std::swap(m_end, other.m_end);
+		}
+
+		return *this;
+	}
 
 private:
 	template <class T>
