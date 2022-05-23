@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+#include <memory>
 #include <string>
 
 #include "CMyStringIterator.h"
@@ -34,7 +36,7 @@ public:
 	void Clear();
 
 	MyString& operator=(const MyString& other);
-	MyString& operator=(MyString&& other);
+	MyString& operator=(MyString&& other) noexcept;
 	MyString operator+(const MyString& other) const;
 	friend MyString operator+(const MyString& mStrFirst, const std::string& strSecond);
 	friend MyString operator+(const std::string& strFirst, const MyString& mStrSecond);

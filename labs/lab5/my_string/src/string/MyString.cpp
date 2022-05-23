@@ -4,26 +4,23 @@ MyString::MyString()
 	: m_size(0)
 	, m_ptr(std::make_unique<char[]>(1))
 {
+	m_ptr[0] = 0;
 }
 
 MyString::MyString(const char* pString)
 	: m_size(std::strlen(pString))
 	, m_ptr(std::make_unique<char[]>(std::strlen(pString) + 1))
 {
-	for (size_t i = 0; i < m_size; ++i)
-	{
-		m_ptr[i] = pString[i];
-	}
+	std::memmove(m_ptr.get(), pString, m_size);
+	m_ptr[m_size] = 0;
 }
 
 MyString::MyString(const char* pString, size_t length)
 	: m_size(length)
 	, m_ptr(std::make_unique<char[]>(length + 1))
 {
-	for (size_t i = 0; i < m_size; ++i)
-	{
-		m_ptr[i] = pString[i];
-	}
+	std::memmove(m_ptr.get(), pString, m_size);
+	m_ptr[m_size] = 0;
 }
 
 MyString::MyString(MyString const& other)
@@ -82,7 +79,7 @@ MyString& MyString::operator=(const MyString& other)
 	return *this;
 }
 
-MyString& MyString::operator=(MyString&& other)
+MyString& MyString::operator=(MyString&& other) noexcept
 {
 	if (&other != this)
 	{
@@ -102,14 +99,8 @@ MyString MyString::operator+(const MyString& other) const
 	size_t newStrSize = overflow ? (size_t)-1 : thisStrLength + otherStrLength;
 	MyString newStr("", newStrSize);
 
-	for (size_t i = 0; i < thisStrLength; ++i)
-	{
-		newStr[i] = (*this)[i];
-	}
-	for (size_t i = thisStrLength; i < newStrSize; ++i)
-	{
-		newStr[i] = other[i - otherStrLength];
-	}
+	std::memmove(newStr.m_ptr.get(), m_ptr.get(), thisStrLength);
+	std::memmove(newStr.m_ptr.get() + thisStrLength, other.GetStringData(), otherStrLength);
 	newStr[newStrSize] = 0;
 
 	return newStr;
@@ -117,109 +108,27 @@ MyString MyString::operator+(const MyString& other) const
 
 MyString operator+(const MyString& mStrFirst, const std::string& strSecond)
 {
-	size_t firstStrLength = mStrFirst.GetLength(), secondStrLength = strSecond.size();
-
-	bool overflow = (size_t)-1 - firstStrLength < secondStrLength;
-	size_t newStrSize = overflow ? (size_t)-1 : firstStrLength + secondStrLength;
-	MyString newStr("", newStrSize);
-
-	for (size_t i = 0; i < firstStrLength; ++i)
-	{
-		newStr[i] = mStrFirst[i];
-	}
-	for (size_t i = firstStrLength; i < newStrSize; ++i)
-	{
-		newStr[i] = strSecond[i - secondStrLength];
-	}
-	newStr[newStrSize] = 0;
-
-	return newStr;
+	return mStrFirst + MyString(strSecond);
 }
 
 MyString operator+(const std::string& strFirst, const MyString& mStrSecond)
 {
-	size_t firstStrLength = strFirst.size(), secondStrLength = mStrSecond.GetLength();
-
-	bool overflow = (size_t)-1 - firstStrLength < secondStrLength;
-	size_t newStrSize = overflow ? (size_t)-1 : firstStrLength + secondStrLength;
-	MyString newStr("", newStrSize);
-
-	for (size_t i = 0; i < firstStrLength; ++i)
-	{
-		newStr[i] = strFirst[i];
-	}
-	for (size_t i = firstStrLength; i < newStrSize; ++i)
-	{
-		newStr[i] = mStrSecond[i - secondStrLength];
-	}
-	newStr[newStrSize] = 0;
-
-	return newStr;
+	return MyString(strFirst) + mStrSecond;
 }
 
 MyString operator+(const MyString& mStrFirst, const char* strSecond)
 {
-	size_t firstStrLength = mStrFirst.GetLength(), secondStrLength = std::strlen(strSecond);
-
-	bool overflow = (size_t)-1 - firstStrLength < secondStrLength;
-	size_t newStrSize = overflow ? (size_t)-1 : firstStrLength + secondStrLength;
-	MyString newStr("", newStrSize);
-
-	for (size_t i = 0; i < firstStrLength; ++i)
-	{
-		newStr[i] = mStrFirst[i];
-	}
-	for (size_t i = firstStrLength; i < newStrSize; ++i)
-	{
-		newStr[i] = strSecond[i - secondStrLength];
-	}
-	newStr[newStrSize] = 0;
-
-	return newStr;
+	return mStrFirst + MyString(strSecond);
 }
 
 MyString operator+(const char* strFirst, const MyString& mStrSecond)
 {
-	size_t firstStrLength = std::strlen(strFirst), secondStrLength = mStrSecond.GetLength();
-
-	bool overflow = (size_t)-1 - firstStrLength < secondStrLength;
-	size_t newStrSize = overflow ? (size_t)-1 : firstStrLength + secondStrLength;
-	MyString newStr("", newStrSize);
-
-	for (size_t i = 0; i < firstStrLength; ++i)
-	{
-		newStr[i] = strFirst[i];
-	}
-	for (size_t i = firstStrLength; i < newStrSize; ++i)
-	{
-		newStr[i] = mStrSecond[i - secondStrLength];
-	}
-	newStr[newStrSize] = 0;
-
-	return newStr;
+	return MyString(strFirst) + mStrSecond;
 }
 
 MyString& MyString::operator+=(const MyString& other)
 {
-	size_t thisStrLength = this->GetLength(), otherStrLength = other.GetLength();
-
-	bool overflow = (size_t)-1 - thisStrLength < otherStrLength;
-	size_t newStrSize = overflow ? (size_t)-1 : thisStrLength + otherStrLength;
-
-	MyString temp(this->GetStringData(), thisStrLength);
-	m_size = newStrSize;
-	m_ptr.reset();
-	m_ptr = std::make_unique<char[]>(m_size + 1);
-
-	for (size_t i = 0; i < temp.GetLength(); ++i)
-	{
-		m_ptr[i] = temp[i];
-	}
-	for (size_t i = thisStrLength; i < m_size; ++i)
-	{
-		m_ptr[i] = other[i - thisStrLength];
-	}
-	m_ptr[newStrSize] = 0;
+	*this = std::move(*this + other);
 
 	return *this;
 }
@@ -266,11 +175,19 @@ bool MyString::operator>=(const MyString& other) const
 
 char& MyString::operator[](size_t index)
 {
+	if (index > m_size)
+	{
+		throw std::out_of_range("Failed to return char reference. Index is out of range");
+	}
 	return m_ptr[index];
 }
 
 const char& MyString::operator[](size_t index) const
 {
+	if (index > m_size)
+	{
+		throw std::out_of_range("Failed to return const char reference. Index is out of range");
+	}
 	return m_ptr[index];
 }
 

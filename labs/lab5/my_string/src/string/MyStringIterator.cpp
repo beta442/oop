@@ -1,5 +1,7 @@
 #include "../../headers/string/CMyStringIterator.h"
 
+#include <stdexcept>
+
 MyStringConstIterator::MyStringConstIterator(pointer ptr)
 	: m_ptr(ptr)
 {
@@ -7,6 +9,10 @@ MyStringConstIterator::MyStringConstIterator(pointer ptr)
 
 MyStringConstIterator::reference MyStringConstIterator::operator*() const
 {
+	if (m_ptr == nullptr)
+	{
+		throw std::logic_error("Can't dereference nullptr");
+	}
 	return *m_ptr;
 }
 
