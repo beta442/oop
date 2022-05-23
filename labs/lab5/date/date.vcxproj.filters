@@ -21,15 +21,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="headers\stdafx.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="src\date\date.cpp">
       <Filter>Source Files\Date</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\stdafx.h">
