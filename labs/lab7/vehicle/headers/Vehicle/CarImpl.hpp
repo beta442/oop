@@ -3,7 +3,7 @@
 #include "VehicleImpl.hpp"
 #include "ICar.h"
 
-template <typename Passenger, typename Base = VehicleImpl<ICar<Passenger>>>
+template <typename Base = VehicleImpl<ICar<IPerson>>>
 class CarImpl : public Base
 {
 public:
