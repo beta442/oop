@@ -2,13 +2,13 @@
 
 #include <vector>
 
-#include "ICar.h"
+#include "IVehicle.h"
 
-template <typename Passenger, typename Base = ICar<Passenger>>
+template <typename Passenger, typename Base = IVehicle<Passenger>>
 class VehicleImpl : public Base
 {
 public:
-	inline VehicleImpl(size_t maxCapacity)
+	VehicleImpl(size_t maxCapacity)
 		: m_placeCount(maxCapacity)
 		, m_passengersCount(0)
 		, m_passengers()
@@ -33,7 +33,7 @@ public:
 			throw std::out_of_range("Failed to get passenger. Index is out of range");
 		}
 
-		return m_passengers[index].get();
+		return *m_passengers[index];
 	}
 
 	inline void RemovePassenger(size_t index) override
