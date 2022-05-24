@@ -2,9 +2,10 @@
 
 #include <vector>
 
+#include "../Person/IPerson.h"
 #include "IVehicle.h"
 
-template <typename Passenger, typename Base = IVehicle<Passenger>>
+template <typename Base = IVehicle<IPerson>, typename Passenger = typename Base::Passenger>
 class VehicleImpl : public Base
 {
 public:
