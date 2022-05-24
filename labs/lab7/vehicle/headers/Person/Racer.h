@@ -6,6 +6,9 @@
 class Racer : public PersonImpl<IRacer>
 {
 public:
+	using Base = PersonImpl<IRacer>;
+
+public:
 	Racer(const std::string& name, size_t awardsCount);
 
 	size_t GetAwardsCount() const override;

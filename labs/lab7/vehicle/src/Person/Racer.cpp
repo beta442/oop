@@ -1,7 +1,7 @@
 #include "../../headers/Person/Racer.h"
 
 Racer::Racer(const std::string& name, size_t awardsCount)
-	: PersonImpl<IRacer>(name)
+	: Base(name)
 	, m_awardsCount(awardsCount)
 {
 }
