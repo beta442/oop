@@ -152,6 +152,7 @@
     <ClCompile Include="src\Person\Person.cpp" />
     <ClCompile Include="src\Person\PoliceMan.cpp" />
     <ClCompile Include="src\Person\Racer.cpp" />
+    <ClCompile Include="src\Vehicle\Bus.cpp" />
     <ClCompile Include="src\Vehicle\Taxi.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -163,8 +164,10 @@
     <ClInclude Include="headers\Person\PersonImpl.hpp" />
     <ClInclude Include="headers\Person\PoliceMan.h" />
     <ClInclude Include="headers\Person\Racer.h" />
+    <ClInclude Include="headers\Vehicle\Bus.h" />
     <ClInclude Include="headers\Vehicle\CarImpl.hpp" />
     <ClInclude Include="headers\Vehicle\IBasicVehicle.h" />
+    <ClInclude Include="headers\Vehicle\IBus.h" />
     <ClInclude Include="headers\Vehicle\ICar.h" />
     <ClInclude Include="headers\Vehicle\ITaxi.h" />
     <ClInclude Include="headers\Vehicle\IVehicle.h" />

@@ -55,6 +55,9 @@
     <ClCompile Include="src\Vehicle\Taxi.cpp">
       <Filter>Source Files\Vehicle</Filter>
     </ClCompile>
+    <ClCompile Include="src\Vehicle\Bus.cpp">
+      <Filter>Source Files\Vehicle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\pch.h">
@@ -100,6 +103,12 @@
       <Filter>Header Files\Vehicle\Implementation</Filter>
     </ClInclude>
     <ClInclude Include="headers\Vehicle\Taxi.h">
+      <Filter>Header Files\Vehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Vehicle\IBus.h">
+      <Filter>Header Files\Vehicle\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Vehicle\Bus.h">
       <Filter>Header Files\Vehicle</Filter>
     </ClInclude>
   </ItemGroup>
