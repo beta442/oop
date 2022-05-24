@@ -6,6 +6,9 @@
 class PoliceMan : public PersonImpl<IPoliceMan>
 {
 public:
+	using Base = PersonImpl<IPoliceMan>;
+
+public:
 	PoliceMan(const std::string& name, const std::string& departmentName);
 
 	std::string GetDepartmentName() const override;
