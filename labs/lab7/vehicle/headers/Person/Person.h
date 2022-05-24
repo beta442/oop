@@ -1,9 +1,8 @@
 #pragma once
 
-#include "IPerson.h"
 #include "PersonImpl.hpp"
 
-class Person : PersonImpl<IPerson>
+class Person : public PersonImpl<IPerson>
 {
 public:
 	Person(const std::string& name);

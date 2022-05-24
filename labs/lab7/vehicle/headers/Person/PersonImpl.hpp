@@ -2,7 +2,7 @@
 
 #include "IPerson.h"
 
-template <typename Base>
+template <typename Base = IPerson>
 class PersonImpl : public Base
 {
 public:
