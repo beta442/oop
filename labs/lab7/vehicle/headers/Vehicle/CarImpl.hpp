@@ -7,7 +7,8 @@ template <typename Passenger, typename Base = VehicleImpl<ICar<Passenger>>>
 class CarImpl : public Base
 {
 public:
-	using MakeOfTheCar = typename Base::MakeOfTheCar;
+	using typename Base::MakeOfTheCar;
+
 public:
 	inline CarImpl(size_t maxPassengerCapacity, const MakeOfTheCar& carMake)
 		: Base(maxPassengerCapacity)
