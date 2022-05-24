@@ -61,6 +61,9 @@
     <ClCompile Include="src\Vehicle\PoliceCar.cpp">
       <Filter>Source Files\Vehicle</Filter>
     </ClCompile>
+    <ClCompile Include="src\Vehicle\RacerCar.cpp">
+      <Filter>Source Files\Vehicle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\pch.h">
@@ -118,6 +121,12 @@
       <Filter>Header Files\Vehicle\Interface</Filter>
     </ClInclude>
     <ClInclude Include="headers\Vehicle\PoliceCar.h">
+      <Filter>Header Files\Vehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Vehicle\IRacerCar.h">
+      <Filter>Header Files\Vehicle\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Vehicle\RacerCar.h">
       <Filter>Header Files\Vehicle</Filter>
     </ClInclude>
   </ItemGroup>
