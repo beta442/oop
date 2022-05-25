@@ -8,6 +8,8 @@ class Taxi : public CarImpl<VehicleImpl<ITaxi, IPerson>>
 public:
 	using Base = CarImpl<VehicleImpl<ITaxi, IPerson>>;
 
+	static inline const std::string s_type = "Taxi";
+
 public:
 	Taxi(MakeOfTheCar carMake, size_t maxCapacity = s_maxPassengerAmount);
 
