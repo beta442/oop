@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <vector>
 
 #include "../Person/IPerson.h"
@@ -66,6 +67,18 @@ public:
 	inline size_t GetPassengerCount() const
 	{
 		return m_passengersCount;
+	}
+
+	inline std::optional<size_t> GetIndexOfPassenger(const std::string& name) const override
+	{
+		const auto itBeg = std::begin(m_passengers), itEnd = std::end(m_passengers);
+		const auto it = std::find_if(itBeg, itEnd, [&](auto& person) { return person->GetName() == name; });
+		if (it == itEnd)
+		{
+			return std::nullopt;
+		}
+		const auto result = std::distance(itBeg, it);
+		return result != 0 ? result - 1 : result;
 	}
 
 	void RemoveAllPassengers()
