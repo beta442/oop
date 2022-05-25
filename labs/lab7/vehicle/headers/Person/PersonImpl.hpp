@@ -6,8 +6,9 @@ template <typename Base = IPerson>
 class PersonImpl : public Base
 {
 public:
-	inline PersonImpl(const std::string& name)
+	PersonImpl(const std::string& name, const std::string& personType = s_defaultType)
 		: m_name(name)
+		, m_type(personType)
 	{
 	}
 
@@ -16,6 +17,14 @@ public:
 		return m_name;
 	}
 
+	std::string GetType() const override
+	{
+		return m_type;
+	}
+
 private:
+	static inline const std::string s_defaultType = "Person";
+
 	std::string m_name;
+	std::string m_type;
 };
