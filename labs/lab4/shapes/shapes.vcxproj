@@ -149,12 +149,12 @@
   <ItemGroup>
     <ClCompile Include="headers\pch.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="resources\shapes\Circle.cpp" />
-    <ClCompile Include="resources\shapes\LineSegment.cpp" />
-    <ClCompile Include="resources\shapes\Point.cpp" />
-    <ClCompile Include="resources\shapes\Rectangle.cpp" />
-    <ClCompile Include="resources\shapes\Triangle.cpp" />
-    <ClCompile Include="resources\ShapeContainer.cpp" />
+    <ClCompile Include="src\ShapeContainer.cpp" />
+    <ClCompile Include="src\shapes\Circle.cpp" />
+    <ClCompile Include="src\shapes\LineSegment.cpp" />
+    <ClCompile Include="src\shapes\Point.cpp" />
+    <ClCompile Include="src\shapes\Rectangle.cpp" />
+    <ClCompile Include="src\shapes\Triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\ShapesContainer.h" />
