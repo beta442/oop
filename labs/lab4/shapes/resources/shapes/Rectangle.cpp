@@ -18,16 +18,6 @@ inline double Rectangle::GetPerimeter() const
 	return (m_width + m_height) * 2;
 }
 
-inline double Rectangle::CalculateArea() const
-{
-	return GetArea();
-}
-
-inline double Rectangle::CalculatePerimeter() const
-{
-	return GetPerimeter();
-}
-
 inline Point Rectangle::GetLeftTop() const
 {
 	return GetBasePoint();

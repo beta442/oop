@@ -16,16 +16,6 @@ inline double LineSegment::GetPerimeter() const
 	return GetBasePoint().Distance(m_endPoint);
 }
 
-inline double LineSegment::CalculateArea() const
-{
-	return GetArea();
-}
-
-inline double LineSegment::CalculatePerimeter() const
-{
-	return GetPerimeter();
-}
-
 inline std::string LineSegment::ToStringAdditional() const
 {
 	return "End point: " + m_endPoint.ToString() + '\n';

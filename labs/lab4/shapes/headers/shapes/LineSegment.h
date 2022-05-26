@@ -19,8 +19,6 @@ public:
 
 private:
 	inline std::string ToStringAdditional() const override;
-	inline double CalculateArea() const override final;
-	inline double CalculatePerimeter() const override final;
 
 	inline static const std::string s_type = "LineSegment";
 

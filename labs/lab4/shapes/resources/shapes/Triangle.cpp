@@ -25,16 +25,6 @@ inline double Triangle::GetPerimeter() const
 	return a + b + c;
 }
 
-inline double Triangle::CalculateArea() const
-{
-	return GetArea();
-}
-
-inline double Triangle::CalculatePerimeter() const
-{
-	return GetPerimeter();
-}
-
 inline Point Triangle::GetVertex1() const
 {
 	return m_v1;

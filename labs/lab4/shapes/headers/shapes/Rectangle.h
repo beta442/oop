@@ -24,8 +24,6 @@ public:
 
 private:
 	inline std::string ToStringAdditional() const override;
-	inline double CalculateArea() const override final;
-	inline double CalculatePerimeter() const override final;
 
 	double m_width, m_height;
 };

@@ -24,9 +24,19 @@ public:
 		return "Type: " + m_type + '\n' 
 			+ "Base point: " + m_basePoint.ToString()
 			+ "Outline color: " + ColorToString(GetOutlineColor()) + '\n'
-			+ "Area: " + std::to_string(CalculateArea()) + '\n'
-			+ "Perimeter: " + std::to_string(CalculatePerimeter()) + '\n'
+			+ "Area: " + std::to_string(GetArea()) + '\n'
+			+ "Perimeter: " + std::to_string(GetPerimeter()) + '\n'
 			+ ToStringAdditional();
+	}
+
+	inline double GetArea() const override
+	{
+		return 0;
+	}
+
+	inline double GetPerimeter() const override
+	{
+		return 0;
 	}
 
 	inline Color GetOutlineColor() const override final
@@ -40,8 +50,6 @@ public:
 	}
 
 protected:
-	virtual double CalculateArea() const = 0;
-	virtual double CalculatePerimeter() const = 0;
 	virtual std::string ToStringAdditional() const = 0;
 
 	std::string ColorToString(const Color& color) const

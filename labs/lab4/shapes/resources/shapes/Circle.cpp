@@ -20,16 +20,6 @@ inline double Circle::GetPerimeter() const
 	return 2 * M_PI * m_radius;
 }
 
-inline double Circle::CalculateArea() const
-{
-	return GetArea();
-}
-
-inline double Circle::CalculatePerimeter() const
-{
-	return GetPerimeter();
-}
-
 inline Point Circle::GetCenter() const
 {
 	return GetBasePoint();
