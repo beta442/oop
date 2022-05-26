@@ -8,40 +8,25 @@
     <Filter Include="Header Files">
       <UniqueIdentifier>{c4a80ffc-71b7-4225-8da6-5ba4c60d401e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Shapes">
-      <UniqueIdentifier>{3ae56bc2-4025-43a4-8832-06e8e49ec5a2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{8511270f-c3d6-460c-bdcd-edc640718cbd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\Shapes">
-      <UniqueIdentifier>{67d2e522-3c66-4c9a-ac51-fd44b3314150}</UniqueIdentifier>
+    <Filter Include="Header Files\Shapes">
+      <UniqueIdentifier>{30c135f7-3cb7-4c18-9701-448b182dec53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Shapes\Interface">
+      <UniqueIdentifier>{b65be68f-0dd0-4d40-80b5-9abfc66c67d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Shapes\Implementation">
+      <UniqueIdentifier>{e0d1fadd-ef33-4a6a-b153-01396b9b1671}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shapes">
+      <UniqueIdentifier>{a2377120-9187-4a79-8f93-1991882ab52e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="shapes.test.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\circle.cpp">
-      <Filter>Resource Files\Shapes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\ishape.cpp">
-      <Filter>Resource Files\Shapes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\isolid_shape.cpp">
-      <Filter>Resource Files\Shapes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\line_segment.cpp">
-      <Filter>Resource Files\Shapes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\point.cpp">
-      <Filter>Resource Files\Shapes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\rectangle.cpp">
-      <Filter>Resource Files\Shapes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\triangle.cpp">
-      <Filter>Resource Files\Shapes</Filter>
     </ClCompile>
     <ClCompile Include="unit\circle.test.cpp">
       <Filter>Source Files</Filter>
@@ -58,31 +43,67 @@
     <ClCompile Include="unit\point.test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\Circle.cpp">
+      <Filter>Source Files\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\LineSegment.cpp">
+      <Filter>Source Files\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\Point.cpp">
+      <Filter>Source Files\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\Rectangle.cpp">
+      <Filter>Source Files\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\Triangle.cpp">
+      <Filter>Source Files\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\std_lib.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\CCircle.h">
+    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\Circle.h">
       <Filter>Header Files\Shapes</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\CLineSegment.h">
+    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\LineSegment.h">
       <Filter>Header Files\Shapes</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\CPoint.h">
+    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\Point.h">
       <Filter>Header Files\Shapes</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\CRectangle.h">
+    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\Rectangle.h">
       <Filter>Header Files\Shapes</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\CTriangle.h">
+    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\Triangle.h">
       <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\ICircle.h">
+      <Filter>Header Files\Shapes\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\ILineSegment.h">
+      <Filter>Header Files\Shapes\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\IRectangle.h">
+      <Filter>Header Files\Shapes\Interface</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\IShape.h">
-      <Filter>Header Files\Shapes</Filter>
+      <Filter>Header Files\Shapes\Interface</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\ISolidShape.h">
-      <Filter>Header Files\Shapes</Filter>
+      <Filter>Header Files\Shapes\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\ITriangle.h">
+      <Filter>Header Files\Shapes\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\ShapeImpl.hpp">
+      <Filter>Header Files\Shapes\Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\SolidShapeImpl.hpp">
+      <Filter>Header Files\Shapes\Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

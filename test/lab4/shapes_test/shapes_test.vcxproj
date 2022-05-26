@@ -163,13 +163,12 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\circle.cpp" />
-    <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\ishape.cpp" />
-    <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\isolid_shape.cpp" />
-    <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\line_segment.cpp" />
-    <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\point.cpp" />
-    <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\rectangle.cpp" />
-    <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\triangle.cpp" />
+    <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\Circle.cpp" />
+    <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\LineSegment.cpp" />
+    <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\Point.cpp" />
+    <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\Rectangle.cpp" />
+    <ClCompile Include="..\..\..\labs\lab4\shapes\resources\shapes\Triangle.cpp" />
+    <ClCompile Include="pch.cpp" />
     <ClCompile Include="shapes.test.cpp" />
     <ClCompile Include="unit\circle.test.cpp" />
     <ClCompile Include="unit\line.test.cpp" />
@@ -178,14 +177,20 @@
     <ClCompile Include="unit\triangle.test.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\CCircle.h" />
-    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\CLineSegment.h" />
-    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\CPoint.h" />
-    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\CRectangle.h" />
-    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\CTriangle.h" />
+    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\Circle.h" />
+    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\ICircle.h" />
+    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\ILineSegment.h" />
+    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\IRectangle.h" />
     <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\IShape.h" />
     <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\ISolidShape.h" />
-    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\std_lib.h" />
+    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\ITriangle.h" />
+    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\LineSegment.h" />
+    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\Point.h" />
+    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\Rectangle.h" />
+    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\ShapeImpl.hpp" />
+    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\SolidShapeImpl.hpp" />
+    <ClInclude Include="..\..\..\labs\lab4\shapes\headers\shapes\Triangle.h" />
+    <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
