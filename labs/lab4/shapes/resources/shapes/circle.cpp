@@ -1,57 +1,46 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 
-#include "../../headers/shapes/CCircle.h"
+#include "../../headers/shapes/Circle.h"
 
-CCircle::CCircle(const CPoint& basePoint,
-	const double radius, const uint32_t outlineColor, const uint32_t fillColor)
-	: ISolidShape(basePoint, outlineColor, fillColor)
+Circle::Circle(const Point& basePoint,
+	const double radius, const Color& outlineColor, const Color& fillColor)
+	: MyBase(basePoint, outlineColor, fillColor, s_type)
 	, m_radius(radius)
 {
 }
 
-double CCircle::GetArea() const
+inline double Circle::GetArea() const
 {
 	return M_PI * m_radius * m_radius;
 }
 
-double CCircle::GetPerimeter() const
+inline double Circle::GetPerimeter() const
 {
 	return 2 * M_PI * m_radius;
 }
 
-std::string CCircle::ToString() const
+inline double Circle::CalculateArea() const
 {
-	std::ostringstream oss;
-
-	oss << std::hex;
-	oss << "Circle:" << std::endl
-		<< "--center: " << m_basePoint.ToString()
-		<< "--radius: " << m_radius << std::endl
-		<< "--area: " << GetArea() << std::endl
-		<< "--perimeter: " << GetPerimeter() << std::endl
-		<< "--outline color: " << m_outlineColor << std::endl
-		<< "--fill color: " << m_fillColor << std::endl;
-
-	return oss.str();
+	return GetArea();
 }
 
-uint32_t CCircle::GetOutlineColor() const
+inline double Circle::CalculatePerimeter() const
 {
-	return m_outlineColor;
+	return GetPerimeter();
 }
 
-uint32_t CCircle::GetFillColor() const
+inline Point Circle::GetCenter() const
 {
-	return m_fillColor;
+	return GetBasePoint();
 }
 
-CPoint CCircle::GetCenter() const
-{
-	return m_basePoint;
-}
-
-double CCircle::GetRadius() const
+inline double Circle::GetRadius() const
 {
 	return m_radius;
+}
+
+inline std::string Circle::ToStringAdditional() const
+{
+	return "Radius: " + std::to_string(m_radius) + '\n';
 }
