@@ -19,66 +19,82 @@
     <Filter Include="Source Files\Shapes">
       <UniqueIdentifier>{52e6c128-463c-472c-a2a6-a79d6b0229b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Shapes\Interface">
+      <UniqueIdentifier>{6f5ceebd-ed99-42c8-b467-e0ea5193d504}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Shapes\Implementation">
+      <UniqueIdentifier>{78637751-2812-4fd2-917a-4b4b762eb559}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="resources\shapes\point.cpp">
+    <ClCompile Include="resources\shapes\Point.cpp">
       <Filter>Source Files\Shapes</Filter>
     </ClCompile>
-    <ClCompile Include="resources\shapes\ishape.cpp">
+    <ClCompile Include="resources\shapes\LineSegment.cpp">
       <Filter>Source Files\Shapes</Filter>
     </ClCompile>
-    <ClCompile Include="resources\shapes\line_segment.cpp">
+    <ClCompile Include="resources\shapes\Triangle.cpp">
       <Filter>Source Files\Shapes</Filter>
     </ClCompile>
-    <ClCompile Include="resources\shapes\triangle.cpp">
+    <ClCompile Include="resources\shapes\Rectangle.cpp">
       <Filter>Source Files\Shapes</Filter>
     </ClCompile>
-    <ClCompile Include="resources\shapes\isolid_shape.cpp">
-      <Filter>Source Files\Shapes</Filter>
-    </ClCompile>
-    <ClCompile Include="resources\shapes\rectangle.cpp">
-      <Filter>Source Files\Shapes</Filter>
-    </ClCompile>
-    <ClCompile Include="resources\shapes\circle.cpp">
+    <ClCompile Include="resources\shapes\Circle.cpp">
       <Filter>Source Files\Shapes</Filter>
     </ClCompile>
     <ClCompile Include="headers\pch.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="resources\shape_container.cpp">
+    <ClCompile Include="resources\ShapeContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\shapes\CPoint.h">
+    <ClInclude Include="headers\shapes\Point.h">
       <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\shapes\LineSegment.h">
+      <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\shapes\Triangle.h">
+      <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\shapes\Rectangle.h">
+      <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\shapes\Circle.h">
+      <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\ShapesContainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\shapes\ICircle.h">
+      <Filter>Header Files\Shapes\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\shapes\ILineSegment.h">
+      <Filter>Header Files\Shapes\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\shapes\IRectangle.h">
+      <Filter>Header Files\Shapes\Interface</Filter>
     </ClInclude>
     <ClInclude Include="headers\shapes\IShape.h">
-      <Filter>Header Files\Shapes</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\shapes\CLineSegment.h">
-      <Filter>Header Files\Shapes</Filter>
+      <Filter>Header Files\Shapes\Interface</Filter>
     </ClInclude>
     <ClInclude Include="headers\shapes\ISolidShape.h">
-      <Filter>Header Files\Shapes</Filter>
+      <Filter>Header Files\Shapes\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="headers\shapes\CTriangle.h">
-      <Filter>Header Files\Shapes</Filter>
+    <ClInclude Include="headers\shapes\ITriangle.h">
+      <Filter>Header Files\Shapes\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="headers\shapes\CRectangle.h">
-      <Filter>Header Files\Shapes</Filter>
+    <ClInclude Include="headers\shapes\ShapeImpl.hpp">
+      <Filter>Header Files\Shapes\Implementation</Filter>
     </ClInclude>
-    <ClInclude Include="headers\shapes\CCircle.h">
-      <Filter>Header Files\Shapes</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\CShapesContainer.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="headers\shapes\SolidShapeImpl.hpp">
+      <Filter>Header Files\Shapes\Implementation</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -149,30 +149,29 @@
   <ItemGroup>
     <ClCompile Include="headers\pch.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="resources\shapes\circle.cpp" />
-    <ClCompile Include="resources\shapes\ishape.cpp" />
-    <ClCompile Include="resources\shapes\isolid_shape.cpp" />
-    <ClCompile Include="resources\shapes\line_segment.cpp" />
-    <ClCompile Include="resources\shapes\point.cpp" />
-    <ClCompile Include="resources\shapes\rectangle.cpp" />
-    <ClCompile Include="resources\shapes\triangle.cpp" />
-    <ClCompile Include="resources\shape_container.cpp" />
+    <ClCompile Include="resources\shapes\Circle.cpp" />
+    <ClCompile Include="resources\shapes\LineSegment.cpp" />
+    <ClCompile Include="resources\shapes\Point.cpp" />
+    <ClCompile Include="resources\shapes\Rectangle.cpp" />
+    <ClCompile Include="resources\shapes\Triangle.cpp" />
+    <ClCompile Include="resources\ShapeContainer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\CShapesContainer.h" />
-    <ClInclude Include="headers\shapes\CCircle.h" />
-    <ClInclude Include="headers\shapes\CLineSegment.h" />
-    <ClInclude Include="headers\shapes\CPoint.h" />
-    <ClInclude Include="headers\shapes\CRectangle.h" />
-    <ClInclude Include="headers\shapes\CTriangle.h" />
+    <ClInclude Include="headers\ShapesContainer.h" />
+    <ClInclude Include="headers\shapes\Circle.h" />
+    <ClInclude Include="headers\shapes\ICircle.h" />
+    <ClInclude Include="headers\shapes\ILineSegment.h" />
+    <ClInclude Include="headers\shapes\IRectangle.h" />
     <ClInclude Include="headers\shapes\IShape.h" />
     <ClInclude Include="headers\shapes\ISolidShape.h" />
+    <ClInclude Include="headers\shapes\ITriangle.h" />
+    <ClInclude Include="headers\shapes\LineSegment.h" />
+    <ClInclude Include="headers\shapes\Point.h" />
+    <ClInclude Include="headers\shapes\Rectangle.h" />
+    <ClInclude Include="headers\shapes\ShapeImpl.hpp" />
+    <ClInclude Include="headers\shapes\SolidShapeImpl.hpp" />
+    <ClInclude Include="headers\shapes\Triangle.h" />
     <ClInclude Include="headers\pch.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\test\lab4\shapes_test\shapes_test.vcxproj">
-      <Project>{1ad7950a-6183-412e-aebb-d5c42b875136}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
