@@ -13,10 +13,10 @@ int main()
 	}
 
 	std::cout << "Shape with max area info:" << std::endl;
-	shapeContainer.PrintShapeInfoWithMaxArea(std::cout);
+	shapeContainer.PrintShapeInfo(std::cout, ShapesContainer::s_maxAreaShapePred);
 	std::cout << std::endl;
 	std::cout << "Shape's with min perimeter info:" << std::endl;
-	shapeContainer.PrintShapeInfoWithMinPerimeter(std::cout);
+	shapeContainer.PrintShapeInfo(std::cout, ShapesContainer::s_minPerimeterShapePred);
 
 	return 0;
 }
