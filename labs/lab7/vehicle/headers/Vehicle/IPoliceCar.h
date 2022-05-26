@@ -5,4 +5,6 @@
 
 class IPoliceCar : public ICar<IPoliceMan>
 {
+public:
+	~IPoliceCar() = default;
 };

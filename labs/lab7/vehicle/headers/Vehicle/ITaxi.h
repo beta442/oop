@@ -5,4 +5,6 @@
 
 class ITaxi : public ICar<IPerson>
 {
+public:
+	~ITaxi() = default;
 };

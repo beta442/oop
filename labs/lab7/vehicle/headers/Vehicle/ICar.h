@@ -36,6 +36,8 @@ public:
 	};
 
 public:
+	~ICar() = default;
+
 	virtual MakeOfTheCar GetMakeOfTheCar() const = 0;
 	virtual const std::string& GetCarType() const = 0;
 };

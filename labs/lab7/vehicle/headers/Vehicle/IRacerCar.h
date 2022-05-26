@@ -5,4 +5,6 @@
 
 class IRacerCar : public ICar<IRacer>
 {
+public:
+	~IRacerCar() = default;
 };

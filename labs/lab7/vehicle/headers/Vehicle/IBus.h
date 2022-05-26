@@ -6,4 +6,6 @@
 
 class IBus : public IVehicle<IPerson>
 {
+public:
+	~IBus() = default;
 };
