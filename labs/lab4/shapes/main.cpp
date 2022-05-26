@@ -6,9 +6,13 @@ int main()
 {
 	ShapesContainer shapeContainer;
 
-	if (!shapeContainer.ReadShape(std::cin))
+	try
 	{
-		std::cout << "Something went wrong. Exiting..." << std::endl;
+		shapeContainer.ReadShapes(std::cin);
+	}
+	catch (const std::exception& e)
+	{
+		std::cout << e.what() << std::endl;
 		return 1;
 	}
 
