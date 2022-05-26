@@ -1,10 +1,10 @@
-#include "../../../../catch2/catch.hpp"
+#include "../pch.h"
 
-#include "../../../../labs/lab4/shapes/headers/shapes/CTriangle.h"
+#include "../../../../labs/lab4/shapes/headers/shapes/Triangle.h"
 
 TEST_CASE("Triangle at creation state")
 {
-	const CPoint v1{ 0, 0 }, v2{ 5, 5 }, v3{ 0, 7 };
+	const Point v1{ 0, 0 }, v2{ 5, 5 }, v3{ 0, 7 };
 	const double perimeter = v1.Distance(v2) + v1.Distance(v3) + v2.Distance(v3);
 	const double halfPerimeter = perimeter * 0.5;
 	const double area = std::sqrt(halfPerimeter *
@@ -12,7 +12,7 @@ TEST_CASE("Triangle at creation state")
 		(halfPerimeter - v1.Distance(v3)) *
 		(halfPerimeter - v2.Distance(v3)));
 	const uint32_t outlineColor = 16711680, fillColor = 65280;
-	const CTriangle triangle{ v1, v2, v3, outlineColor, fillColor };
+	const Triangle triangle{ v1, v2, v3, outlineColor, fillColor };
 
 	WHEN("Triangle created")
 	{

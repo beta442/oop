@@ -1,14 +1,14 @@
-#include "../../../../catch2/catch.hpp"
+#include "../pch.h"
 
-#include "../../../../labs/lab4/shapes/headers/shapes/CRectangle.h"
+#include "../../../../labs/lab4/shapes/headers/shapes/Rectangle.h"
 
 TEST_CASE("Rectangle at creation state")
 {
-	const CPoint basePoint{ 10.10, 20.20 };
+	const Point basePoint{ 10.10, 20.20 };
 	const double width = 100, height = 50;
-	const CPoint rightBottomPoint{ basePoint.x + width, basePoint.y + height };
+	const Point rightBottomPoint{ basePoint.x + width, basePoint.y + height };
 	const uint32_t outlineColor = 16711680, fillColor = 65280;
-	const CRectangle rect{ basePoint, width, height, outlineColor, fillColor };
+	const Rectangle rect{ basePoint, width, height, outlineColor, fillColor };
 
 	WHEN("Rectangle created")
 	{

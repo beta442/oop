@@ -1,10 +1,10 @@
-#include "../../../../catch2/catch.hpp"
+#include "../pch.h"
 
-#include "../../../../labs/lab4/shapes/headers/shapes/CPoint.h"
+#include "../../../../labs/lab4/shapes/headers/shapes/Point.h"
 
 TEST_CASE("Point workflow")
 {
-	const CPoint p1{ 1, 0 }, p2{ 4, 0 }, p3{ -16, 0 };
+	const Point p1{ 1, 0 }, p2{ 4, 0 }, p3{ -16, 0 };
 
 	WHEN("Trying to recieve distance between two points")
 	{

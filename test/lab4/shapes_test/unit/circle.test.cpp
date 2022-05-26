@@ -1,16 +1,16 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 
-#include "../../../../catch2/catch.hpp"
+#include "../pch.h"
 
-#include "../../../../labs/lab4/shapes/headers/shapes/CCircle.h"
+#include "../../../../labs/lab4/shapes/headers/shapes/Circle.h"
 
 TEST_CASE("Circle at creation state")
 {
-	const CPoint basePoint{ 10.10, 20.20 };
+	const Point basePoint{ 10.10, 20.20 };
 	const double radius = 100;
 	const uint32_t outlineColor = 16711680, fillColor = 65280;
-	const CCircle circle{ basePoint, radius, outlineColor, fillColor };
+	const Circle circle{ basePoint, radius, outlineColor, fillColor };
 
 	WHEN("Circle created")
 	{
