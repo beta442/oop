@@ -1,20 +1,16 @@
-#include "../../headers/shapes/CPoint.h"
-#include "sstream"
+#include "../../headers/shapes/Point.h"
 
-bool CPoint::operator==(const CPoint& other) const
+inline bool Point::operator==(const Point& other) const
 {
 	return x == other.x && y == other.y;
 }
 
-std::string CPoint::ToString() const
+std::string Point::ToString() const
 {
-	std::ostringstream oss;
-	oss << "X: " << x << ", Y: " << y << std::endl;
-
-	return oss.str();
+	return "X: " + std::to_string(x) + ", Y: " + std::to_string(y) + '\n';
 }
 
-double CPoint::Distance(const CPoint& other) const
+double Point::Distance(const Point& other) const
 {
 	return std::sqrt((other.x - x) * (other.x - x) + (other.y - y) * (other.y - y));
 }
