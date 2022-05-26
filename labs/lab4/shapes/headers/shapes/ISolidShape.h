@@ -1,16 +1,12 @@
 #pragma once
 
 #include "IShape.h"
+#include "Point.h"
 
 class ISolidShape : public IShape
 {
 public:
-	virtual uint32_t GetFillColor() const = 0;
+	~ISolidShape() = default;
 
-protected:
-	//todo: remove
-	ISolidShape(const CPoint basePoint,
-		const uint32_t outlineColor, const uint32_t fillColor);
-
-	uint32_t m_fillColor;
+	virtual Color GetFillColor() const = 0;
 };
