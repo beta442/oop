@@ -1,64 +1,57 @@
-#include "../../headers/shapes/CRectangle.h"
+#include "../../headers/shapes/Rectangle.h"
 
-CRectangle::CRectangle(const CPoint& basePoint,
-	const double width, const double height, const uint32_t outlineColor, uint32_t fillColor)
-	: ISolidShape(basePoint, outlineColor, fillColor)
+Rectangle::Rectangle(const Point& basePoint,
+	const double width, const double height, const Color& outlineColor, const Color& fillColor)
+	: MyBase(basePoint, outlineColor, fillColor, s_type)
 	, m_width(width)
 	, m_height(height)
 {
 }
 
-double CRectangle::GetArea() const
+inline double Rectangle::GetArea() const
 {
 	return m_width * m_height;
 }
 
-double CRectangle::GetPerimeter() const
+inline double Rectangle::GetPerimeter() const
 {
 	return (m_width + m_height) * 2;
 }
 
-std::string CRectangle::ToString() const
+inline double Rectangle::CalculateArea() const
 {
-	std::ostringstream oss;
-	oss << std::hex;
-	oss << "Rectangle:" << std::endl
-		<< "--left top: " << m_basePoint.ToString()
-		<< "--width: " << m_width << std::endl
-		<< "--height: " << m_height << std::endl
-		<< "--area: " << GetArea() << std::endl
-		<< "--perimeter: " << GetPerimeter() << std::endl
-		<< "--outline color: " << m_outlineColor << std::endl
-		<< "--fill color: " << m_fillColor << std::endl;
-	return oss.str();
+	return GetArea();
 }
 
-uint32_t CRectangle::GetOutlineColor() const
+inline double Rectangle::CalculatePerimeter() const
 {
-	return m_outlineColor;
+	return GetPerimeter();
 }
 
-uint32_t CRectangle::GetFillColor() const
+inline Point Rectangle::GetLeftTop() const
 {
-	return m_fillColor;
+	return GetBasePoint();
 }
 
-CPoint CRectangle::GetLeftTop() const
+inline Point Rectangle::GetRightBottom() const
 {
-	return m_basePoint;
+	const auto basePoint = GetBasePoint();
+	return Point{ basePoint.x + m_width, basePoint.y + m_height };
 }
 
-CPoint CRectangle::GetRightBottom() const
-{
-	return CPoint{ m_basePoint.x + m_width, m_basePoint.y + m_height };
-}
-
-double CRectangle::GetWidth() const
+inline double Rectangle::GetWidth() const
 {
 	return m_width;
 }
 
-double CRectangle::GetHeight() const
+inline double Rectangle::GetHeight() const
 {
 	return m_height;
+}
+
+inline std::string Rectangle::ToStringAdditional() const
+{
+	return "Right bottom: " + GetRightBottom().ToString()
+		+ "Width: " + std::to_string(GetWidth()) + '\n'
+		+ "Height: " + std::to_string(GetHeight()) + '\n';
 }
