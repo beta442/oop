@@ -1,10 +1,10 @@
 #include "headers/pch.h"
 
-#include "headers/CShapesContainer.h"
+#include "headers/ShapesContainer.h"
 
 int main()
 {
-	 CShapesContainer shapeContainer;
+	ShapesContainer shapeContainer;
 
 	if (!shapeContainer.ReadShape(std::cin))
 	{
