@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <optional>
 
 #include "../headers/ShapesContainer.h"
@@ -84,6 +85,12 @@ bool ShapesContainer::ReadShape(std::istream& input)
 
 using Color = IShape::Color;
 
+template <typename ShapeType, typename... Args>
+decltype(auto) MakeShape(const Args&... args)
+{
+	return std::make_shared<ShapeType>(args...);
+}
+
 bool ShapesContainer::ReadLineSegment(std::istream& input)
 {
 	double startX, startY, endX, endY;
@@ -91,7 +98,7 @@ bool ShapesContainer::ReadLineSegment(std::istream& input)
 
 	if (input >> startX >> startY >> endX >> endY >> std::hex >> outlineColor)
 	{
-		m_shapes.emplace_back(std::make_shared<LineSegment>(Point{ startX, startY }, Point{ endX, endY }, outlineColor));
+		m_shapes.emplace_back(MakeShape<LineSegment>(Point{ startX, startY }, Point{ endX, endY }, outlineColor));
 		return true;
 	}
 
@@ -105,7 +112,7 @@ bool ShapesContainer::ReadTriangle(std::istream& input)
 
 	if (input >> v1X >> v1Y >> v2X >> v2Y >> v3X >> v3Y >> std::hex >> outlineColor >> std::hex >> fillColor)
 	{
-		m_shapes.emplace_back(std::make_shared<Triangle>(Point{ v1X, v2X }, Point{ v2X, v2Y }, Point{ v3X, v3Y }, outlineColor, fillColor));
+		m_shapes.emplace_back(MakeShape<Triangle>(Point{ v1X, v2X }, Point{ v2X, v2Y }, Point{ v3X, v3Y }, outlineColor, fillColor));
 		return true;
 	}
 
@@ -119,7 +126,7 @@ bool ShapesContainer::ReadRectangle(std::istream& input)
 
 	if (input >> leftTopX >> leftTopY >> width >> height >> std::hex >> outlineColor >> std::hex >> fillColor)
 	{
-		m_shapes.emplace_back(std::make_shared<Rectangle>(Point{ leftTopX, leftTopY }, width, height, outlineColor, fillColor));
+		m_shapes.emplace_back(MakeShape<Rectangle>(Point{ leftTopX, leftTopY }, width, height, outlineColor, fillColor));
 		return true;
 	}
 
@@ -133,82 +140,36 @@ bool ShapesContainer::ReadCircle(std::istream& input)
 
 	if (input >> centerX >> centerY >> radius >> std::hex >> outlineColor >> std::hex >> fillColor)
 	{
-		m_shapes.emplace_back(std::make_shared<Circle>(Point{ centerX, centerY }, radius, outlineColor, fillColor));
+		m_shapes.emplace_back(MakeShape<Circle>(Point{ centerX, centerY }, radius, outlineColor, fillColor));
 		return true;
 	}
 
 	return false;
 }
 
-void ShapesContainer::PrintShapeInfoWithMaxArea(std::ostream& output) const
+using ShapePtr = ShapesContainer::ShapePtr;
+
+template <typename T, typename Less>
+std::optional<T> GetMax(const std::vector<T>& shapes, const Less& pred)
 {
-	if (auto shapePtr = FindMaxAreaShape())
+	const auto itBeg = std::begin(shapes), itEnd = std::end(shapes);
+	if (const auto it = std::max_element(itBeg, itEnd, pred);
+		it != itEnd)
 	{
-		// std::() найти подходящий алгоритм для поиска мин/макс элементов
-		output << shapePtr->ToString();
+		return *it;
+	}
+	return std::nullopt;
+}
+
+void ShapesContainer::PrintShapeInfo(std::ostream& output, ShapeCmpType pred) const
+{
+	if (auto oShapePtr = GetMax(m_shapes, pred);
+		oShapePtr.has_value())
+	{
+		output << (*oShapePtr)->ToString();
 	}
 	else
 	{
-		output << "Didn't find a shape with max area" << std::endl;
+		output << "Didn't find a shape" << std::endl;
 	}
-}
-
-void ShapesContainer::PrintShapeInfoWithMinPerimeter(std::ostream& output) const
-{
-	if (auto shapePtr = FindMinPerimeterShape())
-	{
-		output << shapePtr->ToString();
-	}
-	else
-	{
-		output << "Didn't find a shape with min perimeter" << std::endl;
-	}
-}
-
-std::shared_ptr<IShape> ShapesContainer::FindMaxAreaShape() const
-{
-	if (m_shapes.empty())
-	{
-		return {};
-	}
-
-	std::shared_ptr<IShape> result = m_shapes[0];
-	double maxArea = m_shapes[0]->GetArea();
-	double temp;
-	for (auto it = std::begin(m_shapes), end = std::end(m_shapes); it != end; ++it)
-	{
-		if ((temp = (*it)->GetArea()) > maxArea)
-		{
-			maxArea = temp;
-			result = *it;
-		}
-	}
-	return result;
-}
-
-std::shared_ptr<IShape> ShapesContainer::FindMinPerimeterShape() const
-{
-	if (m_shapes.empty())
-	{
-		return {};
-	}
-
-	std::shared_ptr<IShape> result = m_shapes[0];
-	double minPerimeter = m_shapes[0]->GetPerimeter();
-	double temp;
-	for (auto it = std::begin(m_shapes), end = std::end(m_shapes); it != end; ++it)
-	{
-		if ((temp = (*it)->GetPerimeter()) < minPerimeter)
-		{
-			minPerimeter = temp;
-			result = *it;
-		}
-	}
-
-	return result;
-}
-
-template <typename Pred>
-std::optional<std::shared_ptr<IShape>> GetShapeWith(const std::vector<std::shared_ptr<IShape>>& shapes, const Pred& pred)
-{
 }
