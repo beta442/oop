@@ -30,7 +30,7 @@ public:
 		return lhs->GetPerimeter() > rhs->GetPerimeter();
 	};
 
-	bool ReadShape(std::istream& input);
+	void ReadShapes(std::istream& input);
 
 	void PrintShapeInfo(std::ostream& output, ShapeCmpType pred) const;
 

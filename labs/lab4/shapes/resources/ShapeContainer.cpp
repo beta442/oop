@@ -18,7 +18,7 @@ inline static const std::map<std::string, ShapeType> STRING_TO_SHAPE_MAP = {
 	{ "rectangle", ShapeType::Rectangle },
 };
 
-bool ShapesContainer::ReadShape(std::istream& input)
+void ShapesContainer::ReadShapes(std::istream& input)
 {
 	std::string inputStr, shapeTypeStr;
 	std::stringstream iss;
@@ -42,7 +42,7 @@ bool ShapesContainer::ReadShape(std::istream& input)
 
 		if (!shapeType.has_value())
 		{
-			return false;
+			throw std::domain_error("Wrong shape type at 1 argument");
 		}
 
 		switch (*shapeType)
@@ -50,37 +50,35 @@ bool ShapesContainer::ReadShape(std::istream& input)
 		case ShapeType::Line:
 			if (!ReadLineSegment(iss))
 			{
-				return false;
+				throw std::domain_error("Failed to read line segment arguments");
 			}
 			break;
 
 		case ShapeType::Triangle:
 			if (!ReadTriangle(iss))
 			{
-				return false;
+				throw std::domain_error("Failed to read triangle arguments");
 			}
 			break;
 
 		case ShapeType::Rectangle:
 			if (!ReadRectangle(iss))
 			{
-				return false;
+				throw std::domain_error("Failed to read rectangle arguments");
 			}
 			break;
 
 		case ShapeType::Circle:
 			if (!ReadCircle(iss))
 			{
-				return false;
+				throw std::domain_error("Failed to read circle arguments");
 			}
 			break;
 
 		default:
-			return false;
+			throw std::domain_error("Failed to read arguments");
 		}
 	}
-
-	return true;
 }
 
 using Color = IShape::Color;
