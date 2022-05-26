@@ -4,7 +4,6 @@
 #include <sstream>
 
 #include "IShape.h"
-#include "Point.h"
 
 template <typename Base = IShape>
 class ShapeImpl : public Base
