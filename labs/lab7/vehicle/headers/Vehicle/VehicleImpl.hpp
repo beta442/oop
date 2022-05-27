@@ -69,10 +69,10 @@ public:
 		return m_passengersCount;
 	}
 
-	inline std::optional<size_t> GetIndexOfPassenger(const std::string& name) const override
+	inline std::optional<size_t> GetIndexOfPassenger(const std::shared_ptr<Passenger> passenger) const override
 	{
 		const auto itBeg = std::begin(m_passengers), itEnd = std::end(m_passengers);
-		const auto it = std::find_if(itBeg, itEnd, [&](auto& person) { return person->GetName() == name; });
+		const auto it = std::find_if(itBeg, itEnd, [&](auto& person) { return person == passenger; });
 		if (it == itEnd)
 		{
 			return std::nullopt;

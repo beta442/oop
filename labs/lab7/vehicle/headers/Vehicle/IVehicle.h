@@ -15,5 +15,5 @@ public:
 	virtual void AddPassenger(std::shared_ptr<Passenger> pPassenger) = 0;
 	virtual Passenger const& GetPassenger(size_t index) const = 0;
 	virtual void RemovePassenger(size_t index) = 0;
-	virtual std::optional<size_t> GetIndexOfPassenger(const std::string& name) const = 0;
+	virtual std::optional<size_t> GetIndexOfPassenger(const std::shared_ptr<Passenger> passenger) const = 0;
 };
