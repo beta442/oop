@@ -34,7 +34,7 @@ void PrintPassengersInVehicle(std::ostream& os, const IVehicle<PassengerType>& v
 	}
 
 	const auto passengerCount = vehicle.GetPassengerCount();
-	const IPerson* p = nullptr;
+	const PassengerType* p = nullptr;
 	std::string passengerType;
 	for (size_t i = 0; i < passengerCount; ++i)
 	{
@@ -73,14 +73,14 @@ void PrintCarInfo(std::ostream& os, const ICar<PassengerType>& car)
 	PrintVehicleInfo(os, car);
 }
 
-template <typename PassengerType>
-void RemovePassengerWithEcho(std::ostream& os, IVehicle<PassengerType>& vehicle, const std::string& name)
+template <typename PassengerType, typename PassengerPtrType>
+void RemovePassengerWithEcho(std::ostream& os, IVehicle<PassengerType>& vehicle, PassengerPtrType passenger)
 {
-	if (const auto passengerIndex = vehicle.GetIndexOfPassenger(name);
-		passengerIndex.has_value())
+	if (const auto oPassengerIndex = vehicle.GetIndexOfPassenger(passenger);
+		oPassengerIndex.has_value())
 	{
-		os << name << " leaving his vehicle..." << std::endl;
-		vehicle.RemovePassenger(*passengerIndex);
+		os << passenger->GetName() << " leaving his vehicle..." << std::endl;
+		vehicle.RemovePassenger(*oPassengerIndex);
 	}
 }
 
@@ -123,7 +123,7 @@ int main()
 			  << std::endl;
 
 	std::cout << "The police quarreled:" << std::endl;
-	RemovePassengerWithEcho(std::cout, policeCar, policeManSecond->GetName());
+	RemovePassengerWithEcho(std::cout, policeCar, policeManSecond);
 	std::cout << std::endl;
 
 	const auto taxiDriver = CreatePerson<Person>("Raja Gandhi");
@@ -141,7 +141,7 @@ int main()
 	std::cout << std::endl;
 
 	std::cout << "The policeman demands the taxi driver " << taxiDriver->GetName() << " to leave his car:" << std::endl;
-	RemovePassengerWithEcho(std::cout, taxi, taxiDriver->GetName());
+	RemovePassengerWithEcho(std::cout, taxi, taxiDriver);
 	std::cout << std::endl;
 
 	AddPassengerInVehicleWithEcho(std::cout, taxi, policeManSecond);
