@@ -129,5 +129,8 @@
     <ClInclude Include="headers\Vehicle\RacerCar.h">
       <Filter>Header Files\Vehicle</Filter>
     </ClInclude>
+    <ClInclude Include="headers\TaskUtil.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

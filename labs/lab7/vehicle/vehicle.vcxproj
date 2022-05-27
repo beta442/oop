@@ -166,6 +166,7 @@
     <ClInclude Include="headers\Person\PersonImpl.hpp" />
     <ClInclude Include="headers\Person\PoliceMan.h" />
     <ClInclude Include="headers\Person\Racer.h" />
+    <ClInclude Include="headers\TaskUtil.hpp" />
     <ClInclude Include="headers\Vehicle\Bus.h" />
     <ClInclude Include="headers\Vehicle\CarImpl.hpp" />
     <ClInclude Include="headers\Vehicle\IBasicVehicle.h" />
