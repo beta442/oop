@@ -5,6 +5,6 @@
 
 class IRacerCar : public ICar<IRacer>
 {
-public:
+protected:
 	~IRacerCar() = default;
 };

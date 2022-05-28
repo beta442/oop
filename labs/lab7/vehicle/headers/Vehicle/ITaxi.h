@@ -5,6 +5,6 @@
 
 class ITaxi : public ICar<IPerson>
 {
-public:
+protected:
 	~ITaxi() = default;
 };

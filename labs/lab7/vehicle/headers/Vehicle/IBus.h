@@ -6,6 +6,6 @@
 
 class IBus : public IVehicle<IPerson>
 {
-public:
+protected:
 	~IBus() = default;
 };

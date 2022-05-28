@@ -5,6 +5,6 @@
 
 class IPoliceCar : public ICar<IPoliceMan>
 {
-public:
+protected:
 	~IPoliceCar() = default;
 };
