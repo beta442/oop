@@ -25,6 +25,12 @@
     <Filter Include="Header Files\Shapes\Implementation">
       <UniqueIdentifier>{78637751-2812-4fd2-917a-4b4b762eb559}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Canvas">
+      <UniqueIdentifier>{4de39258-56e1-4b35-949d-fc90e1ef1ccf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Canvas">
+      <UniqueIdentifier>{3b8d40b9-6d55-47a7-9c41-6262794ce083}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="headers\pch.cpp">
@@ -48,6 +54,9 @@
     </ClCompile>
     <ClCompile Include="src\ShapeContainer.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\canvas\Canvas.cpp">
+      <Filter>Source Files\Canvas</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -96,5 +105,20 @@
     <ClInclude Include="headers\shapes\SolidShapeImpl.hpp">
       <Filter>Header Files\Shapes\Implementation</Filter>
     </ClInclude>
+    <ClInclude Include="headers\shapes\ICanvasDrawable.h">
+      <Filter>Header Files\Shapes\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\canvas\ICanvas.h">
+      <Filter>Header Files\Canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\shapes\Types.h">
+      <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\canvas\Canvas.h">
+      <Filter>Header Files\Canvas</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="headers\shapes\ShapeDiagram.cd" />
   </ItemGroup>
 </Project>

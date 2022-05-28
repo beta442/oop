@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClCompile Include="headers\pch.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\canvas\Canvas.cpp" />
     <ClCompile Include="src\ShapeContainer.cpp" />
     <ClCompile Include="src\shapes\Circle.cpp" />
     <ClCompile Include="src\shapes\LineSegment.cpp" />
@@ -157,8 +158,11 @@
     <ClCompile Include="src\shapes\Triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="headers\canvas\Canvas.h" />
+    <ClInclude Include="headers\canvas\ICanvas.h" />
     <ClInclude Include="headers\ShapesContainer.h" />
     <ClInclude Include="headers\shapes\Circle.h" />
+    <ClInclude Include="headers\shapes\ICanvasDrawable.h" />
     <ClInclude Include="headers\shapes\ICircle.h" />
     <ClInclude Include="headers\shapes\ILineSegment.h" />
     <ClInclude Include="headers\shapes\IRectangle.h" />
@@ -172,6 +176,10 @@
     <ClInclude Include="headers\shapes\SolidShapeImpl.hpp" />
     <ClInclude Include="headers\shapes\Triangle.h" />
     <ClInclude Include="headers\pch.h" />
+    <ClInclude Include="headers\shapes\Types.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="headers\shapes\ShapeDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
