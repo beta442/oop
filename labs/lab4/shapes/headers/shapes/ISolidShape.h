@@ -5,7 +5,8 @@
 class ISolidShape : public IShape
 {
 public:
-	~ISolidShape() = default;
-
 	virtual Color GetFillColor() const = 0;
+
+protected:
+	~ISolidShape() = default;
 };

@@ -5,7 +5,8 @@
 class ICanvasDrawable
 {
 public:
-	~ICanvasDrawable() = default;
-
 	virtual void Draw(const ICanvas& canvas) const = 0;
+
+protected:
+	~ICanvasDrawable() = default;
 };
