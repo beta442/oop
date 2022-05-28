@@ -143,8 +143,6 @@ bool ShapesContainer::ReadCircle(std::istream& input)
 	return false;
 }
 
-using ShapePtr = ShapesContainer::ShapePtr;
-
 template <typename T, typename Less>
 std::optional<T> GetMax(const std::vector<T>& shapes, const Less& pred)
 {
@@ -157,7 +155,7 @@ std::optional<T> GetMax(const std::vector<T>& shapes, const Less& pred)
 	return std::nullopt;
 }
 
-void ShapesContainer::PrintShapeInfo(std::ostream& output, ShapeCmpType pred) const
+void ShapesContainer::PrintCertainShapeInfo(std::ostream& output, ShapeCmpType pred) const
 {
 	if (auto oShapePtr = GetMax(m_shapes, pred);
 		oShapePtr.has_value())
