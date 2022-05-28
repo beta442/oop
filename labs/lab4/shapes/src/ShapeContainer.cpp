@@ -81,8 +81,6 @@ void ShapesContainer::ReadShapes(std::istream& input)
 	}
 }
 
-using Color = IShape::Color;
-
 template <typename ShapeType, typename... Args>
 decltype(auto) MakeShape(const Args&... args)
 {
