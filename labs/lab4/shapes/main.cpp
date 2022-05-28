@@ -22,5 +22,7 @@ int main()
 	std::cout << "Shape's with min perimeter info:" << std::endl;
 	shapeContainer.PrintCertainShapeInfo(std::cout, ShapesContainer::s_minPerimeterShapePred);
 
+	shapeContainer.DrawShapes(1280, 720, "Shapes");
+
 	return 0;
 }
