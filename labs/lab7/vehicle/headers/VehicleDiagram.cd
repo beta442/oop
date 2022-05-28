@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="IPerson" Collapsed="true">
+    <Position X="1.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAIABAA=</HashCode>
+      <FileName>headers\Person\IPerson.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IPoliceMan" Collapsed="true">
+    <Position X="0.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>headers\Person\IPoliceMan.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IRacer" Collapsed="true">
+    <Position X="2.75" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>headers\Person\IRacer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Person" Collapsed="true">
+    <Position X="8.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>headers\Person\Person.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PoliceMan" Collapsed="true">
+    <Position X="11" Y="2" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEAAAAAAAAAAAAAAAACAAAAgEAAAAA=</HashCode>
+      <FileName>headers\Person\PoliceMan.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Racer" Collapsed="true">
+    <Position X="13.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAAAAAAAAAAAQgAAAAAAAgAAAAAA=</HashCode>
+      <FileName>headers\Person\Racer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PersonImpl&lt;Base&gt;" Collapsed="true">
+    <Position X="11" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>EAAAIAAACAAAAAAAAAAAAAAAAAAAAAEAAAAAABAABAA=</HashCode>
+      <FileName>headers\Person\PersonImpl.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IBasicVehicle" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABgAAAAAAAABAAAAAAAAAAAAAAAAAAIAAQIAAAAAAA=</HashCode>
+      <FileName>headers\Vehicle\IBasicVehicle.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IBus" Collapsed="true">
+    <Position X="0.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>headers\Vehicle\IBus.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ICar&lt;Passenger&gt;" Collapsed="true">
+    <Position X="5.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAQAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>headers\Vehicle\ICar.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IPoliceCar" Collapsed="true">
+    <Position X="7.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>headers\Vehicle\IPoliceCar.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IRacerCar" Collapsed="true">
+    <Position X="3" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>headers\Vehicle\IRacerCar.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ITaxi" Collapsed="true">
+    <Position X="5.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>headers\Vehicle\ITaxi.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IVehicle&lt;Passenger&gt;" Collapsed="true">
+    <Position X="4" Y="1.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAEIAgAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>headers\Vehicle\IVehicle.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarImpl&lt;Base&gt;" Collapsed="true">
+    <Position X="4.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAIAAAAQAAAAABAAAAAAACAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>headers\Vehicle\CarImpl.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VehicleImpl&lt;Base, Passenger&gt;" Collapsed="true">
+    <Position X="5.5" Y="9.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AABkAAEIAgAEAAAAAAAAAAAAAIAAAAgIAAQIAAAEAAA=</HashCode>
+      <FileName>headers\Vehicle\VehicleImpl.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Bus" Collapsed="true">
+    <Position X="5.75" Y="11" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>headers\Vehicle\Bus.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PoliceCar" Collapsed="true">
+    <Position X="3.75" Y="8" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAgAAAgAAAAAA=</HashCode>
+      <FileName>headers\Vehicle\PoliceCar.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RacerCar" Collapsed="true">
+    <Position X="7.25" Y="8" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACIAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>headers\Vehicle\RacerCar.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Taxi" Collapsed="true">
+    <Position X="0.75" Y="8" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAABAAgAAAAAA=</HashCode>
+      <FileName>headers\Vehicle\Taxi.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -133,4 +133,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="headers\VehicleDiagram.cd">
+      <Filter>Header Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>
