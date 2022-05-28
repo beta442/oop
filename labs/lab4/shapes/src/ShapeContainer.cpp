@@ -169,3 +169,7 @@ void ShapesContainer::PrintShapeInfo(std::ostream& output, ShapeCmpType pred) co
 		output << "Didn't find a shape" << std::endl;
 	}
 }
+
+void ShapesContainer::DrawShapes(const unsigned width, const unsigned height, const std::string& windowTitle) const
+{
+}

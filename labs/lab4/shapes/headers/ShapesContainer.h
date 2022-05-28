@@ -31,8 +31,8 @@ public:
 	};
 
 	void ReadShapes(std::istream& input);
-
 	void PrintShapeInfo(std::ostream& output, ShapeCmpType pred) const;
+	void DrawShapes(const unsigned width, const unsigned height, const std::string& windowTitle) const;
 
 private:
 	bool ReadLineSegment(std::istream& input);
