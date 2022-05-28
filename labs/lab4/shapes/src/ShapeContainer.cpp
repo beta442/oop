@@ -3,6 +3,8 @@
 
 #include "../headers/ShapesContainer.h"
 
+#include "../headers/canvas/Canvas.h"
+
 #include "../headers/shapes/Circle.h"
 #include "../headers/shapes/LineSegment.h"
 #include "../headers/shapes/Point.h"
@@ -170,4 +172,26 @@ void ShapesContainer::PrintCertainShapeInfo(std::ostream& output, ShapeCmpType p
 
 void ShapesContainer::DrawShapes(const unsigned width, const unsigned height, const std::string& windowTitle) const
 {
+	const auto backgroundColor = sf::Color(255, 255, 255);
+	Canvas canvas(width, height, windowTitle);
+	while (canvas.GetRenderWindow().isOpen())
+	{
+		sf::Event event;
+		while (canvas.GetRenderWindow().pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+			{
+				canvas.GetRenderWindow().close();
+			}
+		}
+
+		canvas.GetRenderWindow().clear(backgroundColor);
+
+		for (const auto& shape : m_shapes)
+		{
+			shape->Draw(canvas);
+		}
+
+		canvas.GetRenderWindow().display();
+	}
 }
