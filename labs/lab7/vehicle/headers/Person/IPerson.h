@@ -4,9 +4,10 @@
 
 class IPerson
 {
-public:
-	~IPerson() = default;
-	
+public:	
 	virtual std::string GetName() const = 0;
 	virtual std::string GetType() const = 0;
+
+protected:
+	~IPerson() = default;
 };

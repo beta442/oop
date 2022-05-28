@@ -5,7 +5,8 @@
 class IPoliceMan : public IPerson
 {
 public:
-	~IPoliceMan() = default;
-
 	virtual std::string GetDepartmentName() const = 0;
+
+protected:
+	~IPoliceMan() = default;
 };
