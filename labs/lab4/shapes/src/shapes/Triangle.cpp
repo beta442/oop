@@ -47,6 +47,10 @@ inline std::string Triangle::ToStringAdditional() const
 		+ "Vertex3: " + m_v3.ToString();
 }
 
-inline void Triangle::Draw(const ICanvas& canvas) const
+inline void Triangle::Draw(ICanvas& canvas) const
 {
+	canvas.FillPolygon({ m_v1, m_v2, m_v3 }, GetFillColor());
+	canvas.DrawLine(m_v1, m_v2, GetOutlineColor());
+	canvas.DrawLine(m_v2, m_v3, GetOutlineColor());
+	canvas.DrawLine(m_v1, m_v3, GetOutlineColor());
 }

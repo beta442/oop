@@ -20,7 +20,7 @@ public:
 	inline Point GetCenter() const override final;
 	inline double GetRadius() const override final;
 
-	inline void Draw(const ICanvas& canvas) const override final;
+	inline void Draw(ICanvas& canvas) const override final;
 
 private:
 	inline std::string ToStringAdditional() const override;

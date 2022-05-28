@@ -46,6 +46,21 @@ inline std::string Rectangle::ToStringAdditional() const
 		+ "Height: " + std::to_string(GetHeight()) + '\n';
 }
 
-inline void Rectangle::Draw(const ICanvas& canvas) const
+#include <iostream>
+
+inline void Rectangle::Draw(ICanvas& canvas) const
 {
+	const Point rightTop = { GetBasePoint().x + m_width, GetBasePoint().y },
+				leftBottom = { GetRightBottom().x - m_width, GetRightBottom().y };
+
+	/*std::cout << "LT: " << GetBasePoint().ToString() << std::endl;
+	std::cout << "RT: " << rightTop.ToString() << std::endl;
+	std::cout << "LB: " << leftBottom.ToString() << std::endl;
+	std::cout << "RB: " << GetRightBottom().ToString() << std::endl;*/
+
+	canvas.FillPolygon({ GetBasePoint(), rightTop, GetRightBottom(), leftBottom }, GetFillColor());
+	canvas.DrawLine(GetBasePoint(), rightTop, GetOutlineColor());
+	canvas.DrawLine(rightTop, GetRightBottom(), GetOutlineColor());
+	canvas.DrawLine(GetRightBottom(), leftBottom, GetOutlineColor());
+	canvas.DrawLine(leftBottom, GetBasePoint(), GetOutlineColor());
 }
