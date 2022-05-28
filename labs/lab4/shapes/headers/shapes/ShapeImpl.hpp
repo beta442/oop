@@ -9,9 +9,6 @@ template <typename Base = IShape>
 class ShapeImpl : public Base
 {
 public:
-	using Color = typename Base::Color;
-
-public:
 	ShapeImpl(const Point& basePoint, const Color& outlineColor, const std::string& type = s_defaultType)
 		: m_basePoint(basePoint)
 		, m_outlineColor(outlineColor)

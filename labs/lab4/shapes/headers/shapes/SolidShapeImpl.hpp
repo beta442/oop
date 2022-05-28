@@ -8,7 +8,6 @@ class SolidShapeImpl : public ShapeImpl<Base>
 {
 public:
 	using MyBase = ShapeImpl<Base>;
-	using Color = typename Base::Color;
 
 public:
 	SolidShapeImpl(const Point& basePoint, const Color& outlineColor, const Color& fillColor, const std::string& type = s_type)

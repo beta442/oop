@@ -1,7 +1,6 @@
 #pragma once
 
 #include "IShape.h"
-#include "Point.h"
 
 class ISolidShape : public IShape
 {

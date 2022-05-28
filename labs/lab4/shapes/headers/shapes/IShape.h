@@ -1,12 +1,9 @@
 #pragma once
 
-#include "Point.h"
+#include "Types.h"
 
 class IShape
 {
-public:
-	using Color = uint32_t;
-
 public:
 	~IShape() = default;
 
