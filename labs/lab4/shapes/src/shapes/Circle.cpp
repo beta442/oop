@@ -34,3 +34,7 @@ inline std::string Circle::ToStringAdditional() const
 {
 	return "Radius: " + std::to_string(m_radius) + '\n';
 }
+
+inline void Circle::Draw(const ICanvas& canvas) const
+{
+}

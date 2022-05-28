@@ -45,3 +45,7 @@ inline std::string Rectangle::ToStringAdditional() const
 		+ "Width: " + std::to_string(GetWidth()) + '\n'
 		+ "Height: " + std::to_string(GetHeight()) + '\n';
 }
+
+inline void Rectangle::Draw(const ICanvas& canvas) const
+{
+}

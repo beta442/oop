@@ -22,6 +22,8 @@ public:
 	inline Point GetVertex2() const override final;
 	inline Point GetVertex3() const override final;
 
+	inline void Draw(const ICanvas& canvas) const override final;
+
 private:
 	inline std::string ToStringAdditional() const override;
 

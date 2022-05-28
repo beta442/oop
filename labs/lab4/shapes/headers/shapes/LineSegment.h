@@ -17,6 +17,8 @@ public:
 	inline Point GetStartPoint() const override final;
 	inline Point GetEndPoint() const override final;
 
+	inline void Draw(const ICanvas& canvas) const override final;
+
 private:
 	inline std::string ToStringAdditional() const override;
 

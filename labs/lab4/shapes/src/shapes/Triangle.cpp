@@ -46,3 +46,7 @@ inline std::string Triangle::ToStringAdditional() const
 		+ "Vertex2: " + m_v2.ToString()
 		+ "Vertex3: " + m_v3.ToString();
 }
+
+inline void Triangle::Draw(const ICanvas& canvas) const
+{
+}

@@ -30,3 +30,7 @@ inline Point LineSegment::GetEndPoint() const
 {
 	return m_endPoint;
 }
+
+inline void LineSegment::Draw(const ICanvas& canvas) const
+{
+}

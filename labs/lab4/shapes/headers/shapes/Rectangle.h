@@ -22,6 +22,8 @@ public:
 	inline double GetWidth() const override final;
 	inline double GetHeight() const override final;
 
+	inline void Draw(const ICanvas& canvas) const override final;
+
 private:
 	inline std::string ToStringAdditional() const override;
 
