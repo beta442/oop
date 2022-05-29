@@ -12,8 +12,8 @@ static inline const auto OUTLINE_THICKNESS = 2;
 void Canvas::DrawCircle(const Point& center, const double radius, const Color lineColor)
 {
 	sf::CircleShape circle;
-	circle.setRadius(static_cast<float>(radius));
-	circle.setPosition(static_cast<float>(center.x - radius), static_cast<float>(center.y + radius));
+	circle.setRadius(radius);
+	circle.setPosition(center.x - radius, center.y + radius);
 
 	circle.setFillColor(sf::Color::Transparent);
 	sf::Color outlineColor(lineColor);
@@ -31,7 +31,7 @@ void Canvas::DrawLine(const Point& from, const Point& to, const Color lineColor)
 		sf::Vertex(sf::Vector2f(to.x, to.y), color)
 	};
 
-	m_renderWindow.draw(line, OUTLINE_THICKNESS, sf::Lines);
+	m_renderWindow.draw(line, 2, sf::Lines);
 }
 
 void Canvas::FillCircle(const Point& center, const double radius, const Color fillColor)
