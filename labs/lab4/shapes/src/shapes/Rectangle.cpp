@@ -58,9 +58,9 @@ inline void Rectangle::Draw(ICanvas& canvas) const
 	std::cout << "LB: " << leftBottom.ToString() << std::endl;
 	std::cout << "RB: " << GetRightBottom().ToString() << std::endl;*/
 
-	canvas.FillPolygon({ GetBasePoint(), rightTop, GetRightBottom(), leftBottom }, GetFillColor());
 	canvas.DrawLine(GetBasePoint(), rightTop, GetOutlineColor());
 	canvas.DrawLine(rightTop, GetRightBottom(), GetOutlineColor());
 	canvas.DrawLine(GetRightBottom(), leftBottom, GetOutlineColor());
 	canvas.DrawLine(leftBottom, GetBasePoint(), GetOutlineColor());
+	canvas.FillPolygon({ GetBasePoint(), rightTop, GetRightBottom(), leftBottom }, GetFillColor());
 }
