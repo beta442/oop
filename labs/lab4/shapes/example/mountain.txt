@@ -1,0 +1,15 @@
+rectangle 0 0 1280 720 000000FF 000000FF            // black background
+rectangle 374 0 532 1280 273238FF 273238FF          // background
+rectangle 374 677 532 43 CFC7BCFF CFC7BCFF          // flat
+circle 734.5 106.5 69.5 F4816FFF F4816FFF           // moon
+triangle 487 200 374 677 600 677 6A6E6DFF 6A6E6DFF  // mountain
+triangle 487 200 446 377 529 377 FFFFFFFF FFFFFFFF  // mountain top
+triangle 850 600 800 677 900 677 ABA49EFF ABA49EFF  // tree bottom
+triangle 850 550 800 627 900 627 2E4653FF 2E4653FF  // tree middle
+triangle 850 500 800 577 900 577 ABA49EFF ABA49EFF  // tree top
+circle 600 150 1 FFFFFFFF FFFFFFFF                  // star #1
+circle 650 100 1 FFFFFFFF FFFFFFFF                  // star #2
+circle 700 150 1 FFFFFFFF FFFFFFFF                  // star #3
+line 602 147 645 105 FFFFFFFF                       // star1-star2
+line 655 106 695 147 FFFFFFFF                       // star2-star3
+line 605 150 695 150 FFFFFFFF                       // star1-star3
