@@ -28,6 +28,7 @@ void ShapesContainer::ReadShapes(std::istream& input)
 
 	while (std::getline(input, inputStr))
 	{
+		iss.str("");
 		iss.clear();
 		iss << inputStr;
 		iss >> shapeTypeStr;
@@ -35,6 +36,7 @@ void ShapesContainer::ReadShapes(std::istream& input)
 
 		for (const auto& [_shapeTypeStr, _shapeType] : STRING_TO_SHAPE_MAP)
 		{
+			std::cout << _shapeTypeStr << " " << shapeTypeStr << std::endl;
 			if (shapeTypeStr == _shapeTypeStr)
 			{
 				shapeType = _shapeType;
@@ -110,7 +112,7 @@ bool ShapesContainer::ReadTriangle(std::istream& input)
 
 	if (input >> v1X >> v1Y >> v2X >> v2Y >> v3X >> v3Y >> std::hex >> outlineColor >> std::hex >> fillColor)
 	{
-		m_shapes.emplace_back(MakeShape<Triangle>(Point{ v1X, v2X }, Point{ v2X, v2Y }, Point{ v3X, v3Y }, outlineColor, fillColor));
+		m_shapes.emplace_back(MakeShape<Triangle>(Point{ v1X, v1Y }, Point{ v2X, v2Y }, Point{ v3X, v3Y }, outlineColor, fillColor));
 		return true;
 	}
 
