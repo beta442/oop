@@ -15,9 +15,9 @@ public:
 
 	using MyStringConstReverseIterator = std::reverse_iterator<MyStringConstIterator>;
 
-public:
-	MyStringConstIterator(pointer ptr);
+	friend class MyString;
 
+public:
 	reference operator*() const;
 	pointer operator->() const;
 	MyStringConstIterator& operator++();
@@ -37,6 +37,10 @@ public:
 	bool operator<=(const MyStringConstIterator& other) const;
 	bool operator>=(const MyStringConstIterator& other) const;
 
+protected:
+	explicit MyStringConstIterator();
+	explicit MyStringConstIterator(pointer ptr);
+
 private:
 	pointer m_ptr;
 };
@@ -51,8 +55,13 @@ public:
 
 	using MyStringReverseIterator = std::reverse_iterator<MyStringIterator>;
 
-	MyStringIterator(pointer ptr);
+	friend class MyString;
 
+protected:
+	explicit MyStringIterator();
+	explicit MyStringIterator(pointer ptr);
+
+public:
 	reference operator*() const;
 	pointer operator->() const;
 	MyStringIterator& operator++();

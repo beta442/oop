@@ -2,6 +2,11 @@
 
 #include <stdexcept>
 
+MyStringConstIterator::MyStringConstIterator()
+	: m_ptr()
+{
+}
+
 MyStringConstIterator::MyStringConstIterator(pointer ptr)
 	: m_ptr(ptr)
 {
@@ -112,6 +117,12 @@ bool MyStringConstIterator::operator>=(const MyStringConstIterator& other) const
 }
 
 /*-------------------------------------------------------------------------------------------------------------------*/
+
+MyStringIterator::MyStringIterator()
+	: MyStringConstIterator()
+{
+}
+
 
 MyStringIterator::MyStringIterator(pointer ptr)
 	: MyStringConstIterator(ptr)

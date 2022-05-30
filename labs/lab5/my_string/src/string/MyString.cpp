@@ -11,7 +11,7 @@ MyString::MyString(const char* pString)
 	: m_size(std::strlen(pString))
 	, m_ptr(std::make_unique<char[]>(std::strlen(pString) + 1))
 {
-	std::memmove(m_ptr.get(), pString, m_size);
+	std::memcpy(m_ptr.get(), pString, m_size);
 	m_ptr[m_size] = 0;
 }
 
@@ -19,7 +19,7 @@ MyString::MyString(const char* pString, size_t length)
 	: m_size(length)
 	, m_ptr(std::make_unique<char[]>(length + 1))
 {
-	std::memmove(m_ptr.get(), pString, m_size);
+	std::memcpy(m_ptr.get(), pString, m_size);
 	m_ptr[m_size] = 0;
 }
 
@@ -28,7 +28,7 @@ MyString::MyString(MyString const& other)
 {
 }
 
-MyString::MyString(MyString&& other)
+MyString::MyString(MyString&& other) noexcept
 	: m_size(0)
 	, m_ptr(nullptr)
 {
@@ -46,9 +46,11 @@ size_t MyString::GetLength() const
 	return m_size;
 }
 
+static inline const auto DEFAULT_VALUE = '\0';
+
 const char* MyString::GetStringData() const
 {
-	return m_ptr.get();
+	return m_size == 0 ? &DEFAULT_VALUE : m_ptr.get();
 }
 
 MyString MyString::SubString(size_t start, size_t length) const
@@ -58,13 +60,13 @@ MyString MyString::SubString(size_t start, size_t length) const
 		return MyString();
 	}
 
+
 	return MyString(m_ptr.get() + start, (length > m_size - start) ? m_size - start : length);
 }
 
 void MyString::Clear()
 {
 	m_ptr.reset();
-	m_ptr = std::make_unique<char[]>(1);
 	m_size = 0;
 }
 
@@ -95,12 +97,14 @@ MyString MyString::operator+(const MyString& other) const
 {
 	size_t thisStrLength = this->GetLength(), otherStrLength = other.GetLength();
 
-	bool overflow = (size_t)-1 - thisStrLength < otherStrLength;
-	size_t newStrSize = overflow ? (size_t)-1 : thisStrLength + otherStrLength;
-	MyString newStr("", newStrSize);
+	bool overflow = std::numeric_limits<size_t>::max() - thisStrLength < otherStrLength;
+	size_t newStrSize = overflow ? std::numeric_limits<size_t>::max() - 1 : thisStrLength + otherStrLength;
 
-	std::memmove(newStr.m_ptr.get(), m_ptr.get(), thisStrLength);
-	std::memmove(newStr.m_ptr.get() + thisStrLength, other.GetStringData(), otherStrLength);
+	MyString newStr{};
+	newStr.Resize(newStrSize);
+
+	std::memcpy(newStr.m_ptr.get(), m_ptr.get(), thisStrLength);
+	std::memcpy(newStr.m_ptr.get() + thisStrLength, other.GetStringData(), otherStrLength);
 	newStr[newStrSize] = 0;
 
 	return newStr;
@@ -128,7 +132,7 @@ MyString operator+(const char* strFirst, const MyString& mStrSecond)
 
 MyString& MyString::operator+=(const MyString& other)
 {
-	*this = std::move(*this + other);
+	*this = *this + other;
 
 	return *this;
 }
@@ -191,11 +195,12 @@ const char& MyString::operator[](size_t index) const
 	return m_ptr[index];
 }
 
-void MyString::Assign(size_t size, char value)
+void MyString::Resize(size_t size)
 {
 	m_ptr.reset();
 	m_size = size;
-	m_ptr = std::make_unique<char[]>(m_size);
+	m_ptr = std::make_unique<char[]>(m_size + 1);
+	m_ptr[m_size] = 0;
 }
 
 std::istream& operator>>(std::istream& is, MyString& str)
@@ -209,13 +214,7 @@ std::istream& operator>>(std::istream& is, MyString& str)
 	std::string buffer;
 	is >> buffer;
 
-	size_t bufferSize = buffer.size();
-	str.Assign(bufferSize + 1);
-	for (size_t i = 0; i < bufferSize; i++)
-	{
-		str[i] = buffer[i];
-	}
-	str[bufferSize] = 0;
+	str = MyString(buffer);
 
 	return is;
 }

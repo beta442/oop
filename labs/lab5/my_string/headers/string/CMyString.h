@@ -19,7 +19,7 @@ public:
 	MyString(const char* pString);
 	MyString(const char* pString, size_t length);
 	MyString(MyString const& other);
-	MyString(MyString&& other);
+	MyString(MyString&& other) noexcept;
 	MyString(std::string const& stlString);
 
 	ConstIterator begin() const;
@@ -57,7 +57,7 @@ public:
 	friend std::ostream& operator<<(std::ostream& os, const MyString& str);
 
 private:
-	void Assign(size_t size, char value = 0);
+	void Resize(size_t size);
 
 	size_t m_size;
 	std::unique_ptr<char[]> m_ptr;
