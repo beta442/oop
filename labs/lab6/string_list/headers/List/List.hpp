@@ -46,7 +46,7 @@ public:
 	
 	void Clear() noexcept
 	{
-		Iterator it = begin(), itTemp = begin();//TODO: rename itTemp
+		Iterator it = begin(), itTemp = begin();
 		m_beg->m_next = m_end;
 		m_end->m_prev = m_beg;
 		const Iterator endIt = end();
@@ -72,7 +72,7 @@ public:
 		{
 			throw std::out_of_range("List erase iterator outside of range");
 		}
-		Insert(it, val);
+		Insert(it, std::forward<T>(val));
 		return MakeIter(--it);
 	}
 
@@ -94,12 +94,12 @@ public:
 
 	inline void PushFront(T&& val)
 	{
-		Insert(begin(), val);
+		Insert(begin(), std::forward<T>(val));
 	}
 
 	inline void PushBack(T&& val)
 	{
-		Insert(end(), val);
+		Insert(end(), std::forward<T>(val));
 	}
 
 	inline void PushFront(const T& val)

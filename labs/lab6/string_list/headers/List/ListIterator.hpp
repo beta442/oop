@@ -17,12 +17,9 @@ public:
 	using pointer = typename MyList::ConstPointer;
 	using reference = const value_type&;
 
-public:
-	ListConstIterator(NodePointer ptr)
-		: m_ptr(ptr)
-	{
-	}
+	friend MyList;
 
+public:
 	_NODISCARD reference operator*() const
 	{
 		if (m_ptr->m_next == nullptr || m_ptr->m_prev == nullptr)
@@ -84,7 +81,19 @@ public:
 	{
 		return !(*this == other);
 	}
+	
+protected:
+	explicit ListConstIterator()
+		: m_ptr()
+	{
+	}
 
+	explicit ListConstIterator(NodePointer ptr)
+		: m_ptr(ptr)
+	{
+	}
+
+private:
 	NodePointer m_ptr;
 };
 
@@ -102,12 +111,9 @@ public:
 	using pointer = typename MyList::Pointer;
 	using reference = value_type&;
 
-public:
-	ListIterator(NodePointer ptr)
-		: MyBase(ptr)
-	{
-	}
+	friend MyList;
 
+public:
 	_NODISCARD reference operator*() const
 	{
 		return (reference)(MyBase::operator*());
@@ -142,5 +148,16 @@ public:
 		ListIterator temp = *this;
 		--*this;
 		return temp;
+	}
+
+protected:
+	explicit ListIterator()
+		: MyBase()
+	{
+	}
+
+	explicit ListIterator(NodePointer ptr)
+		: MyBase(ptr)
+	{
 	}
 };

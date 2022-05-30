@@ -23,10 +23,10 @@ public:
 	}
 
 	template <class T>
-	inline ListNode(T&& data, NodePointer const prev = nullptr, NodePointer const next = nullptr)
+	inline ListNode(T&& data, NodePointer prev = nullptr, NodePointer next = nullptr)
 		: m_data(std::forward<T>(data))
-		, m_prev(prev)
-		, m_next(next)
+		, m_prev(std::move(prev))
+		, m_next(std::move(next))
 	{
 	}
 
