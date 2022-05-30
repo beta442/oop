@@ -46,10 +46,19 @@ public:
 	MyList(const MyList<T>& other)
 		: MyList()
 	{
-		*this = other;
+		try
+		{
+			std::for_each(begin(), end(), [](auto& item) { PushBack(item); });
+		}
+		catch (...)
+		{
+			Clear();
+			throw;
+		}
 	}
 
 	MyList(MyList<T>&& other)
+		: MyList()
 	{
 		*this = other;
 	}
@@ -60,7 +69,7 @@ public:
 		m_beg->m_next = m_end;
 		m_end->m_prev = m_beg;
 		const Iterator endIt = end();
-		while (it != endIt && itTemp != endIt)
+		while (it != endIt && itTemp != endIt && it.m_ptr != nullptr && itTemp.m_ptr != nullptr)
 		{
 			++it;
 			it.m_ptr->m_prev = nullptr;
@@ -72,7 +81,7 @@ public:
 
 	_NODISCARD bool Empty() const noexcept
 	{
-		return m_size == 0;
+		return !m_size;
 	}
 
 	template <class T>
@@ -82,7 +91,7 @@ public:
 		{
 			throw std::out_of_range("List erase iterator outside of range");
 		}
-		Insert(it, val);
+		Insert(it, std::forward<T>(val));
 		return MakeIter(--it);
 	}
 
@@ -104,12 +113,12 @@ public:
 
 	inline void PushFront(T&& val)
 	{
-		Insert(begin(), val);
+		Insert(begin(), std::forward<T>(val));
 	}
 
 	inline void PushBack(T&& val)
 	{
-		Insert(end(), val);
+		Insert(end(), std::forward<T>(val));
 	}
 
 	inline void PushFront(const T& val)
@@ -187,10 +196,8 @@ public:
 	{
 		if (std::addressof(other) != this)
 		{
-			for (auto it = other.begin(), endIt = other.end(); it != endIt; ++it)
-			{
-				PushBack(*it);
-			}
+			MyList temp{ other };
+			*this = std::move(temp);
 		}
 
 		return *this;
@@ -200,12 +207,10 @@ public:
 	{
 		if (std::addressof(other) != this)
 		{
-			m_size = 0;
-			m_beg = nullptr;
-			m_end = nullptr;
 			std::swap(m_size, other.m_size);
 			std::swap(m_beg, other.m_beg);
 			std::swap(m_end, other.m_end);
+			other.Clear();
 		}
 
 		return *this;
