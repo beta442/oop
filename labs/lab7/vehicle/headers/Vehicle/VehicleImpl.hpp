@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <vector>
+#include <stdexcept>
 
 #include "../Person/IPerson.h"
 #include "IVehicle.h"
