@@ -13,7 +13,7 @@ public:
 public:
 	Racer(const std::string& name, size_t awardsCount);
 
-	size_t GetAwardsCount() const override;
+	size_t GetAwardsCount() const override final;
 
 private:
 	size_t m_awardsCount;
