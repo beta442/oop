@@ -49,12 +49,12 @@ protected:
 	~ICar() = default;
 };
 
-template <typename Passenger>
-std::string MakeOfTheCarToString(const typename ICar<Passenger>::MakeOfTheCar& make)
+template <typename CarType = ICar<IPerson>>
+std::string MakeOfTheCarToString(const typename CarType::MakeOfTheCar& make)
 {
-	if (auto index = static_cast<size_t>(make); make < ICar<Passenger>::MAKES_OF_CAR.size())
+	if (auto index = static_cast<size_t>(make); make < CarType::MAKES_OF_CAR.size())
 	{
-		return ICar<Passenger>::MAKES_OF_CAR[index];
+		return CarType::MAKES_OF_CAR[index];
 	}
 	return "";
 }

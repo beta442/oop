@@ -5,35 +5,23 @@
 #include "Vehicle/PoliceCar.h"
 #include "Vehicle/Taxi.h"
 
-template <typename ToPersonType, typename PersonType = ToPersonType, typename... Args>
-std::shared_ptr<ToPersonType> CreatePerson(const Args&... args)
-{
-	return std::static_pointer_cast<ToPersonType, PersonType>(std::make_shared<PersonType>(args...));
-}
-
-template <typename CarType, typename... Args>
-decltype(auto) CreateCar(const Args&... args)
-{
-	return CarType(args...);
-}
-
-template <typename PassengerType>
-void PrintPassengersInVehicle(std::ostream& os, const IVehicle<PassengerType>& vehicle)
+template <typename PassengerType = IPerson, typename VehicleType = IVehicle<PassengerType>>
+void PrintPassengersInVehicle(std::ostream& os, const std::shared_ptr<VehicleType>& vehicle)
 {
 	os << "Passengers:" << std::endl;
 
-	if (vehicle.IsEmpty())
+	if (vehicle->IsEmpty())
 	{
 		os << "  No passengers in vehicle" << std::endl;
 		return;
 	}
 
-	const auto passengerCount = vehicle.GetPassengerCount();
+	const auto passengerCount = vehicle->GetPassengerCount();
 	const PassengerType* p = nullptr;
 	std::string passengerType;
 	for (size_t i = 0; i < passengerCount; ++i)
 	{
-		p = &vehicle.GetPassenger(i);
+		p = &vehicle->GetPassenger(i);
 		passengerType = p->GetType();
 		os << "  " << passengerType << ". " << p->GetName();
 		if (auto policeMan = dynamic_cast<const IPoliceMan*>(p);
@@ -50,41 +38,41 @@ void PrintPassengersInVehicle(std::ostream& os, const IVehicle<PassengerType>& v
 	}
 }
 
-template <typename PassengerType>
-void PrintVehicleInfo(std::ostream& os, const IVehicle<PassengerType>& vehicle)
+template <typename VehicleType = IVehicle<IPerson>>
+void PrintVehicleInfo(std::ostream& os, const std::shared_ptr<VehicleType>& vehicle)
 {
 	os << "Vehcile info:" << std::endl
-	   << "--Max amount of passengers: " << vehicle.GetPlaceCount() << std::endl
+	   << "--Max amount of passengers: " << vehicle->GetPlaceCount() << std::endl
 	   << "--";
 	PrintPassengersInVehicle(os, vehicle);
 }
 
-template <typename PassengerType>
-void PrintCarInfo(std::ostream& os, const ICar<PassengerType>& car)
+template <typename CarType = ICar<IPerson>>
+void PrintCarInfo(std::ostream& os, const std::shared_ptr<CarType>& car)
 {
 	os << "Car info:" << std::endl
-	   << "--Type: " << car.GetCarType() << std::endl
-	   << "--Make: " << MakeOfTheCarToString<PassengerType>(car.GetMakeOfTheCar()) << std::endl;
+	   << "--Type: " << car->GetCarType() << std::endl
+	   << "--Make: " << MakeOfTheCarToString(static_cast<const typename ICar<IPerson>::MakeOfTheCar>(car->GetMakeOfTheCar())) << std::endl;
 	PrintVehicleInfo(os, car);
 }
 
-template <typename PassengerType, typename PassengerPtrType>
-void RemovePassengerWithEcho(std::ostream& os, IVehicle<PassengerType>& vehicle, PassengerPtrType passenger)
+template <typename PassengerType = IPerson, typename VehicleType = IVehicle<PassengerType>>
+void RemovePassengerWithEcho(std::ostream& os, const std::shared_ptr<VehicleType>& vehicle, const std::shared_ptr<PassengerType>& passenger)
 {
-	if (const auto oPassengerIndex = vehicle.GetIndexOfPassenger(passenger);
+	if (const auto oPassengerIndex = vehicle->GetIndexOfPassenger(passenger);
 		oPassengerIndex.has_value())
 	{
 		os << passenger->GetName() << " leaving his vehicle..." << std::endl;
-		vehicle.RemovePassenger(*oPassengerIndex);
+		vehicle->RemovePassenger(*oPassengerIndex);
 	}
 }
 
-template <typename PassengerType, typename PersonType>
-void AddPassengerInVehicleWithEcho(std::ostream& os, IVehicle<PassengerType>& vehicle, const PersonType& person)
+template <typename PassengerType = IPerson, typename VehicleType = IVehicle<PassengerType>>
+void AddPassengerInVehicleWithEcho(std::ostream& os, const std::shared_ptr<VehicleType>& vehicle, const std::shared_ptr<PassengerType>& person)
 {
 	try
 	{
-		vehicle.AddPassenger(person);
+		vehicle->AddPassenger(person);
 		os << person->GetName() << " got into the vehicle" << std::endl;
 	}
 	catch (const std::exception& e)

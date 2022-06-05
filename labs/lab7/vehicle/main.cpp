@@ -10,9 +10,9 @@ int main()
 	std::cout << "=============PART   I==============" << std::endl
 			  << std::endl;
 
-	const auto policeManFirst = CreatePerson<PoliceMan>("John Smith", "Northwest Police Station"),
-			   policeManSecond = CreatePerson<PoliceMan>("Jim Clark", "Southeastern Police Station");
-	auto policeCar = CreateCar<PoliceCar>(PoliceCar::MakeOfTheCar::FORD, 5);
+	const auto policeManFirst = std::make_shared<PoliceMan>("John Smith", "Northwest Police Station"),
+			   policeManSecond = std::make_shared<PoliceMan>("Jim Clark", "Southeastern Police Station");
+	auto policeCar = std::make_shared<PoliceCar>(PoliceCar::MakeOfTheCar::FORD, 5);
 
 	std::cout << "We see an ordinary patrol car:" << std::endl;
 
@@ -30,9 +30,9 @@ int main()
 	RemovePassengerWithEcho(std::cout, policeCar, policeManSecond);
 	std::cout << std::endl;
 
-	const auto taxiDriver = CreatePerson<Person>("Raja Gandhi");
-	const auto racer = CreatePerson<Racer>("Michael Schumacher", 20);
-	auto taxi = CreateCar<Taxi>(Taxi::MakeOfTheCar::TOYOTA, 2);
+	const auto taxiDriver = std::make_shared<Person>("Raja Gandhi");
+	const auto racer = std::make_shared<Racer>("Michael Schumacher", 20);
+	auto taxi = std::make_shared<Taxi>(Taxi::MakeOfTheCar::TOYOTA, 2);
 
 	std::cout << "The policeman " << policeManSecond->GetName() << " sees not ordinary taxi: " << std::endl
 			  << std::endl;
