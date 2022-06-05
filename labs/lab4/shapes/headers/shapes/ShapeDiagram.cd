@@ -1,137 +1,115 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
-  <Class Name="IShape">
-    <Position X="14.75" Y="6.5" Width="2" />
-    <Compartments>
-      <Compartment Name="Methods" Collapsed="true" />
-    </Compartments>
+  <Class Name="Canvas" Collapsed="true">
+    <Position X="8.25" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAIAAAAEAAAAAQAAAAAAAAEAAAAAEAAAgAA=</HashCode>
-      <FileName>headers\shapes\IShape.h</FileName>
+      <HashCode>AAAAAAACAAAAAAAICAIAAAAAAAAAABAAAEAAAAAAAAA=</HashCode>
+      <FileName>headers\canvas\Canvas.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ISolidShape">
-    <Position X="16.25" Y="8.25" Width="1.75" />
-    <Compartments>
-      <Compartment Name="Methods" Collapsed="true" />
-    </Compartments>
+  <Class Name="ICanvas" Collapsed="true">
+    <Position X="8.25" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
-      <FileName>headers\shapes\ISolidShape.h</FileName>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAABGAAEAgAAAAAAA=</HashCode>
+      <FileName>headers\canvas\ICanvas.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ITriangle">
-    <Position X="13.5" Y="10" Width="1.75" />
-    <Compartments>
-      <Compartment Name="Methods" Collapsed="true" />
-    </Compartments>
+  <Class Name="ShapeImpl&lt;Base&gt;" Collapsed="true">
+    <Position X="4.5" Y="6.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAA=</HashCode>
-      <FileName>headers\shapes\ITriangle.h</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="IRectangle">
-    <Position X="16" Y="10" Width="2" />
-    <Compartments>
-      <Compartment Name="Methods" Collapsed="true" />
-    </Compartments>
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAABAAAIBAAIAAAAAAAAAAAEAAAAA=</HashCode>
-      <FileName>headers\shapes\IRectangle.h</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="ILineSegment">
-    <Position X="11" Y="8.25" Width="1.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAg=</HashCode>
-      <FileName>headers\shapes\ILineSegment.h</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="ICircle">
-    <Position X="18.75" Y="10" Width="1.75" />
-    <Compartments>
-      <Compartment Name="Methods" Collapsed="true" />
-    </Compartments>
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAIAAAAAgAAAA=</HashCode>
-      <FileName>headers\shapes\ICircle.h</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="ShapeImpl&lt;Base&gt;">
-    <Position X="15" Y="0.5" Width="1.5" />
-    <Compartments>
-      <Compartment Name="Fields" Collapsed="true" />
-      <Compartment Name="Methods" Collapsed="true" />
-    </Compartments>
-    <TypeIdentifier>
-      <HashCode>AAAAIAAQAAIIAAAEAAAAAQAAAAAAAgEAAAAAEBCAACA=</HashCode>
+      <HashCode>AABAIAAQAAIIAAAEAAAAAQAAAAAAAgEAAAAgEBCAACA=</HashCode>
       <FileName>headers\shapes\ShapeImpl.hpp</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LineSegment">
-    <Position X="11" Y="2.5" Width="1.75" />
-    <Compartments>
-      <Compartment Name="Fields" Collapsed="true" />
-      <Compartment Name="Methods" Collapsed="true" />
-    </Compartments>
+  <Class Name="SolidShapeImpl&lt;Base&gt;" Collapsed="true">
+    <Position X="5.5" Y="8.25" Width="2" />
     <TypeIdentifier>
-      <HashCode>CAAAAAAQAAAAAAAAAAAAAAAAAAAAAAEAAAAA0AAAAAg=</HashCode>
-      <FileName>headers\shapes\LineSegment.h</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SolidShapeImpl&lt;Base&gt;">
-    <Position X="16" Y="2.5" Width="2" />
-    <Compartments>
-      <Compartment Name="Fields" Collapsed="true" />
-      <Compartment Name="Methods" Collapsed="true" />
-    </Compartments>
-    <TypeIdentifier>
-      <HashCode>CAAAAAAAAAAAAAAEAAAAAAAAEBAAAAAAAAAAgAAAAAA=</HashCode>
+      <HashCode>CAAAAAAAAAAAAAAEAAAAAAAAEBAAAAAAAAAggAAAAAA=</HashCode>
       <FileName>headers\shapes\SolidShapeImpl.hpp</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Circle">
-    <Position X="13.5" Y="4.5" Width="1.75" />
-    <Compartments>
-      <Compartment Name="Fields" Collapsed="true" />
-      <Compartment Name="Methods" Collapsed="true" />
-    </Compartments>
+  <Class Name="ICanvasDrawable" Collapsed="true">
+    <Position X="3.75" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAQAAAIAAAAAAAAAAAAIAgAAAEAAAAAkAgAAAA=</HashCode>
-      <FileName>headers\shapes\Circle.h</FileName>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAACIAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>headers\shapes\ICanvasDrawable.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ICircle" Collapsed="true">
+    <Position X="7.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQIAAAAAAAIAAgAAgAAAA=</HashCode>
+      <FileName>headers\shapes\ICircle.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ILineSegment" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgQAAAAAg=</HashCode>
+      <FileName>headers\shapes\ILineSegment.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IShape" Collapsed="true">
+    <Position X="3.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAEAAAAAQAAAAAAAAEAAAAgEAAAgAA=</HashCode>
+      <FileName>headers\shapes\IShape.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IRectangle" Collapsed="true">
+    <Position X="5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAAAAAABAAAIBAAIAAAAAAAAAgAEAAAAA=</HashCode>
+      <FileName>headers\shapes\IRectangle.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ISolidShape" Collapsed="true">
+    <Position X="5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAQAgAAAAAAA=</HashCode>
+      <FileName>headers\shapes\ISolidShape.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ITriangle" Collapsed="true">
+    <Position X="2.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAA4AAAAEAgAAAAAAA=</HashCode>
+      <FileName>headers\shapes\ITriangle.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LineSegment" Collapsed="true">
+    <Position X="0.5" Y="8.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAQAAAAAgAAAAAAAAAAAAAAAAEAAAAA0AAAAAg=</HashCode>
+      <FileName>headers\shapes\LineSegment.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Point" Collapsed="true">
-    <Position X="17.5" Y="1" Width="1.5" />
-    <Compartments>
-      <Compartment Name="Fields" Collapsed="true" />
-      <Compartment Name="Methods" Collapsed="true" />
-    </Compartments>
+    <Position X="11" Y="0.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEAAAAAQAAAAAAAABAAABgAAAAAAA=</HashCode>
       <FileName>headers\shapes\Point.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Rectangle">
-    <Position X="16" Y="4.5" Width="2" />
-    <Compartments>
-      <Compartment Name="Fields" Collapsed="true" />
-      <Compartment Name="Methods" Collapsed="true" />
-    </Compartments>
+  <Class Name="Circle" Collapsed="true">
+    <Position X="8.25" Y="9.75" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAQAAAAAAABABAAAABAAIAgAAGAAAAAkEAAAAA=</HashCode>
-      <FileName>headers\shapes\Rectangle.h</FileName>
+      <HashCode>AAAAAAAQAAAIAgAAAAAAAAAAIAgAAAEAAAAAkAgAAAA=</HashCode>
+      <FileName>headers\shapes\Circle.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Triangle">
-    <Position X="18.75" Y="4.5" Width="1.75" />
-    <Compartments>
-      <Compartment Name="Fields" Collapsed="true" />
-      <Compartment Name="Methods" Collapsed="true" />
-    </Compartments>
+  <Class Name="Triangle" Collapsed="true">
+    <Position X="3" Y="9.75" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAQAAAAAAABOAAAAAAAAAAA4AEAAAAAkAAAAAA=</HashCode>
+      <HashCode>AAAAAAAQAAAAAgABOAAAAAAAAAAA4AEAAAAAkAAAAAA=</HashCode>
       <FileName>headers\shapes\Triangle.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Rectangle" Collapsed="true">
+    <Position X="5.5" Y="9.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAgABABAAAABAAIAgAAGAAAAAkEAAAAA=</HashCode>
+      <FileName>headers\shapes\Rectangle.h</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
