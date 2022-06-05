@@ -9,12 +9,11 @@ template <typename Base = IShape>
 class ShapeImpl : public Base
 {
 public:
-	ShapeImpl(const Point& basePoint, const Color& outlineColor, const std::string& type = s_defaultType)
-		: m_basePoint(basePoint)
-		, m_outlineColor(outlineColor)
-		, m_type(type)
-	{
-	}
+	ShapeImpl() = delete;
+	ShapeImpl(const ShapeImpl&) = delete;
+	ShapeImpl(const ShapeImpl&&) noexcept = delete;
+	ShapeImpl& operator=(const ShapeImpl&) = delete;
+	ShapeImpl& operator=(const ShapeImpl&&) noexcept = delete;
 
 	inline std::string ToString() const override
 	{
@@ -47,6 +46,14 @@ public:
 	}
 
 protected:
+	ShapeImpl(const Point& basePoint, const Color& outlineColor, const std::string& type = s_defaultType)
+		: m_basePoint(basePoint)
+		, m_outlineColor(outlineColor)
+		, m_type(type)
+	{
+	}
+	~ShapeImpl() = default;
+
 	virtual std::string ToStringAdditional() const = 0;
 
 	std::string ColorToString(const Color& color) const
