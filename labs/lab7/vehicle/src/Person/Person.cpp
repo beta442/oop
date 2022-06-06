@@ -1,6 +1,6 @@
 #include "../../headers/Person/Person.h"
 
-Person::Person(const std::string& name)
-	: Base(name, s_type)
+Person::Person(std::string name)
+	: Base(std::move(name), s_type)
 {
 }

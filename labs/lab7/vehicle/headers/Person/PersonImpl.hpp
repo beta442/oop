@@ -6,26 +6,20 @@ template <typename Base = IPerson>
 class PersonImpl : public Base
 {
 public:
-	PersonImpl() = delete;
-	PersonImpl(const PersonImpl&) = delete;
-	PersonImpl(const PersonImpl&&) noexcept = delete;
-	PersonImpl& operator=(const PersonImpl&) = delete;
-	PersonImpl& operator=(const PersonImpl&&) noexcept = delete;
-
-	std::string GetName() const override final
+	std::string GetName() const final
 	{
 		return m_name;
 	}
 
-	std::string GetType() const override final
+	std::string GetType() const final
 	{
 		return m_type;
 	}
 
 protected:
-	PersonImpl(const std::string& name, const std::string& personType = s_defaultType)
-		: m_name(name)
-		, m_type(personType)
+	explicit PersonImpl(std::string name, std::string personType = s_defaultType)
+		: m_name(std::move(name))
+		, m_type(std::move(personType))
 	{
 	}
 	~PersonImpl() = default;
@@ -34,5 +28,6 @@ private:
 	static inline const std::string s_defaultType = "Person";
 
 	std::string m_name;
+	//todo: наследники не должны хранить это поле, лучше переопределить GetType в наследниках
 	std::string m_type;
 };

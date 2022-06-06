@@ -10,26 +10,20 @@ public:
 	using typename Base::MakeOfTheCar;
 
 public:
-	CarImpl() = delete;
-	CarImpl(const CarImpl&) = delete;
-	CarImpl(const CarImpl&&) noexcept = delete;
-	CarImpl& operator=(const CarImpl&) = delete;
-	CarImpl& operator=(const CarImpl&&) noexcept = delete;
-
-	inline MakeOfTheCar GetMakeOfTheCar() const override final
+	MakeOfTheCar GetMakeOfTheCar() const final
 	{
 		return m_carMake;
 	}
 
-	inline const std::string& GetCarType() const override final
+	const std::string& GetCarType() const final
 	{
 		return m_type;
 	}
 
 protected:
-	CarImpl(size_t maxPassengerCapacity, const MakeOfTheCar& carMake, const std::string& carType = s_defaultType)
+	CarImpl(size_t maxPassengerCapacity, const MakeOfTheCar& carMake, std::string carType = s_defaultType)
 		: Base(maxPassengerCapacity)
-		, m_type(carType)
+		, m_type(std::move(carType))
 		, m_carMake(carMake)
 	{
 	}

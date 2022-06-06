@@ -1,7 +1,7 @@
 #include "../../headers/Person/Racer.h"
 
-Racer::Racer(const std::string& name, size_t awardsCount)
-	: Base(name, s_type)
+Racer::Racer(std::string name, size_t awardsCount)
+	: Base(std::move(name), s_type)
 	, m_awardsCount(awardsCount)
 {
 }

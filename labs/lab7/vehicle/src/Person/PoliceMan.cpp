@@ -1,8 +1,8 @@
 #include "../../headers/Person/PoliceMan.h"
 
-PoliceMan::PoliceMan(const std::string& name, const std::string& departmentName)
-	: Base(name, s_type)
-	, m_departmentName(departmentName)
+PoliceMan::PoliceMan(std::string name, std::string departmentName)
+	: Base(std::move(name), s_type)
+	, m_departmentName(std::move(departmentName))
 {
 }
 

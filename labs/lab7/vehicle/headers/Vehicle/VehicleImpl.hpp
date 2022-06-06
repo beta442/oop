@@ -11,13 +11,7 @@ template <typename Base = IVehicle<IPerson>, typename Passenger = typename Base:
 class VehicleImpl : public Base
 {
 public:
-	VehicleImpl() = delete;
-	VehicleImpl(const VehicleImpl&) = delete;
-	VehicleImpl(const VehicleImpl&&) noexcept = delete;
-	VehicleImpl& operator=(const VehicleImpl&) = delete;
-	VehicleImpl& operator=(const VehicleImpl&&) noexcept = delete;
-
-	inline void AddPassenger(std::shared_ptr<Passenger> pPassenger) override final
+	void AddPassenger(std::shared_ptr<Passenger> pPassenger) final
 	{
 		if (m_passengersCount == m_placeCount)
 		{
@@ -28,7 +22,7 @@ public:
 		++m_passengersCount;
 	}
 
-	inline Passenger const& GetPassenger(size_t index) const override final
+	Passenger const& GetPassenger(size_t index) const final
 	{
 		if (index >= m_passengersCount)
 		{
@@ -38,7 +32,7 @@ public:
 		return *m_passengers[index];
 	}
 
-	inline void RemovePassenger(size_t index) override final
+	void RemovePassenger(size_t index) final
 	{
 		if (index >= m_passengersCount)
 		{
@@ -49,27 +43,27 @@ public:
 		--m_passengersCount;
 	}
 
-	inline bool IsEmpty() const final
+	bool IsEmpty() const final
 	{
 		return m_passengersCount == 0;
 	}
 
-	inline bool IsFull() const final
+	bool IsFull() const final
 	{
 		return m_passengersCount == m_placeCount;
 	}
 
-	inline size_t GetPlaceCount() const final
+	size_t GetPlaceCount() const final
 	{
 		return m_placeCount;
 	}
 
-	inline size_t GetPassengerCount() const final
+	size_t GetPassengerCount() const final
 	{
 		return m_passengersCount;
 	}
 
-	std::optional<size_t> GetIndexOfPassenger(const std::shared_ptr<Passenger> passenger) const override final
+	std::optional<size_t> GetIndexOfPassenger(const std::shared_ptr<Passenger>& passenger) const final
 	{
 		const auto itBeg = std::begin(m_passengers), itEnd = std::end(m_passengers);
 		const auto it = std::find_if(itBeg, itEnd, [&](auto& person) { return person == passenger; });
@@ -88,7 +82,7 @@ public:
 	}
 
 protected:
-	VehicleImpl(size_t maxCapacity)
+	explicit VehicleImpl(size_t maxCapacity)
 		: m_placeCount(maxCapacity)
 		, m_passengersCount(0)
 		, m_passengers()

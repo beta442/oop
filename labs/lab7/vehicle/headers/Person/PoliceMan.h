@@ -8,13 +8,13 @@ class PoliceMan : public PersonImpl<IPoliceMan>
 public:
 	using Base = PersonImpl<IPoliceMan>;
 
-	static inline const std::string s_type = "PoliceMan";
-
 public:
-	PoliceMan(const std::string& name, const std::string& departmentName);
+	PoliceMan(std::string name, std::string departmentName);
 
-	std::string GetDepartmentName() const override final;
+	std::string GetDepartmentName() const final;
 
 private:
+	static inline const std::string s_type = "PoliceMan";
+
 	std::string m_departmentName;
 };

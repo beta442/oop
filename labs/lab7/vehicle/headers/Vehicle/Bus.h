@@ -10,8 +10,8 @@ public:
 	using Base = VehicleImpl<IBus, IPerson>;
 
 public:
-	Bus(size_t maxCapacity = s_maxPassengerAmount);
+	explicit Bus(size_t maxCapacity = s_maxPassengerAmount);
 
 private:
-	inline static const size_t s_maxPassengerAmount = 30;
+	static inline const size_t s_maxPassengerAmount = 30;
 };

@@ -11,7 +11,7 @@ public:
 	static inline const std::string s_type = "RacerCar";
 
 public:
-	RacerCar(MakeOfTheCar carMake, size_t maxPassengerCapacity = s_maxPassengerAmount);
+	explicit RacerCar(MakeOfTheCar carMake, size_t maxPassengerCapacity = s_maxPassengerAmount);
 
-	inline static const int s_maxPassengerAmount = 2;
+	static inline const int s_maxPassengerAmount = 2;
 };
