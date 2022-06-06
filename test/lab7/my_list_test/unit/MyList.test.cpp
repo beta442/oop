@@ -134,3 +134,47 @@ TEST_CASE("MyList. Exceptions test")
 	REQUIRE_THROWS_AS(list.Erase(--std::begin(list)), std::out_of_range);
 	REQUIRE_THROWS_AS(list.Erase(std::end(list)), std::out_of_range);
 }
+
+TEST_CASE("List. Move constructor")
+{
+	MyList<Data> list;
+
+	const size_t listSize = 10;
+	for (size_t i = 0; i < listSize; ++i)
+	{
+		list.PushBack(std::to_string(i));
+	}
+
+	REQUIRE(list.Size() == listSize);
+	REQUIRE_FALSE(list.Empty());
+
+	MyList<Data> newList{ std::move(list) };
+
+	REQUIRE(list.Size() == 0);
+	REQUIRE(list.Empty());
+
+	REQUIRE(newList.Size() == listSize);
+	REQUIRE_FALSE(newList.Empty());
+}
+
+TEST_CASE("List. Copy constructor")
+{
+	MyList<Data> list;
+
+	const size_t listSize = 10;
+	for (size_t i = 0; i < listSize; ++i)
+	{
+		list.PushBack(std::to_string(i));
+	}
+
+	REQUIRE(list.Size() == listSize);
+	REQUIRE_FALSE(list.Empty());
+
+	MyList<Data> newList{ list };
+
+	REQUIRE(list.Size() == listSize);
+	REQUIRE_FALSE(list.Empty());
+
+	REQUIRE(newList.Size() == listSize);
+	REQUIRE_FALSE(newList.Empty());
+}
