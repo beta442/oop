@@ -10,13 +10,13 @@ Triangle::Triangle(const Point& firstVertex,
 {
 }
 
-inline double Triangle::GetArea() const
+double Triangle::GetArea() const
 {
 	double halfPerimeter = GetPerimeter() * 0.5;
 	return std::sqrt(halfPerimeter * (halfPerimeter - m_v1.Distance(m_v2)) * (halfPerimeter - m_v2.Distance(m_v3)) * (halfPerimeter - m_v1.Distance(m_v3)));
 }
 
-inline double Triangle::GetPerimeter() const
+double Triangle::GetPerimeter() const
 {
 	double a = m_v1.Distance(m_v2);
 	double b = m_v2.Distance(m_v3);
@@ -25,29 +25,29 @@ inline double Triangle::GetPerimeter() const
 	return a + b + c;
 }
 
-inline Point Triangle::GetVertex1() const
+Point Triangle::GetVertex1() const
 {
 	return m_v1;
 }
 
-inline Point Triangle::GetVertex2() const
+Point Triangle::GetVertex2() const
 {
 	return m_v2;
 }
 
-inline Point Triangle::GetVertex3() const
+Point Triangle::GetVertex3() const
 {
 	return m_v3;
 }
 
-inline std::string Triangle::ToStringAdditional() const
+std::string Triangle::ToStringAdditional() const
 {
 	return "Vertex1: " + m_v1.ToString()
 		+ "Vertex2: " + m_v2.ToString()
 		+ "Vertex3: " + m_v3.ToString();
 }
 
-inline void Triangle::Draw(ICanvas& canvas) const
+void Triangle::Draw(ICanvas& canvas) const
 {
 	canvas.FillPolygon({ m_v1, m_v2, m_v3 }, GetFillColor());
 	canvas.DrawLine(m_v1, m_v2, GetOutlineColor());

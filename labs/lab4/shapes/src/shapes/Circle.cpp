@@ -10,32 +10,32 @@ Circle::Circle(const Point& basePoint,
 {
 }
 
-inline double Circle::GetArea() const
+double Circle::GetArea() const
 {
 	return M_PI * m_radius * m_radius;
 }
 
-inline double Circle::GetPerimeter() const
+double Circle::GetPerimeter() const
 {
 	return 2 * M_PI * m_radius;
 }
 
-inline Point Circle::GetCenter() const
+Point Circle::GetCenter() const
 {
 	return GetBasePoint();
 }
 
-inline double Circle::GetRadius() const
+double Circle::GetRadius() const
 {
 	return m_radius;
 }
 
-inline std::string Circle::ToStringAdditional() const
+std::string Circle::ToStringAdditional() const
 {
 	return "Radius: " + std::to_string(m_radius) + '\n';
 }
 
-inline void Circle::Draw(ICanvas& canvas) const
+void Circle::Draw(ICanvas& canvas) const
 {
 	canvas.DrawCircle(GetBasePoint(), m_radius, GetOutlineColor());
 	canvas.FillCircle(GetBasePoint(), m_radius, GetFillColor());

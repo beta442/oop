@@ -8,22 +8,22 @@ class Circle : public SolidShapeImpl<ICircle>
 public:
 	using MyBase = SolidShapeImpl<ICircle>;
 
-	static inline const std::string s_type = "Circle";
-
 public:
 	Circle(const Point& basePoint,
 		const double radius, const Color& outlineColor, const Color& fillColor);
 
-	inline double GetArea() const override final;
-	inline double GetPerimeter() const override final;
+	double GetArea() const final;
+	double GetPerimeter() const final;
 
-	inline Point GetCenter() const override final;
-	inline double GetRadius() const override final;
+	Point GetCenter() const final;
+	double GetRadius() const final;
 
-	inline void Draw(ICanvas& canvas) const override final;
+	void Draw(ICanvas& canvas) const final;
 
 private:
-	inline std::string ToStringAdditional() const override;
+	static inline const std::string s_type = "Circle";
+
+	std::string ToStringAdditional() const override;
 
 	double m_radius;
 };

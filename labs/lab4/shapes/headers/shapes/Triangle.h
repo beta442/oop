@@ -8,24 +8,24 @@ class Triangle : public SolidShapeImpl<ITriangle>
 public:
 	using MyBase = SolidShapeImpl<ITriangle>;
 
-	static inline const std::string s_type = "Triangle";
-
 public:
 	Triangle(const Point& firstVertex,
 		const Point& secondVertex, const Point& thirdVertex,
 		const Color& outlineColor, const Color& fillColor);
 
-	inline double GetArea() const override final;
-	inline double GetPerimeter() const override final;
+	double GetArea() const final;
+	double GetPerimeter() const final;
 
-	inline Point GetVertex1() const override final;
-	inline Point GetVertex2() const override final;
-	inline Point GetVertex3() const override final;
+	Point GetVertex1() const final;
+	Point GetVertex2() const final;
+	Point GetVertex3() const final;
 
-	inline void Draw(ICanvas& canvas) const override final;
+	void Draw(ICanvas& canvas) const final;
 
 private:
-	inline std::string ToStringAdditional() const override;
+	static inline const std::string s_type = "Triangle";
+
+	std::string ToStringAdditional() const override;
 
 	Point m_v1, m_v2, m_v3;
 };

@@ -8,55 +8,48 @@ Rectangle::Rectangle(const Point& basePoint,
 {
 }
 
-inline double Rectangle::GetArea() const
+double Rectangle::GetArea() const
 {
 	return m_width * m_height;
 }
 
-inline double Rectangle::GetPerimeter() const
+double Rectangle::GetPerimeter() const
 {
 	return (m_width + m_height) * 2;
 }
 
-inline Point Rectangle::GetLeftTop() const
+Point Rectangle::GetLeftTop() const
 {
 	return GetBasePoint();
 }
 
-inline Point Rectangle::GetRightBottom() const
+Point Rectangle::GetRightBottom() const
 {
 	const auto basePoint = GetBasePoint();
 	return Point{ basePoint.x + m_width, basePoint.y + m_height };
 }
 
-inline double Rectangle::GetWidth() const
+double Rectangle::GetWidth() const
 {
 	return m_width;
 }
 
-inline double Rectangle::GetHeight() const
+double Rectangle::GetHeight() const
 {
 	return m_height;
 }
 
-inline std::string Rectangle::ToStringAdditional() const
+std::string Rectangle::ToStringAdditional() const
 {
 	return "Right bottom: " + GetRightBottom().ToString()
 		+ "Width: " + std::to_string(GetWidth()) + '\n'
 		+ "Height: " + std::to_string(GetHeight()) + '\n';
 }
 
-#include <iostream>
-
 inline void Rectangle::Draw(ICanvas& canvas) const
 {
 	const Point rightTop = { GetBasePoint().x + m_width, GetBasePoint().y },
 				leftBottom = { GetRightBottom().x - m_width, GetRightBottom().y };
-
-	/*std::cout << "LT: " << GetBasePoint().ToString() << std::endl;
-	std::cout << "RT: " << rightTop.ToString() << std::endl;
-	std::cout << "LB: " << leftBottom.ToString() << std::endl;
-	std::cout << "RB: " << GetRightBottom().ToString() << std::endl;*/
 
 	canvas.DrawLine(GetBasePoint(), rightTop, GetOutlineColor());
 	canvas.DrawLine(rightTop, GetRightBottom(), GetOutlineColor());

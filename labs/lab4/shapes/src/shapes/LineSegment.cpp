@@ -6,32 +6,32 @@ LineSegment::LineSegment(const Point& start, const Point& end, const Color& outl
 {
 }
 
-inline double LineSegment::GetArea() const
+double LineSegment::GetArea() const
 {
 	return 0.0;
 }
 
-inline double LineSegment::GetPerimeter() const
+double LineSegment::GetPerimeter() const
 {
 	return GetBasePoint().Distance(m_endPoint);
 }
 
-inline std::string LineSegment::ToStringAdditional() const
+std::string LineSegment::ToStringAdditional() const
 {
 	return "End point: " + m_endPoint.ToString() + '\n';
 }
 
-inline Point LineSegment::GetStartPoint() const
+Point LineSegment::GetStartPoint() const
 {
 	return GetBasePoint();
 }
 
-inline Point LineSegment::GetEndPoint() const
+Point LineSegment::GetEndPoint() const
 {
 	return m_endPoint;
 }
 
-inline void LineSegment::Draw(ICanvas& canvas) const
+void LineSegment::Draw(ICanvas& canvas) const
 {
 	canvas.DrawLine(GetBasePoint(), m_endPoint, GetOutlineColor());
 }

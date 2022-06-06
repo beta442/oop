@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include "../../headers/shapes/Point.h"
 
 bool Point::operator==(const Point& other) const

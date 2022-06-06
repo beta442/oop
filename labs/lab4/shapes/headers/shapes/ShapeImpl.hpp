@@ -9,13 +9,7 @@ template <typename Base = IShape>
 class ShapeImpl : public Base
 {
 public:
-	ShapeImpl() = delete;
-	ShapeImpl(const ShapeImpl&) = delete;
-	ShapeImpl(const ShapeImpl&&) noexcept = delete;
-	ShapeImpl& operator=(const ShapeImpl&) = delete;
-	ShapeImpl& operator=(const ShapeImpl&&) noexcept = delete;
-
-	inline std::string ToString() const override
+	std::string ToString() const override
 	{
 		return "Type: " + m_type + '\n' 
 			+ "Base point: " + m_basePoint.ToString()
@@ -25,31 +19,31 @@ public:
 			+ ToStringAdditional();
 	}
 
-	inline double GetArea() const override
+	double GetArea() const override
 	{
 		return 0;
 	}
 
-	inline double GetPerimeter() const override
+	double GetPerimeter() const override
 	{
 		return 0;
 	}
 
-	inline Color GetOutlineColor() const override final
+	Color GetOutlineColor() const final
 	{
 		return m_outlineColor;
 	}
 
-	inline Point GetBasePoint() const override final
+	Point GetBasePoint() const final
 	{
 		return m_basePoint;
 	}
 
 protected:
-	ShapeImpl(const Point& basePoint, const Color& outlineColor, const std::string& type = s_defaultType)
+	ShapeImpl(const Point& basePoint, const Color& outlineColor, std::string type = s_defaultType)
 		: m_basePoint(basePoint)
 		, m_outlineColor(outlineColor)
-		, m_type(type)
+		, m_type(std::move(type))
 	{
 	}
 	~ShapeImpl() = default;

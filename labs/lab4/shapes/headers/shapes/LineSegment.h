@@ -11,16 +11,16 @@ public:
 public:
 	LineSegment(const Point& start, const Point& end, const Color& outlineColor);
 
-	inline double GetArea() const override final;
-	inline double GetPerimeter() const override final;
+	double GetArea() const final;
+	double GetPerimeter() const final;
 
-	inline Point GetStartPoint() const override final;
-	inline Point GetEndPoint() const override final;
+	Point GetStartPoint() const final;
+	Point GetEndPoint() const final;
 
-	inline void Draw(ICanvas& canvas) const override final;
+	void Draw(ICanvas& canvas) const final;
 
 private:
-	inline std::string ToStringAdditional() const override;
+	std::string ToStringAdditional() const override;
 
 	inline static const std::string s_type = "LineSegment";
 
