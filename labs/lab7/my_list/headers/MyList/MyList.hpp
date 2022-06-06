@@ -9,7 +9,7 @@ template <class T>
 class MyList
 {
 public:
-	using Node = MyListNode<T>;
+	using Node = MyListNode<MyList, T>;
 	using NodePointer = typename Node::NodePointer;
 
 	using ValueType = typename Node::ValueType;
@@ -26,8 +26,8 @@ public:
 
 public:
 	MyList()
-		: m_beg(std::make_shared<MyListNode<T>>())
-		, m_end(std::make_shared<MyListNode<T>>())
+		: m_beg(std::make_shared<MyListNode<MyList, T>>())
+		, m_end(std::make_shared<MyListNode<MyList, T>>())
 		, m_size(0)
 	{
 		m_beg->m_next = m_end;
@@ -48,30 +48,35 @@ public:
 	{
 		try
 		{
-			std::for_each(begin(), end(), [](auto& item) { PushBack(item); });
+			std::for_each(other.begin(), other.end(), [&](auto& item) { PushBack(item); });
 		}
 		catch (...)
 		{
 			Clear();
+			m_beg->m_next = nullptr;
+			m_end->m_prev = nullptr;
+			m_beg.reset();
+			m_end.reset();
 			throw;
 		}
 	}
 
-	MyList(MyList<T>&& other)
+	MyList(MyList<T>&& other) noexcept
 		: MyList()
 	{
-		*this = other;
+		*this = std::move(other);
 	}
 
 	void Clear() noexcept
 	{
-		Iterator it = begin(), itTemp = begin();
+		Iterator it = begin();
 		m_beg->m_next = m_end;
 		m_end->m_prev = m_beg;
 		const Iterator endIt = end();
-		while (it != endIt && itTemp != endIt && it.m_ptr != nullptr && itTemp.m_ptr != nullptr)
+		while (it != endIt && it.m_ptr != nullptr)
 		{
 			++it;
+			auto itTemp = Iterator(it.m_ptr->m_prev);
 			it.m_ptr->m_prev = nullptr;
 			itTemp.m_ptr.reset();
 			itTemp = it;
@@ -79,7 +84,7 @@ public:
 		m_size = 0;
 	}
 
-	_NODISCARD bool Empty() const noexcept
+	bool Empty() const noexcept
 	{
 		return !m_size;
 	}
@@ -87,9 +92,13 @@ public:
 	template <class T>
 	Iterator Emplace(ConstIterator it, T&& val)
 	{
+		if (it.m_ptr == nullptr)
+		{
+			throw std::out_of_range("List emplace iterator references to nullptr");
+		}
 		if (it.m_ptr == m_beg)
 		{
-			throw std::out_of_range("List erase iterator outside of range");
+			throw std::out_of_range("List emplace iterator is out of range");
 		}
 		Insert(it, std::forward<T>(val));
 		return MakeIter(--it);
@@ -97,96 +106,100 @@ public:
 
 	Iterator Erase(ConstIterator it)
 	{
+		if (it.m_ptr == nullptr)
+		{
+			throw std::out_of_range("List erase iterator references to nullptr");
+		}
 		if (it.m_ptr == m_beg || it.m_ptr == m_end)
 		{
-			throw std::out_of_range("List erase iterator outside of range");
+			throw std::out_of_range("List erase iterator is out of range");
 		}
 		NodePointer ptr = UnlinkNode(it++);
 		ptr.reset();
 		return MakeIter(it);
 	}
 
-	_NODISCARD size_t Size() const noexcept
+	size_t Size() const noexcept
 	{
 		return m_size;
 	}
 
-	inline void PushFront(T&& val)
+	void PushFront(T&& val)
 	{
-		Insert(begin(), std::forward<T>(val));
+		Insert(begin(), std::move(val));
 	}
 
-	inline void PushBack(T&& val)
+	void PushBack(T&& val)
 	{
-		Insert(end(), std::forward<T>(val));
+		Insert(end(), std::move(val));
 	}
 
-	inline void PushFront(const T& val)
+	void PushFront(const T& val)
 	{
 		Insert(begin(), val);
 	}
 
-	inline void PushBack(const T& val)
+	void PushBack(const T& val)
 	{
 		Insert(end(), val);
 	}
 
-	_NODISCARD inline Iterator begin() noexcept
+	Iterator begin() noexcept
 	{
 		return Iterator(m_beg->m_next);
 	}
 
-	_NODISCARD inline ConstIterator begin() const noexcept
+	ConstIterator begin() const noexcept
 	{
 		return ConstIterator(m_beg->m_next);
 	}
 
-	_NODISCARD inline Iterator end() noexcept
+	Iterator end() noexcept
 	{
 		return Iterator(m_end);
 	}
 
-	_NODISCARD inline ConstIterator end() const noexcept
+	ConstIterator end() const noexcept
 	{
 		return ConstIterator(m_end);
 	}
 
-	_NODISCARD inline ReverseIterator rbegin() noexcept
+	ReverseIterator rbegin() noexcept
 	{
 		return ReverseIterator(end());
 	}
 
-	_NODISCARD inline ConstReverseIterator rbegin() const noexcept
+	ConstReverseIterator rbegin() const noexcept
 	{
 		return ConstReverseIterator(end());
 	}
 
-	_NODISCARD inline ReverseIterator rend() noexcept
+	ReverseIterator rend() noexcept
 	{
 		return ReverseIterator(begin());
 	}
 
-	_NODISCARD inline ConstReverseIterator rend() const noexcept
+	ConstReverseIterator rend() const noexcept
 	{
 		return ConstReverseIterator(begin());
 	}
 
-	_NODISCARD inline ConstIterator cbegin() const noexcept
+	ConstIterator cbegin() const noexcept
 	{
 		return begin();
 	}
 
-	_NODISCARD inline ConstIterator cend() const noexcept
+	ConstIterator cend() const noexcept
 	{
 		return end();
 	}
 
-	_NODISCARD inline ConstReverseIterator crbegin() const noexcept
+	ConstReverseIterator crbegin() const noexcept
 	{
 		return rbegin();
 	}
 
-	_NODISCARD inline ConstReverseIterator crend() const noexcept
+	ConstReverseIterator crend() const noexcept
 	{
 		return rend();
 	}
@@ -203,7 +216,7 @@ public:
 		return *this;
 	}
 
-	MyList<T>& operator=(MyList<T>&& other)
+	MyList<T>& operator=(MyList<T>&& other) noexcept
 	{
 		if (std::addressof(other) != this)
 		{

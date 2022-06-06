@@ -20,7 +20,12 @@ public:
 	friend MyList;
 
 public:
-	_NODISCARD reference operator*() const
+	MyListConstIterator()
+		: m_ptr()
+	{
+	}
+
+	reference operator*() const
 	{
 		if (m_ptr->m_next == nullptr || m_ptr->m_prev == nullptr)
 		{
@@ -29,7 +34,7 @@ public:
 		return std::get<value_type>(m_ptr->m_data);
 	}
 
-	_NODISCARD NodePointer operator->() const
+	NodePointer operator->() const
 	{
 		if (m_ptr->m_next == nullptr || m_ptr->m_prev == nullptr)
 		{
@@ -72,22 +77,17 @@ public:
 		return temp;
 	}
 
-	_NODISCARD bool operator==(const MyListConstIterator& other) const
+	bool operator==(const MyListConstIterator& other) const
 	{
 		return m_ptr == other.m_ptr;
 	}
 
-	_NODISCARD bool operator!=(const MyListConstIterator& other) const
+	bool operator!=(const MyListConstIterator& other) const
 	{
 		return !(*this == other);
 	}
 
 protected:
-	explicit MyListConstIterator()
-		: m_ptr()
-	{
-	}
-
 	explicit MyListConstIterator(NodePointer ptr)
 		: m_ptr(ptr)
 	{
@@ -114,12 +114,17 @@ public:
 	friend MyList;
 
 public:
-	_NODISCARD reference operator*() const
+	MyListIterator()
+		: MyListConstIterator()
+	{
+	}
+
+	reference operator*() const
 	{
 		return (reference)(MyBase::operator*());
 	}
 
-	_NODISCARD NodePointer operator->() const
+	NodePointer operator->() const
 	{
 		return static_cast<NodePointer>(MyBase::operator->());
 	}
@@ -151,11 +156,6 @@ public:
 	}
 
 protected:
-	explicit MyListIterator()
-		: MyListConstIterator()
-	{
-	}
-
 	explicit MyListIterator(NodePointer ptr)
 		: MyBase(ptr)
 	{
