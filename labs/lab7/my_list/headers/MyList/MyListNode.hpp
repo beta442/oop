@@ -15,7 +15,7 @@ public:
 	using ConstReference = const ValueType&;
 
 	friend MyList;
-	friend class MyListConstIterator<MyList>;
+	friend MyListConstIterator<MyList>;
 
 public:
 	MyListNode()
