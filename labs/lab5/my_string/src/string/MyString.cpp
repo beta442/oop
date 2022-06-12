@@ -46,7 +46,7 @@ size_t MyString::GetLength() const
 	return m_size;
 }
 
-static inline const auto DEFAULT_VALUE = '\0';
+const auto DEFAULT_VALUE = '\0';
 
 const char* MyString::GetStringData() const
 {
@@ -104,7 +104,7 @@ MyString MyString::operator+(const MyString& other) const
 	newStr.Resize(newStrSize);
 
 	std::memcpy(newStr.m_ptr.get(), m_ptr.get(), thisStrLength);
-	std::memcpy(newStr.m_ptr.get() + thisStrLength, other.GetStringData(), otherStrLength);
+	std::memcpy(newStr.m_ptr.get() + thisStrLength, other.GetStringData(), newStrSize - thisStrLength);
 	newStr[newStrSize] = 0;
 
 	return newStr;
@@ -221,7 +221,8 @@ std::istream& operator>>(std::istream& is, MyString& str)
 
 std::ostream& operator<<(std::ostream& os, const MyString& str)
 {
-	if (os.fail() || os.bad())
+	std::ostream::sentry sentry(os);
+	if (!sentry)
 	{
 		return os;
 	}
