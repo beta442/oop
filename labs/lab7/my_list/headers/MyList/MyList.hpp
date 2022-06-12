@@ -26,8 +26,8 @@ public:
 
 public:
 	MyList()
-		: m_beg(std::make_shared<MyListNode<MyList, T>>())
-		, m_end(std::make_shared<MyListNode<MyList, T>>())
+		: m_beg(std::make_shared<Node>())
+		, m_end(std::make_shared<Node>())
 		, m_size(0)
 	{
 		m_beg->m_next = m_end;
