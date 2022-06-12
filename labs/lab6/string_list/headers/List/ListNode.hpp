@@ -3,7 +3,7 @@
 #include <memory>
 #include <variant>
 
-template <class T>
+template <class MyList, class T>
 class ListNode
 {
 public:
@@ -14,8 +14,11 @@ public:
 	using Reference = ValueType&;
 	using ConstReference = const ValueType&;
 
+	friend MyList;
+	friend ListConstIterator<MyList>;
+
 public:
-	inline ListNode()
+	ListNode()
 		: m_data(nullptr)
 		, m_prev(nullptr)
 		, m_next(nullptr)
@@ -23,13 +26,14 @@ public:
 	}
 
 	template <class T>
-	inline ListNode(T&& data, NodePointer prev = nullptr, NodePointer next = nullptr)
+	explicit ListNode(T&& data, NodePointer prev = nullptr, NodePointer next = nullptr)
 		: m_data(std::forward<T>(data))
 		, m_prev(std::move(prev))
 		, m_next(std::move(next))
 	{
 	}
 
+private:
 	std::variant<T, Pointer> m_data;
 	NodePointer m_prev, m_next;
 };
