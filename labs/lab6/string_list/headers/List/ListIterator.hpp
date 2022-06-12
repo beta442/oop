@@ -4,8 +4,8 @@
 #include <iterator>
 #include <variant>
 
-template <class MyList, class Base = std::_Iterator_base0>
-class ListConstIterator : public Base
+template <class MyList>
+class ListConstIterator
 {
 public:
 	using NodePointer = typename MyList::NodePointer;
@@ -20,7 +20,7 @@ public:
 	friend MyList;
 
 public:
-	_NODISCARD reference operator*() const
+	reference operator*() const
 	{
 		if (m_ptr->m_next == nullptr || m_ptr->m_prev == nullptr)
 		{
@@ -29,7 +29,7 @@ public:
 		return std::get<value_type>(m_ptr->m_data);
 	}
 
-	_NODISCARD NodePointer operator->() const
+	NodePointer operator->() const
 	{
 		if (m_ptr->m_next == nullptr || m_ptr->m_prev == nullptr)
 		{
@@ -72,12 +72,12 @@ public:
 		return temp;
 	}
 
-	_NODISCARD bool operator==(const ListConstIterator& other) const
+	bool operator==(const ListConstIterator& other) const
 	{
 		return m_ptr == other.m_ptr;
 	}
 
-	_NODISCARD bool operator!=(const ListConstIterator& other) const
+	bool operator!=(const ListConstIterator& other) const
 	{
 		return !(*this == other);
 	}
@@ -114,12 +114,12 @@ public:
 	friend MyList;
 
 public:
-	_NODISCARD reference operator*() const
+	reference operator*() const
 	{
 		return (reference)(MyBase::operator*());
 	}
 
-	_NODISCARD NodePointer operator->() const
+	NodePointer operator->() const
 	{
 		return static_cast<NodePointer>(MyBase::operator->());
 	}
